@@ -24,7 +24,7 @@ Create your artistic portfolio in minutes
     source .env
 
     # prepare database
-    psql -U postgres postgres -c "CREATE ROLE tumbs SUPERUSER"
+    psql -U postgres postgres -c "CREATE ROLE tumbs SUPERUSER LOGIN"
     psql -U postgres postgres -c "CREATE DATABASE tumbs OWNER=tumbs"
     
     # populate database
