@@ -48,12 +48,6 @@ editorconfig==0.12.3
     # via
     #   cssbeautifier
     #   jsbeautifier
-gevent==23.9.1
-    # via gunicorn
-greenlet==3.0.3
-    # via gevent
-gunicorn==21.2.0
-    # via tumbs.app (pyproject.toml)
 hiredis==2.3.2
     # via tumbs.app (pyproject.toml)
 html-tag-names==0.1.2
@@ -79,7 +73,6 @@ mypy-extensions==1.0.0
 packaging==23.2
     # via
     #   black
-    #   gunicorn
     #   pytest
     #   pytest-sugar
 pathspec==0.12.1
@@ -135,10 +128,3 @@ tqdm==4.66.1
     # via djlint
 whitenoise==6.6.0
     # via tumbs.app (pyproject.toml)
-zope-event==5.0
-    # via gevent
-zope-interface==6.1
-    # via gevent
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
