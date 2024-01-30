@@ -1,0 +1,55 @@
+{
+  "name": "tumbs.app",
+  "version": "0.1.0",
+  "author": "Ondřej Nejedlý",
+  "private": true,
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@popperjs/core": "^2.10.2",
+    "autoprefixer": "^10.4.0",
+    "babel-loader": "^9.1.2",
+    "bootstrap": "^5.2.3",
+    "css-loader": "^6.5.1",
+    "concurrently": "^8.0.1",
+    "mini-css-extract-plugin": "^2.4.5",
+    "node-sass-tilde-importer": "^1.0.2",
+    "postcss": "^8.3.11",
+    "postcss-loader": "^8.1.0",
+    "postcss-preset-env": "^9.0.0",
+    "sass": "^1.43.4",
+    "sass-loader": "^14.1.0",
+    "webpack": "^5.65.0",
+    "webpack-bundle-tracker": "^3.0.1",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.6.0",
+    "webpack-merge": "^5.8.0"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "scripts": {
+    "build": "webpack --config webpack/prod.config.js",
+    "dev": "concurrently npm:dev:*",
+    "dev:webpack": "webpack serve --config webpack/dev.config.js",
+    "dev:django": "python manage.py runserver_plus",
+
+    "msg:make": "python manage.py makemessages -l cs --ignore=venv --no-location",
+    "msg:compile": "python manage.py compilemessages --ignore=venv",
+
+    "reqs": "concurrently npm:reqs:*",
+    "reqs:base": "pip-compile --resolver=backtracking --strip-extras --upgrade -o requirements.txt pyproject.toml",
+    "reqs:dev": "pip-compile --resolver=backtracking --strip-extras --upgrade --extra dev -o requirements-dev.txt pyproject.toml",
+    "reqs:test": "pip-compile --resolver=backtracking --strip-extras --upgrade --extra test -o requirements-test.txt pyproject.toml",
+    "reqs:prod": "pip-compile --resolver=backtracking --strip-extras --upgrade --extra prod -o requirements-prod.txt pyproject.toml"
+  }
+}

@@ -1,0 +1,136 @@
+[project]
+name = "tumbs.app"
+authors = [
+    {name = "Ondřej Nejedlý", email = "jsmesami@gmail.com"},
+]
+dynamic = ["version"]
+description = "Portfolio website generator"
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+requires-python = ">=3.12"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "Pillow",                       # https://github.com/python-pillow/Pillow
+    "argon2-cffi",                  # https://github.com/hynek/argon2_cffi
+    "whitenoise",                   # https://github.com/evansd/whitenoise
+    "redis",                        # https://github.com/redis/redis-py
+    "hiredis",                      # https://github.com/redis/hiredis-py
+
+    "django",                       # https://www.djangoproject.com/
+    "django-environ",               # https://github.com/joke2k/django-environ
+    "django-redis",                 # https://github.com/jazzband/django-redis
+    "django-webpack-loader",        # https://github.com/django-webpack/django-webpack-loader
+]
+
+[project.optional-dependencies]
+dev = [
+    "pip-tools",                    # https://github.com/jazzband/pip-tools
+    "psycopg[binary]",              # https://github.com/psycopg/psycopg
+    "Werkzeug[watchdog]",           # https://github.com/pallets/werkzeug
+    "django-extensions",            # https://github.com/django-extensions/django-extensions
+    "django-debug-toolbar",         # https://github.com/jazzband/django-debug-toolbar
+]
+test = [
+    "black",                        # https://github.com/psf/black
+    "isort",                        # https://github.com/pycqa/isort/
+    "pytest",                       # https://github.com/pytest-dev/pytest
+    "pytest-sugar",                 # https://github.com/Frozenball/pytest-sugar
+    "pytest-django",                # https://github.com/pytest-dev/pytest-django
+    "coverage",                     # https://github.com/nedbat/coveragepy
+    "django-coverage-plugin",       # https://github.com/nedbat/django_coverage_plugin
+    "djlint",                       # https://github.com/Riverside-Healthcare/djLint
+    "pylint-django",                # https://github.com/PyCQA/pylint-django
+]
+prod = [
+    "gunicorn",                     # https://github.com/benoitc/gunicorn
+    "gunicorn[gevent]",
+    "psycopg[c]",                   # https://github.com/psycopg/psycopg
+    "sentry-sdk",                   # https://github.com/getsentry/sentry-python
+    "django-storages[s3]",          # https://github.com/jschneier/django-storages
+    "django-anymail[amazon-ses]",   # https://github.com/anymail/django-anymail
+]
+
+[project.urls]
+homepage = "https://tumbs.app"
+repository = "https://github.com/jsmesami/tumbs.app"
+
+# ==== Build ====
+[build-system]
+requires = ["setuptools", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["tumbs"]
+zip-safe = false
+
+[tool.setuptools.dynamic]
+version = {attr = "tumbs.__version__"}
+
+[tool.setuptools.package-data]
+tumbs = ["tumbs/templates/**.html"]
+
+# ==== Coverage ====
+[tool.coverage.run]
+include = ["tumbs/**"]
+omit = ["*/migrations/*", "*/tests/*"]
+plugins = ["django_coverage_plugin"]
+
+# ==== Black ====
+[tool.black]
+line-length = 119
+target-version = ['py311']
+
+# ==== Isort ====
+[tool.isort]
+profile = "black"
+line_length = 119
+known_first_party = [
+    "tumbs",
+    "config",
+]
+skip = ["venv/"]
+skip_glob = ["**/migrations/*.py"]
+
+# ==== PyLint ====
+[tool.pylint.MASTER]
+load-plugins = [
+    "pylint_django",
+]
+django-settings-module = "config.settings.local"
+ignore-paths = [".*/migrations/.*"]
+
+[tool.pylint.FORMAT]
+max-line-length = 119
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [
+    "missing-docstring",
+    "invalid-name",
+]
+
+[tool.pylint.DESIGN]
+max-parents = 13
+
+# ==== djLint ====
+[tool.djlint]
+blank_line_after_tag = "load,extends"
+close_void_tags = true
+format_css = true
+format_js = true
+# TODO: remove T002 when fixed https://github.com/Riverside-Healthcare/djLint/issues/687
+ignore = "H006,H030,H031,T002"
+include = "H017,H035"
+indent = 2
+max_line_length = 119
+profile = "django"
+
+[tool.djlint.css]
+indent_size = 2
+
+[tool.djlint.js]
+indent_size = 2
