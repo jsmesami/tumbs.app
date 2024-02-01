@@ -58,9 +58,6 @@ If you choose to use [Mailpit](https://github.com/axllent/mailpit) when generati
 
 Now you have your own mail server running locally, ready to receive whatever you send it.
 
-Alternatively, run Python built-in SMTP server: `python -m smtpd -n -c DebuggingServer localhost:1025`
-
-
 ## License
 
 Copyright © 2024 Ondřej Nejedlý
