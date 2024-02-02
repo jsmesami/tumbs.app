@@ -81,7 +81,7 @@ pathspec==0.12.1
     #   djlint
 pillow==10.2.0
     # via tumbs.app (pyproject.toml)
-platformdirs==4.1.0
+platformdirs==4.2.0
     # via
     #   black
     #   pylint
@@ -104,7 +104,7 @@ pytest==8.0.0
     #   tumbs.app (pyproject.toml)
 pytest-django==4.8.0
     # via tumbs.app (pyproject.toml)
-pytest-sugar==0.9.7
+pytest-sugar==1.0.0
     # via tumbs.app (pyproject.toml)
 pyyaml==6.0.1
     # via djlint

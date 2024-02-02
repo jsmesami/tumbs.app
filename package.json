@@ -2,7 +2,6 @@
   "name": "tumbs.app",
   "version": "0.1.0",
   "author": "Ondřej Nejedlý",
-  "private": true,
   "license": "Apache-2.0",
   "devDependencies": {
     "@babel/core": "^7.16.5",
@@ -27,7 +26,7 @@
     "webpack-merge": "^5.8.0"
   },
   "engines": {
-    "node": "20"
+    "node": "21"
   },
   "browserslist": [
     "last 2 versions"
