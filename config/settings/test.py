@@ -28,7 +28,7 @@ EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = 'http://media.testserver'
+MEDIA_URL = "http://media.testserver"
 # django-webpack-loader
 # ------------------------------------------------------------------------------
 WEBPACK_LOADER["DEFAULT"]["LOADER_CLASS"] = "webpack_loader.loader.FakeWebpackLoader"  # noqa: F405

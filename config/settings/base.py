@@ -1,6 +1,7 @@
 """
 Base settings to build other settings files upon.
 """
+
 from pathlib import Path
 
 import environ
@@ -29,8 +30,8 @@ LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/dev/ref/settings/#languages
 
 LANGUAGES = [
-    ('en', 'English'),
-    ('cs', 'Čeština'),
+    ("en", "English"),
+    ("cs", "Čeština"),
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
@@ -81,7 +82,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "tumbs.users",
-    # Your stuff: custom apps go here
+    "tumbs.websites",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
