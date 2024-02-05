@@ -34,7 +34,7 @@ django-webpack-loader==3.0.1
     # via tumbs.app (pyproject.toml)
 hiredis==2.3.2
     # via tumbs.app (pyproject.toml)
-markupsafe==2.1.4
+markupsafe==2.1.5
     # via werkzeug
 packaging==23.2
     # via build
@@ -42,9 +42,9 @@ pillow==10.2.0
     # via tumbs.app (pyproject.toml)
 pip-tools==7.3.0
     # via tumbs.app (pyproject.toml)
-psycopg==3.1.17
+psycopg==3.1.18
     # via tumbs.app (pyproject.toml)
-psycopg-binary==3.1.17
+psycopg-binary==3.1.18
     # via psycopg
 pycparser==2.21
     # via cffi

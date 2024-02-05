@@ -10,6 +10,16 @@ class Website(TimeStampedModel):
     name = models.CharField(_("name"), max_length=255)
     slug = AutoSlugField(populate_from="name")
 
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return f"<websites.Website {self.id}>"
+
+    class Meta:
+        verbose_name = _("website")
+        verbose_name_plural = _("websites")
+
 
 class Page(models.Model):
     website = models.ForeignKey(
@@ -20,7 +30,17 @@ class Page(models.Model):
     slug = AutoSlugField(populate_from="title")
 
     description = models.TextField(_("description"), blank=True)
-    content = models.JSONField(_("content"), null=True)
+    content = models.JSONField(_("content"), null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def __repr__(self):
+        return f"<websites.Page {self.id}>"
+
+    class Meta:
+        verbose_name = _("page")
+        verbose_name_plural = _("pages")
 
 
 class Image(TimeStampedModel):
@@ -31,3 +51,13 @@ class Image(TimeStampedModel):
     file = models.ImageField(_("image file"))
     alt = models.TextField(_("alt text"), blank=True)
     caption = models.TextField(_("caption"), blank=True)
+
+    def __str__(self):
+        return self.file.name
+
+    def __repr__(self):
+        return f"<websites.Image {self.id}>"
+
+    class Meta:
+        verbose_name = _("image")
+        verbose_name_plural = _("images")

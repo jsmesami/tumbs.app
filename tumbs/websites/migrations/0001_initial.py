@@ -8,8 +8,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [("websites", "0001_initial"), ("websites", "0002_rename_site_image_website_rename_site_page_website")]
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
@@ -81,7 +79,7 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=255, verbose_name="name")),
                 ("slug", django_extensions.db.fields.AutoSlugField(blank=True, editable=False, populate_from="title")),
                 ("description", models.TextField(blank=True, verbose_name="description")),
-                ("content", models.JSONField(null=True, verbose_name="content")),
+                ("content", models.JSONField(null=True, blank=True, verbose_name="content")),
                 (
                     "website",
                     models.ForeignKey(

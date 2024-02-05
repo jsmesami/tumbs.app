@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-30 22:38+0000\n"
+"POT-Creation-Date: 2024-02-05 00:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,4 +64,55 @@ msgid "user name"
 msgstr ""
 
 msgid "email address"
+msgstr ""
+
+msgid "pages count"
+msgstr ""
+
+msgid "images count"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "alt"
+msgstr ""
+
+msgid "caption"
+msgstr ""
+
+msgid "Websites"
+msgstr ""
+
+msgid "user"
+msgstr ""
+
+msgid "name"
+msgstr ""
+
+msgid "website"
+msgstr ""
+
+msgid "websites"
+msgstr ""
+
+msgid "content"
+msgstr ""
+
+msgid "page"
+msgstr ""
+
+msgid "pages"
+msgstr ""
+
+msgid "image file"
+msgstr ""
+
+msgid "alt text"
+msgstr ""
+
+msgid "image"
+msgstr ""
+
+msgid "images"
 msgstr ""
