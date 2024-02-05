@@ -1,4 +1,8 @@
+import os
+import uuid
+
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
@@ -42,12 +46,19 @@ class Page(models.Model):
         verbose_name_plural = _("pages")
 
 
+def image_upload_path(instance, filename):
+    _, ext = os.path.splitext(filename)
+    new_name = slugify(instance.alt) if instance.alt else uuid.uuid4().hex
+
+    return f"website/{instance.website_id}/{new_name}{ext}"
+
+
 class Image(TimeStampedModel):
     website = models.ForeignKey(
         "websites.Website", verbose_name=_("website"), related_name="images", on_delete=models.CASCADE
     )
 
-    file = models.ImageField(_("image file"))
+    file = models.ImageField(_("image file"), upload_to=image_upload_path)
     alt = models.TextField(_("alt text"), blank=True)
     caption = models.TextField(_("caption"), blank=True)
 
