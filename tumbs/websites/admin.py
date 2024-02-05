@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.db import models
 from django.db.models import Count
 from django.forms import Textarea
+from django.utils.html import format_html
 from django.utils.text import Truncator
 from django.utils.translation import gettext_lazy as _
 
@@ -58,8 +59,12 @@ class PageAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ("id", "website", "_short_alt", "_short_caption")
+    list_display = ("id", "_image_tag", "website", "_short_alt", "_short_caption")
     search_fields = ("alt", "caption", "website__name")
+
+    @admin.display(description=_("image"))
+    def _image_tag(self, obj):
+        return format_html(f'<img src="{obj.file.url}" style="max-height: 100px">')
 
     @admin.display(description=_("alt"))
     def _short_alt(self, obj):
