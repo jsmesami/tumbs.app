@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.db import models
-from django.db.models import Count
 from django.forms import Textarea
 from django.utils.html import format_html
 from django.utils.text import Truncator
@@ -36,7 +35,7 @@ class WebsiteAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.annotate(pages_count=Count("pages"), images_count=Count("images"))
+        return qs.annotate(pages_count=models.Count("pages"), images_count=models.Count("images"))
 
     @admin.display(description=_("pages count"), ordering="pages_count")
     def _pages_count(self, obj):
@@ -64,7 +63,7 @@ class ImageAdmin(admin.ModelAdmin):
 
     @admin.display(description=_("image"))
     def _image_tag(self, obj):
-        return format_html(f'<img src="{obj.file.url}" style="max-height: 100px">')
+        return format_html('<img src="{url}" style="max-height: 100px">', url=obj.file.url)
 
     @admin.display(description=_("alt"))
     def _short_alt(self, obj):

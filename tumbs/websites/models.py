@@ -28,7 +28,6 @@ class Page(models.Model):
 
     title = models.CharField(_("name"), max_length=255)
     slug = AutoSlugField(populate_from="title")
-
     description = models.TextField(_("description"), blank=True)
     content = models.JSONField(_("content"), null=True, blank=True)
 
