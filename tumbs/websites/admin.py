@@ -4,14 +4,18 @@ from django.forms import Textarea
 from django.utils.html import format_html
 from django.utils.text import Truncator
 from django.utils.translation import gettext_lazy as _
+from ordered_model.admin import OrderedInlineModelAdminMixin, OrderedModelAdmin, OrderedTabularInline
 
 from tumbs.websites.models import Image, Page, Website
 
 SMALL_TEXTAREA = Textarea(attrs={"rows": 2, "cols": 30})
 
 
-class PageAdminInline(admin.TabularInline):
+class PageAdminInline(OrderedTabularInline):
     model = Page
+    fields = ("title", "description", "content", "order")
+    readonly_fields = ("order",)
+    ordering = ("order",)
     extra = 0
     formfield_overrides = {
         models.TextField: {"widget": SMALL_TEXTAREA},
@@ -47,8 +51,8 @@ class WebsiteAdmin(admin.ModelAdmin):
 
 
 @admin.register(Page)
-class PageAdmin(admin.ModelAdmin):
-    list_display = ("id", "website", "title", "_short_description")
+class PageAdmin(OrderedInlineModelAdminMixin, OrderedModelAdmin):
+    list_display = ("id", "website", "title", "_short_description", "order", "move_up_down_links")
     search_fields = ("title", "website__name")
 
     @admin.display(description=_("description"))
@@ -58,7 +62,7 @@ class PageAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ("id", "_image_tag", "website", "_short_alt", "_short_caption")
+    list_display = ("id", "website", "_image_tag", "_short_alt", "_short_caption")
     search_fields = ("alt", "caption", "website__name")
 
     @admin.display(description=_("image"))

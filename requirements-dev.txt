@@ -16,7 +16,7 @@ cffi==1.16.0
     # via argon2-cffi-bindings
 click==8.1.7
     # via pip-tools
-django==5.0.1
+django==5.0.2
     # via
     #   django-debug-toolbar
     #   django-extensions
@@ -27,6 +27,8 @@ django-debug-toolbar==4.3.0
 django-environ==0.11.2
     # via tumbs.app (pyproject.toml)
 django-extensions==3.2.3
+    # via tumbs.app (pyproject.toml)
+django-ordered-model==3.7.4
     # via tumbs.app (pyproject.toml)
 django-redis==5.4.0
     # via tumbs.app (pyproject.toml)
@@ -60,7 +62,7 @@ sqlparse==0.4.4
     #   django-debug-toolbar
 typing-extensions==4.9.0
     # via psycopg
-watchdog==3.0.0
+watchdog==4.0.0
     # via werkzeug
 werkzeug==3.0.1
     # via tumbs.app (pyproject.toml)

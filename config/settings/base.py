@@ -77,6 +77,7 @@ DJANGO_APPS = [
     "django.forms",
 ]
 THIRD_PARTY_APPS = [
+    "ordered_model",
     "webpack_loader",
 ]
 
