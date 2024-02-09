@@ -4,18 +4,15 @@ from django.forms import Textarea
 from django.utils.html import format_html
 from django.utils.text import Truncator
 from django.utils.translation import gettext_lazy as _
-from ordered_model.admin import OrderedInlineModelAdminMixin, OrderedModelAdmin, OrderedTabularInline
+from ordered_model.admin import OrderedInlineModelAdminMixin, OrderedModelAdmin
 
 from tumbs.websites.models import Image, Page, Website
 
 SMALL_TEXTAREA = Textarea(attrs={"rows": 2, "cols": 30})
 
 
-class PageAdminInline(OrderedTabularInline):
+class PageAdminInline(admin.TabularInline):
     model = Page
-    fields = ("title", "description", "content", "order")
-    readonly_fields = ("order",)
-    ordering = ("order",)
     extra = 0
     formfield_overrides = {
         models.TextField: {"widget": SMALL_TEXTAREA},
