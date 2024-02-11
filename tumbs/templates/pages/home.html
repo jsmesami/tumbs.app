@@ -1,7 +1,12 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-  <a href="{% url "accounts:sign_in" %}">login</a>
-  <a href="{% url "accounts:sign_up" %}">register</a>
-  <a href="{% url "accounts:sign_out" %}">logout</a>
+  {% if customer %}
+    {{ customer.email }}
+    <a href="{% url "accounts:sign_out" %}">{% trans "Sign out" %}</a>
+  {% else %}
+    <a href="{% url "accounts:sign_in" %}">{% trans "Sign in" %}</a>
+    <a href="{% url "accounts:sign_up" %}">{% trans "Sign up" %}</a>
+  {% endif %}
 {% endblock content %}

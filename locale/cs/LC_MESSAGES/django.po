@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-05 00:42+0000\n"
+"POT-Creation-Date: 2024-02-11 23:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+
+msgid "Accounts"
+msgstr ""
 
 msgid "Forbidden (403)"
 msgstr ""
@@ -43,6 +46,15 @@ msgid ""
 msgstr ""
 
 msgid "Portfolio website generator"
+msgstr ""
+
+msgid "Sign in"
+msgstr ""
+
+msgid "Sign up"
+msgstr ""
+
+msgid "Sign out"
 msgstr ""
 
 msgid "Personal info"
@@ -75,6 +87,9 @@ msgstr ""
 msgid "description"
 msgstr ""
 
+msgid "image"
+msgstr ""
+
 msgid "alt"
 msgstr ""
 
@@ -84,7 +99,7 @@ msgstr ""
 msgid "Websites"
 msgstr ""
 
-msgid "user"
+msgid "customer ID"
 msgstr ""
 
 msgid "name"
@@ -109,9 +124,6 @@ msgid "image file"
 msgstr ""
 
 msgid "alt text"
-msgstr ""
-
-msgid "image"
 msgstr ""
 
 msgid "images"
