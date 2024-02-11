@@ -1,4 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <a href="{% url "accounts:sign_in" %}">login</a>
+  <a href="{% url "accounts:sign_up" %}">register</a>
+  <a href="{% url "accounts:sign_out" %}">logout</a>
 {% endblock content %}

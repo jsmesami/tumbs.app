@@ -10,12 +10,24 @@ argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 asgiref==3.7.2
     # via django
+authlib==1.2.1
+    # via kinde-python-sdk
 build==1.0.3
     # via pip-tools
+certifi==2022.12.7
+    # via
+    #   kinde-python-sdk
+    #   requests
 cffi==1.16.0
-    # via argon2-cffi-bindings
+    # via
+    #   argon2-cffi-bindings
+    #   cryptography
+charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
     # via pip-tools
+cryptography==42.0.2
+    # via authlib
 django==5.0.2
     # via
     #   django-debug-toolbar
@@ -34,7 +46,13 @@ django-redis==5.4.0
     # via tumbs.app (pyproject.toml)
 django-webpack-loader==3.0.1
     # via tumbs.app (pyproject.toml)
+frozendict==2.3.10
+    # via kinde-python-sdk
 hiredis==2.3.2
+    # via tumbs.app (pyproject.toml)
+idna==3.6
+    # via requests
+kinde-python-sdk==1.2.2
     # via tumbs.app (pyproject.toml)
 markupsafe==2.1.5
     # via werkzeug
@@ -50,18 +68,32 @@ psycopg-binary==3.1.18
     # via psycopg
 pycparser==2.21
     # via cffi
+pyjwt==2.8.0
+    # via kinde-python-sdk
 pyproject-hooks==1.0.0
     # via build
+python-dateutil==2.8.2
+    # via kinde-python-sdk
 redis==5.0.1
     # via
     #   django-redis
     #   tumbs.app (pyproject.toml)
+requests==2.31.0
+    # via kinde-python-sdk
+six==1.16.0
+    # via python-dateutil
 sqlparse==0.4.4
     # via
     #   django
     #   django-debug-toolbar
-typing-extensions==4.9.0
-    # via psycopg
+typing-extensions==4.8.0
+    # via
+    #   kinde-python-sdk
+    #   psycopg
+urllib3==2.0.7
+    # via
+    #   kinde-python-sdk
+    #   requests
 watchdog==4.0.0
     # via werkzeug
 werkzeug==3.0.1

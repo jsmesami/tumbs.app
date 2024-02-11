@@ -9,7 +9,7 @@ from ordered_model.models import OrderedModel
 
 
 class Website(TimeStampedModel):
-    user = models.ForeignKey("users.User", verbose_name=_("user"), related_name="websites", on_delete=models.CASCADE)
+    customer_id = models.CharField(_("customer ID"), max_length=255, db_index=True)
 
     name = models.CharField(_("name"), max_length=255)
 

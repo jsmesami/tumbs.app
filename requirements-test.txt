@@ -12,10 +12,20 @@ asgiref==3.7.2
     # via django
 astroid==3.0.3
     # via pylint
+authlib==1.2.1
+    # via kinde-python-sdk
 black==24.1.1
     # via tumbs.app (pyproject.toml)
+certifi==2022.12.7
+    # via
+    #   kinde-python-sdk
+    #   requests
 cffi==1.16.0
-    # via argon2-cffi-bindings
+    # via
+    #   argon2-cffi-bindings
+    #   cryptography
+charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
     # via
     #   black
@@ -26,6 +36,8 @@ coverage==7.4.1
     # via
     #   django-coverage-plugin
     #   tumbs.app (pyproject.toml)
+cryptography==42.0.2
+    # via authlib
 cssbeautifier==1.14.11
     # via djlint
 dill==0.3.8
@@ -50,12 +62,16 @@ editorconfig==0.12.3
     # via
     #   cssbeautifier
     #   jsbeautifier
+frozendict==2.3.10
+    # via kinde-python-sdk
 hiredis==2.3.2
     # via tumbs.app (pyproject.toml)
 html-tag-names==0.1.2
     # via djlint
 html-void-elements==0.1.0
     # via djlint
+idna==3.6
+    # via requests
 iniconfig==2.0.0
     # via pytest
 isort==5.13.2
@@ -68,6 +84,8 @@ jsbeautifier==1.14.11
     #   djlint
 json5==0.9.14
     # via djlint
+kinde-python-sdk==1.2.2
+    # via tumbs.app (pyproject.toml)
 mccabe==0.7.0
     # via pylint
 mypy-extensions==1.0.0
@@ -91,6 +109,8 @@ pluggy==1.4.0
     # via pytest
 pycparser==2.21
     # via cffi
+pyjwt==2.8.0
+    # via kinde-python-sdk
 pylint==3.0.3
     # via
     #   pylint-django
@@ -108,6 +128,8 @@ pytest-django==4.8.0
     # via tumbs.app (pyproject.toml)
 pytest-sugar==1.0.0
     # via tumbs.app (pyproject.toml)
+python-dateutil==2.8.2
+    # via kinde-python-sdk
 pyyaml==6.0.1
     # via djlint
 redis==5.0.1
@@ -116,17 +138,26 @@ redis==5.0.1
     #   tumbs.app (pyproject.toml)
 regex==2023.12.25
     # via djlint
+requests==2.31.0
+    # via kinde-python-sdk
 six==1.16.0
     # via
     #   cssbeautifier
     #   jsbeautifier
+    #   python-dateutil
 sqlparse==0.4.4
     # via django
 termcolor==2.4.0
     # via pytest-sugar
 tomlkit==0.12.3
     # via pylint
-tqdm==4.66.1
+tqdm==4.66.2
     # via djlint
+typing-extensions==4.8.0
+    # via kinde-python-sdk
+urllib3==2.0.7
+    # via
+    #   kinde-python-sdk
+    #   requests
 whitenoise==6.6.0
     # via tumbs.app (pyproject.toml)

@@ -11,10 +11,12 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # My stuff
+    path("accounts/", include("tumbs.accounts.urls", namespace="accounts")),
     path("websites/", include("tumbs.websites.urls", namespace="websites")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 if settings.DEBUG:
-    # Static file serving when using Gunicorn + Uvicorn for local web socket development
+    # Static files serving for local development
     urlpatterns += staticfiles_urlpatterns()
 
 if settings.DEBUG:

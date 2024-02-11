@@ -30,8 +30,8 @@ class ImageAdminInline(admin.TabularInline):
 
 @admin.register(Website)
 class WebsiteAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "user", "_pages_count", "_images_count")
-    search_fields = ("name", "user__name", "user__email")
+    list_display = ("id", "customer_id", "name", "_pages_count", "_images_count")
+    search_fields = ("name", "customer_id")
     inlines = (PageAdminInline, ImageAdminInline)
 
     def get_queryset(self, request):

@@ -82,6 +82,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "tumbs.accounts",
     "tumbs.users",
     "tumbs.websites",
 ]
@@ -247,3 +248,10 @@ WEBPACK_LOADER = {
         "IGNORE": [r".+\.hot-update.js", r".+\.map"],
     }
 }
+
+# Kinde configuration
+# ------------------------------------------------------------------------------
+KINDE_ISSUER_URL = env("KINDE_ISSUER_URL")
+KINDE_CALLBACK_URL = env("KINDE_CALLBACK_URL")
+KINDE_CLIENT_ID = env("KINDE_CLIENT_ID")
+KINDE_CLIENT_SECRET = env("KINDE_CLIENT_SECRET")

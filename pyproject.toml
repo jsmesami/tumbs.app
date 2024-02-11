@@ -26,6 +26,7 @@ dependencies = [
     "django-environ",               # https://github.com/joke2k/django-environ
     "django-redis",                 # https://github.com/jazzband/django-redis
     "django-webpack-loader",        # https://github.com/django-webpack/django-webpack-loader
+    "kinde-python-sdk",             # https://kinde.com/
 ]
 
 [project.optional-dependencies]
