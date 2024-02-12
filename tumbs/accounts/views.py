@@ -1,5 +1,3 @@
-from functools import lru_cache
-
 from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
@@ -9,7 +7,6 @@ from kinde_sdk.exceptions import KindeTokenException
 from kinde_sdk.kinde_api_client import GrantType, KindeApiClient
 
 
-@lru_cache
 def get_auth_client(**kwargs):
     defaults = {
         "domain": settings.KINDE_ISSUER_URL,
