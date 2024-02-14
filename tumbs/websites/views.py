@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
 
@@ -28,8 +30,8 @@ def prepare_website(website: Website):
         "id": website.id,
         "customer_id": website.customer_id,
         "name": website.name,
-        "pages": list(map(prepare_page, website.pages.all())),
-        "images": list(map(prepare_image, website.images.all())),
+        "pages": [prepare_page(page) for page in website.pages.all()],
+        "images": [prepare_image(image) for image in website.images.all()],
     }
 
 
@@ -37,6 +39,6 @@ def prepare_website(website: Website):
 @auth_required
 def websites_cms(request):
     customer_id = request.session["customer"]["id"]
-    websites = map(prepare_website, Website.objects.filter(customer_id=customer_id).order_by("pk"))
-    context = {"websites": list(websites)}
+    websites = [prepare_website(ws) for ws in Website.objects.filter(customer_id=customer_id).order_by("pk")]
+    context = {"js_init": json.dumps({"websites": websites})}
     return render(request, "pages/websites.html", context)
