@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
+{% block javascript %}
+  {{ block.super }}
+  {% render_bundle 'cms' 'js' attrs='defer' %}
+{% endblock javascript %}
+
+{% block content %}
+  <div id="cms" data-websites="{{ websites }}"></div>
+{% endblock content %}

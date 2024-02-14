@@ -5,5 +5,5 @@ import tumbs.websites.views as views
 app_name = "websites"
 
 urlpatterns = [
-    path("", view=views.websites_admin_view, name="websites_admin"),
+    path("", view=views.websites_cms, name="websites_cms"),
 ]

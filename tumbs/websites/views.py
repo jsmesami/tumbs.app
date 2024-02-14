@@ -35,8 +35,8 @@ def prepare_website(website: Website):
 
 @require_GET
 @auth_required
-def websites_admin_view(request):
+def websites_cms(request):
     customer_id = request.session["customer"]["id"]
     websites = map(prepare_website, Website.objects.filter(customer_id=customer_id).order_by("pk"))
     context = {"websites": list(websites)}
-    return render(request, "pages/websites_admin.html", context)
+    return render(request, "pages/websites.html", context)

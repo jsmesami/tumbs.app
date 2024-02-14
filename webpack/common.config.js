@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     project: path.resolve(__dirname, '../tumbs/static/js/project'),
     vendors: path.resolve(__dirname, '../tumbs/static/js/vendors'),
+    cms: path.resolve(__dirname, '../tumbs/static/js/cms'),
   },
   output: {
     path: path.resolve(
