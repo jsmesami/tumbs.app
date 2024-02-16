@@ -28,6 +28,7 @@ dependencies = [
     "django-redis",                 # https://github.com/jazzband/django-redis
     "django-webpack-loader",        # https://github.com/django-webpack/django-webpack-loader
     "kinde-python-sdk",             # https://kinde.com/
+    "python-magic",                 # https://github.com/ahupp/python-magic
 ]
 
 [project.optional-dependencies]
