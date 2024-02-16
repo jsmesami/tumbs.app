@@ -4,6 +4,8 @@
 #
 #    pip-compile --extra=test --output-file=requirements-test.txt --strip-extras pyproject.toml
 #
+annotated-types==0.6.0
+    # via pydantic
 argon2-cffi==23.1.0
     # via tumbs.app (pyproject.toml)
 argon2-cffi-bindings==21.2.0
@@ -38,17 +40,20 @@ coverage==7.4.1
     #   tumbs.app (pyproject.toml)
 cryptography==42.0.2
     # via authlib
-cssbeautifier==1.14.11
+cssbeautifier==1.15.0
     # via djlint
 dill==0.3.8
     # via pylint
 django==5.0.2
     # via
+    #   django-ninja
     #   django-redis
     #   tumbs.app (pyproject.toml)
 django-coverage-plugin==3.1.0
     # via tumbs.app (pyproject.toml)
 django-environ==0.11.2
+    # via tumbs.app (pyproject.toml)
+django-ninja==1.1.0
     # via tumbs.app (pyproject.toml)
 django-ordered-model==3.7.4
     # via tumbs.app (pyproject.toml)
@@ -78,7 +83,7 @@ isort==5.13.2
     # via
     #   pylint
     #   tumbs.app (pyproject.toml)
-jsbeautifier==1.14.11
+jsbeautifier==1.15.0
     # via
     #   cssbeautifier
     #   djlint
@@ -109,6 +114,10 @@ pluggy==1.4.0
     # via pytest
 pycparser==2.21
     # via cffi
+pydantic==2.6.1
+    # via django-ninja
+pydantic-core==2.16.2
+    # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk
 pylint==3.0.3
@@ -154,7 +163,10 @@ tomlkit==0.12.3
 tqdm==4.66.2
     # via djlint
 typing-extensions==4.8.0
-    # via kinde-python-sdk
+    # via
+    #   kinde-python-sdk
+    #   pydantic
+    #   pydantic-core
 urllib3==2.0.7
     # via
     #   kinde-python-sdk

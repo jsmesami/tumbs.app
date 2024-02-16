@@ -4,6 +4,8 @@
 #
 #    pip-compile --extra=prod --output-file=requirements-prod.txt --strip-extras pyproject.toml
 #
+annotated-types==0.6.0
+    # via pydantic
 argon2-cffi==23.1.0
     # via tumbs.app (pyproject.toml)
 argon2-cffi-bindings==21.2.0
@@ -12,11 +14,11 @@ asgiref==3.7.2
     # via django
 authlib==1.2.1
     # via kinde-python-sdk
-boto3==1.34.41
+boto3==1.34.42
     # via
     #   django-anymail
     #   django-storages
-botocore==1.34.41
+botocore==1.34.42
     # via
     #   boto3
     #   s3transfer
@@ -36,12 +38,15 @@ cryptography==42.0.2
 django==5.0.2
     # via
     #   django-anymail
+    #   django-ninja
     #   django-redis
     #   django-storages
     #   tumbs.app (pyproject.toml)
 django-anymail==10.2
     # via tumbs.app (pyproject.toml)
 django-environ==0.11.2
+    # via tumbs.app (pyproject.toml)
+django-ninja==1.1.0
     # via tumbs.app (pyproject.toml)
 django-ordered-model==3.7.4
     # via tumbs.app (pyproject.toml)
@@ -79,6 +84,10 @@ psycopg-c==3.1.18
     # via psycopg
 pycparser==2.21
     # via cffi
+pydantic==2.6.1
+    # via django-ninja
+pydantic-core==2.16.2
+    # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk
 python-dateutil==2.8.2
@@ -105,6 +114,8 @@ typing-extensions==4.8.0
     # via
     #   kinde-python-sdk
     #   psycopg
+    #   pydantic
+    #   pydantic-core
 urllib3==2.0.7
     # via
     #   botocore

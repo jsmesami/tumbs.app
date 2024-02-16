@@ -22,8 +22,9 @@ dependencies = [
     "hiredis",                      # https://github.com/redis/hiredis-py
 
     "django",                       # https://www.djangoproject.com/
-    "django-ordered-model",         # https://github.com/django-ordered-model/django-ordered-model
     "django-environ",               # https://github.com/joke2k/django-environ
+    "django-ninja",                 # https://github.com/vitalik/django-ninja
+    "django-ordered-model",         # https://github.com/django-ordered-model/django-ordered-model
     "django-redis",                 # https://github.com/jazzband/django-redis
     "django-webpack-loader",        # https://github.com/django-webpack/django-webpack-loader
     "kinde-python-sdk",             # https://kinde.com/

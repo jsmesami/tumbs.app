@@ -5,6 +5,10 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
+from ninja import NinjaAPI
+
+api = NinjaAPI(version="1.0.0")
+api.add_router("cms", "websites.api.router")
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -13,6 +17,7 @@ urlpatterns = [
     # My stuff
     path("accounts/", include("tumbs.accounts.urls", namespace="accounts")),
     path("websites/", include("tumbs.websites.urls", namespace="websites")),
+    path("api/", api.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

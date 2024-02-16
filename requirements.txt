@@ -4,6 +4,8 @@
 #
 #    pip-compile --output-file=requirements.txt --strip-extras pyproject.toml
 #
+annotated-types==0.6.0
+    # via pydantic
 argon2-cffi==23.1.0
     # via tumbs.app (pyproject.toml)
 argon2-cffi-bindings==21.2.0
@@ -26,9 +28,12 @@ cryptography==42.0.2
     # via authlib
 django==5.0.2
     # via
+    #   django-ninja
     #   django-redis
     #   tumbs.app (pyproject.toml)
 django-environ==0.11.2
+    # via tumbs.app (pyproject.toml)
+django-ninja==1.1.0
     # via tumbs.app (pyproject.toml)
 django-ordered-model==3.7.4
     # via tumbs.app (pyproject.toml)
@@ -48,6 +53,10 @@ pillow==10.2.0
     # via tumbs.app (pyproject.toml)
 pycparser==2.21
     # via cffi
+pydantic==2.6.1
+    # via django-ninja
+pydantic-core==2.16.2
+    # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk
 python-dateutil==2.8.2
@@ -63,7 +72,10 @@ six==1.16.0
 sqlparse==0.4.4
     # via django
 typing-extensions==4.8.0
-    # via kinde-python-sdk
+    # via
+    #   kinde-python-sdk
+    #   pydantic
+    #   pydantic-core
 urllib3==2.0.7
     # via
     #   kinde-python-sdk
