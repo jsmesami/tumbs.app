@@ -65,8 +65,8 @@ def ensure_customer_id(request):
     """
     try:
         return request.session["customer"]["id"]
-    except KeyError:
-        raise AuthenticationError()
+    except KeyError as err:
+        raise AuthenticationError() from err
 
 
 def ensure_website_owner(request, website_id):
@@ -147,8 +147,8 @@ def create_image(request, image_file: UploadedFile, payload: ImageCreateSchema):
 
     try:
         image.full_clean()
-    except DjangoValidationError as e:
-        raise ValidationError(errors=[{"msg": msg} for msg in e.messages])
+    except DjangoValidationError as err:
+        raise ValidationError(errors=[{"msg": msg} for msg in err.messages]) from err
 
     image.file.save("file.jpg", image_file)
     return image

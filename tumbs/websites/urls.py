@@ -1,6 +1,6 @@
 from django.urls import path
 
-import tumbs.websites.views as views
+from tumbs.websites import views
 
 app_name = "websites"
 
