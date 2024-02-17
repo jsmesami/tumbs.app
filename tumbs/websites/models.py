@@ -25,6 +25,7 @@ class Website(TimeStampedModel):
     class Meta:
         verbose_name = _("website")
         verbose_name_plural = _("websites")
+        unique_together = ("customer_id", "name")
 
 
 class Page(OrderedModel):
