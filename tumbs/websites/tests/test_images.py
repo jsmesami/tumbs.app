@@ -26,11 +26,13 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     website = new_website(authorized_client.session["customer"]["id"])
 
     # ---------------- Create
-    alt = "A squirrel wearing a tiny astronaut helmet, floating on a cheeseburger through outer space."
-    caption = "Ludicrous image"
+    fields = {
+        "alt": "A squirrel wearing a tiny astronaut helmet, floating on a cheeseburger through outer space.",
+        "caption": "Ludicrous image",
+    }
     image_id = 1
-    provided = {"website_id": website.pk, "alt": alt, "caption": caption}
-    expected = {"id": image_id, "alt": alt, "caption": caption}
+    provided = {"website_id": website.pk} | fields
+    expected = {"id": image_id} | fields
 
     response = authorized_client.post(
         reverse("api-1.0.0:create_image"),
@@ -54,15 +56,16 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     )
     assert response.status_code == 200
     response = response.json()
-    path = response.pop("file")
-    assert path.startswith(f"/media/website/{website.pk}/")
+    assert response.pop("file").startswith(f"/media/website/{website.pk}/")
     assert response == expected
 
     # ---------------- Update
-    alt = "A penguin in a tuxedo attempting to order sushi at a fancy underwater restaurant."
-    caption = "Farcical image"
-    provided = {"website_id": website.pk, "alt": alt, "caption": caption}
-    expected = {"id": image_id, "alt": alt, "caption": caption}
+    fields = {
+        "alt": "A penguin in a tuxedo attempting to order sushi at a fancy underwater restaurant.",
+        "caption": "Farcical image",
+    }
+    provided |= fields
+    expected |= fields
 
     response = authorized_client.put(
         reverse("api-1.0.0:update_image", args=[image_id]),
@@ -71,8 +74,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     )
     assert response.status_code == 200
     response = response.json()
-    path = response.pop("file")
-    assert path.startswith(f"/media/website/{website.pk}/")
+    assert response.pop("file").startswith(f"/media/website/{website.pk}/")
     assert response == expected
 
     # ---------------- Delete
