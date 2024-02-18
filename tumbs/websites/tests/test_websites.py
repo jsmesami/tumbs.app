@@ -5,18 +5,20 @@ from tumbs.websites.models import Website
 
 
 @pytest.mark.django_db
-def test_unauthorized(client):
-    actions = (
-        (client.get, reverse("api-1.0.0:list_websites")),
-        (client.post, reverse("api-1.0.0:create_website")),
-        (client.get, reverse("api-1.0.0:read_website", args=[1])),
-        (client.put, reverse("api-1.0.0:update_website", args=[1])),
-        (client.delete, reverse("api-1.0.0:delete_website", args=[1])),
-    )
-    for method, url in actions:
-        response = method(url, content_type="application/json")
-        assert response.status_code == 401
-        assert response.json() == {"detail": "Unauthorized"}
+@pytest.mark.parametrize(
+    "method, url",
+    (
+        ("get", reverse("api-1.0.0:list_websites")),
+        ("post", reverse("api-1.0.0:create_website")),
+        ("get", reverse("api-1.0.0:read_website", args=[1])),
+        ("put", reverse("api-1.0.0:update_website", args=[1])),
+        ("delete", reverse("api-1.0.0:delete_website", args=[1])),
+    ),
+)
+def test_unauthorized(client, method, url):
+    response = getattr(client, method)(url, content_type="application/json")
+    assert response.status_code == 401
+    assert response.json() == {"detail": "Unauthorized"}
 
 
 @pytest.mark.django_db
