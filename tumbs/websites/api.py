@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.shortcuts import get_object_or_404
-from ninja import Router, Schema, UploadedFile
+from ninja import File, Router, Schema, UploadedFile
 from ninja.errors import AuthenticationError, ValidationError
 
 from tumbs.websites.models import Image, Page, Website
@@ -141,7 +141,7 @@ def delete_page(request, page_id: int):
 
 
 @router.post("/images", response={201: ImageSchema})
-def create_image(request, image_file: UploadedFile, payload: ImageCreateSchema):
+def create_image(request, image_file: File[UploadedFile], payload: ImageCreateSchema):
     ensure_website_owner(request, payload.website_id)
     image = Image(**payload.dict(), file=image_file)
 
