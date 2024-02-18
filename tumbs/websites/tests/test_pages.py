@@ -25,12 +25,15 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     website = new_website(authorized_client.session["customer"]["id"])
 
     # ---------------- Create
-    title = "Little Page of Horrors"
-    description = "Delves into how individual lives and decisions contribute to the larger pattern of human existence."
-    content = {"A": ["B", "C"]}
+    fields = {
+        "title": "Little Page of Horrors",
+        "description": "Delves into how individual lives and decisions contribute to the pattern of human existence.",
+        "content": {"A": ["B", "C"]},
+    }
+
     page_id = 1
-    provided = {"website_id": website.pk, "title": title, "description": description, "content": content}
-    expected = {"id": page_id, "title": title, "description": description, "content": content}
+    provided = {"website_id": website.pk} | fields
+    expected = {"id": page_id} | fields
 
     response = authorized_client.post(
         reverse("api-1.0.0:create_page"),
@@ -50,11 +53,13 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     assert response.json() == expected
 
     # ---------------- Update
-    title = "Pages of Possibility"
-    description = "Motivational or inspirational read, encouraging readers to turn the pages of their own lives."
-    content = {"X": ["Y", "Z"]}
-    provided = {"website_id": website.pk, "title": title, "description": description, "content": content}
-    expected = {"id": page_id, "title": title, "description": description, "content": content}
+    fields = {
+        "title": "Pages of Possibility",
+        "description": "Motivational or inspirational read, encouraging readers to turn the pages of their own lives.",
+        "content": {"X": ["Y", "Z"]},
+    }
+    provided |= fields
+    expected |= fields
 
     response = authorized_client.put(
         reverse("api-1.0.0:update_page", args=[page_id]),
