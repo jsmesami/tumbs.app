@@ -30,7 +30,6 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
         "description": "Delves into how individual lives and decisions contribute to the pattern of human existence.",
         "content": {"A": ["B", "C"]},
     }
-
     page_id = 1
     provided = {"website_id": website.pk} | fields
     expected = {"id": page_id} | fields

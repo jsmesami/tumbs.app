@@ -40,7 +40,7 @@ coverage==7.4.1
     #   tumbs.app (pyproject.toml)
 cryptography==42.0.3
     # via authlib
-cssbeautifier==1.15.0
+cssbeautifier==1.15.1
     # via djlint
 dill==0.3.8
     # via pylint
@@ -83,7 +83,7 @@ isort==5.13.2
     # via
     #   pylint
     #   tumbs.app (pyproject.toml)
-jsbeautifier==1.15.0
+jsbeautifier==1.15.1
     # via
     #   cssbeautifier
     #   djlint
@@ -128,7 +128,7 @@ pylint-django==2.5.5
     # via tumbs.app (pyproject.toml)
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pytest==8.0.0
+pytest==8.0.1
     # via
     #   pytest-django
     #   pytest-sugar

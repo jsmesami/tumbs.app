@@ -65,7 +65,7 @@ packaging==23.2
     # via build
 pillow==10.2.0
     # via tumbs.app (pyproject.toml)
-pip-tools==7.3.0
+pip-tools==7.4.0
     # via tumbs.app (pyproject.toml)
 psycopg==3.1.18
     # via tumbs.app (pyproject.toml)
@@ -80,7 +80,9 @@ pydantic-core==2.16.2
 pyjwt==2.8.0
     # via kinde-python-sdk
 pyproject-hooks==1.0.0
-    # via build
+    # via
+    #   build
+    #   pip-tools
 python-dateutil==2.8.2
     # via kinde-python-sdk
 python-magic==0.4.27
