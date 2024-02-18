@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from ninja import NinjaAPI
 
 api = NinjaAPI(version="1.0.0")
-api.add_router("cms", "websites.api.router")
+api.add_router("cms", "tumbs.websites.api.router")
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),

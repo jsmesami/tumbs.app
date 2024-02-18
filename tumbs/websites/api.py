@@ -84,9 +84,9 @@ def list_websites(request):
     return Website.objects.filter(customer_id=ensure_customer_id(request))
 
 
-@router.post("/websites", response=WebsiteSchema)
+@router.post("/websites", response={201: WebsiteSchema})
 def create_website(request, payload: WebsiteCreateUpdateSchema):
-    return Website.objects.create(customer_id=ensure_customer_id(request), **payload.dict())
+    return 201, Website.objects.create(customer_id=ensure_customer_id(request), **payload.dict())
 
 
 @router.get("/websites/{website_id}", response=WebsiteSchema)
@@ -111,10 +111,10 @@ def delete_website(request, website_id: int):
 # ---------------- Pages
 
 
-@router.post("/pages", response=PageSchema)
+@router.post("/pages", response={201: PageSchema})
 def create_page(request, payload: PageCreateSchema):
     ensure_website_owner(request, payload.website_id)
-    return Page.objects.create(**payload.dict())
+    return 201, Page.objects.create(**payload.dict())
 
 
 @router.get("/pages/{page_id}", response=PageSchema)
@@ -140,7 +140,7 @@ def delete_page(request, page_id: int):
 # ---------------- Images
 
 
-@router.post("/images", response=ImageSchema)
+@router.post("/images", response={201: ImageSchema})
 def create_image(request, image_file: UploadedFile, payload: ImageCreateSchema):
     ensure_website_owner(request, payload.website_id)
     image = Image(**payload.dict(), file=image_file)
@@ -151,7 +151,7 @@ def create_image(request, image_file: UploadedFile, payload: ImageCreateSchema):
         raise ValidationError(errors=[{"msg": msg} for msg in err.messages]) from err
 
     image.file.save("file.jpg", image_file)
-    return image
+    return 201, image
 
 
 @router.get("/images/{image_id}", response=ImageSchema)
