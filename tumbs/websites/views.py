@@ -39,6 +39,8 @@ def prepare_website(website: Website):
 @auth_required
 def websites_cms(request):
     customer_id = request.session["customer"]["id"]
-    websites = [prepare_website(ws) for ws in Website.objects.valid().filter(customer_id=customer_id).order_by("pk")]
+    websites = [
+        prepare_website(ws) for ws in Website.objects.valid().filter(customer_id=customer_id).order_by("created")
+    ]
     context = {"js_init": json.dumps({"websites": websites})}
     return render(request, "pages/websites.html", context)
