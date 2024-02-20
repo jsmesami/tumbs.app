@@ -72,7 +72,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "file",
-                    models.ImageField(upload_to=tumbs.websites.models.image_upload_path, verbose_name="image file"),
+                    models.ImageField(
+                        upload_to=tumbs.websites.models.image.image_upload_path, verbose_name="image file"
+                    ),
                 ),
                 ("alt", models.TextField(blank=True, verbose_name="alt text")),
                 ("caption", models.TextField(blank=True, verbose_name="caption")),

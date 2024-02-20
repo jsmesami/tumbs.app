@@ -15,8 +15,11 @@ class Migration(migrations.Migration):
             model_name="image",
             name="file",
             field=models.ImageField(
-                upload_to=tumbs.websites.models.image_upload_path,
-                validators=[tumbs.websites.models.file_type_validator, tumbs.websites.models.file_size_validator],
+                upload_to=tumbs.websites.models.image.image_upload_path,
+                validators=[
+                    tumbs.websites.models.image.file_type_validator,
+                    tumbs.websites.models.image.file_size_validator,
+                ],
                 verbose_name="image file",
             ),
         ),

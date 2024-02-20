@@ -8,60 +8,6 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
-from ordered_model.models import OrderedModel, OrderedModelManager, OrderedModelQuerySet
-
-
-class ValidWebsiteQuerySet(models.QuerySet):
-    def valid(self):
-        return self.exclude(deleted=True)
-
-
-class Website(TimeStampedModel):
-    customer_id = models.CharField(_("customer ID"), max_length=255, db_index=True)
-    name = models.CharField(_("name"), max_length=255)
-    deleted = models.BooleanField(_("deleted"), default=False, db_index=True)
-
-    objects = models.Manager.from_queryset(ValidWebsiteQuerySet)()
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return f"<websites.Website {self.id}>"
-
-    class Meta:
-        verbose_name = _("website")
-        verbose_name_plural = _("websites")
-        unique_together = ("customer_id", "name")
-
-
-class ValidPageQuerySet(OrderedModelQuerySet):
-    def valid(self):
-        return self.exclude(models.Q(deleted=True) | models.Q(website__deleted=True))
-
-
-class Page(OrderedModel):
-    website = models.ForeignKey(
-        "websites.Website", verbose_name=_("website"), related_name="pages", on_delete=models.CASCADE
-    )
-    title = models.CharField(_("name"), max_length=255)
-    description = models.TextField(_("description"), blank=True)
-    content = models.JSONField(_("content"), null=True, blank=True)
-    deleted = models.BooleanField(_("deleted"), default=False, db_index=True)
-
-    order_with_respect_to = "website"
-    objects = OrderedModelManager.from_queryset(ValidPageQuerySet)()
-
-    def __str__(self):
-        return self.title
-
-    def __repr__(self):
-        return f"<websites.Page {self.id}>"
-
-    class Meta(OrderedModel.Meta):
-        verbose_name = _("page")
-        verbose_name_plural = _("pages")
-        ordering = ("website", "order")
 
 
 def image_upload_path(instance, filename):
@@ -86,7 +32,7 @@ def file_type_validator(value):
         raise ValidationError(f"File type '{file_mime_type}' is not supported.")
 
 
-class ValidImageQuerySet(OrderedModelQuerySet):
+class ValidImageQuerySet(models.QuerySet):
     def valid(self):
         return self.exclude(models.Q(deleted=True) | models.Q(website__deleted=True))
 
