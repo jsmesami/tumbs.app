@@ -11,7 +11,17 @@ from tumbs.websites.models import Image, Page, Website
 SMALL_TEXTAREA = Textarea(attrs={"rows": 2, "cols": 30})
 
 
-class PageAdminInline(admin.TabularInline):
+class NoDeleteMixin:
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        actions.pop("delete_selected", None)
+        return actions
+
+    def has_delete_permission(self, _request, _obj=None):
+        return False
+
+
+class PageAdminInline(NoDeleteMixin, admin.TabularInline):
     model = Page
     extra = 0
     formfield_overrides = {
@@ -20,7 +30,7 @@ class PageAdminInline(admin.TabularInline):
     }
 
 
-class ImageAdminInline(admin.TabularInline):
+class ImageAdminInline(NoDeleteMixin, admin.TabularInline):
     model = Image
     extra = 0
     formfield_overrides = {
@@ -29,8 +39,9 @@ class ImageAdminInline(admin.TabularInline):
 
 
 @admin.register(Website)
-class WebsiteAdmin(admin.ModelAdmin):
-    list_display = ("id", "customer_id", "name", "_pages_count", "_images_count")
+class WebsiteAdmin(NoDeleteMixin, admin.ModelAdmin):
+    list_display = ("id", "customer_id", "name", "_pages_count", "_images_count", "deleted")
+    list_filter = ("deleted",)
     search_fields = ("name", "customer_id")
     inlines = (PageAdminInline, ImageAdminInline)
 
@@ -48,8 +59,9 @@ class WebsiteAdmin(admin.ModelAdmin):
 
 
 @admin.register(Page)
-class PageAdmin(OrderedInlineModelAdminMixin, OrderedModelAdmin):
-    list_display = ("id", "website", "title", "_short_description", "order", "move_up_down_links")
+class PageAdmin(OrderedInlineModelAdminMixin, NoDeleteMixin, OrderedModelAdmin):
+    list_display = ("id", "website", "title", "_short_description", "order", "move_up_down_links", "deleted")
+    list_filter = ("deleted",)
     search_fields = ("title", "website__name")
 
     @admin.display(description=_("description"))
@@ -58,8 +70,9 @@ class PageAdmin(OrderedInlineModelAdminMixin, OrderedModelAdmin):
 
 
 @admin.register(Image)
-class ImageAdmin(admin.ModelAdmin):
-    list_display = ("id", "website", "_image_tag", "_short_alt", "_short_caption")
+class ImageAdmin(NoDeleteMixin, admin.ModelAdmin):
+    list_display = ("id", "website", "_image_tag", "_short_alt", "_short_caption", "deleted")
+    list_filter = ("deleted",)
     search_fields = ("alt", "caption", "website__name")
 
     @admin.display(description=_("image"))

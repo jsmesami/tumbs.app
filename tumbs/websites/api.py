@@ -73,7 +73,9 @@ def ensure_website_owner(request, website_id):
     """
     Check if a website with website_id exists and is owned by current customer. Raise Http404 when not.
     """
-    return get_object_or_404(Website.objects.only("id"), customer_id=ensure_customer_id(request), id=website_id)
+    return get_object_or_404(
+        Website.objects.valid().only("id"), customer_id=ensure_customer_id(request), id=website_id
+    )
 
 
 # ---------------- Websites
@@ -81,7 +83,7 @@ def ensure_website_owner(request, website_id):
 
 @router.get("/websites", response=List[WebsiteSchema])
 def list_websites(request):
-    return Website.objects.filter(customer_id=ensure_customer_id(request))
+    return Website.objects.valid().filter(customer_id=ensure_customer_id(request))
 
 
 @router.post("/websites", response={201: WebsiteSchema})
@@ -104,7 +106,9 @@ def update_website(request, website_id: int, payload: WebsiteCreateUpdateSchema)
 
 @router.delete("/websites/{website_id}")
 def delete_website(request, website_id: int):
-    get_object_or_404(Website, customer_id=ensure_customer_id(request), id=website_id).delete()
+    ws = get_object_or_404(Website, customer_id=ensure_customer_id(request), id=website_id)
+    ws.deleted = True
+    ws.save()
     return {"success": True}
 
 
@@ -133,7 +137,9 @@ def update_page(request, page_id: int, payload: PageUpdateSchema):
 
 @router.delete("/pages/{page_id}")
 def delete_page(request, page_id: int):
-    get_object_or_404(Page, website__customer_id=ensure_customer_id(request), id=page_id).delete()
+    page = get_object_or_404(Page, website__customer_id=ensure_customer_id(request), id=page_id)
+    page.deleted = True
+    page.save()
     return {"success": True}
 
 
@@ -170,5 +176,7 @@ def update_image(request, image_id: int, payload: ImageUpdateSchema):
 
 @router.delete("/images/{image_id}")
 def delete_image(request, image_id: int):
-    get_object_or_404(Image, website__customer_id=ensure_customer_id(request), id=image_id).delete()
+    image = get_object_or_404(Image, website__customer_id=ensure_customer_id(request), id=image_id)
+    image.deleted = True
+    image.save()
     return {"success": True}
