@@ -93,12 +93,12 @@ def create_website(request, payload: WebsiteCreateUpdateSchema):
 
 @router.get("/websites/{website_id}", response=WebsiteSchema)
 def read_website(request, website_id: int):
-    return get_object_or_404(Website, customer_id=ensure_customer_id(request), id=website_id)
+    return get_object_or_404(Website.objects.valid(), customer_id=ensure_customer_id(request), id=website_id)
 
 
 @router.put("/websites/{website_id}", response=WebsiteSchema)
 def update_website(request, website_id: int, payload: WebsiteCreateUpdateSchema):
-    ws = get_object_or_404(Website, customer_id=ensure_customer_id(request), id=website_id)
+    ws = get_object_or_404(Website.objects.valid(), customer_id=ensure_customer_id(request), id=website_id)
     ws.name = payload.name
     ws.save()
     return ws
@@ -106,7 +106,7 @@ def update_website(request, website_id: int, payload: WebsiteCreateUpdateSchema)
 
 @router.delete("/websites/{website_id}")
 def delete_website(request, website_id: int):
-    ws = get_object_or_404(Website, customer_id=ensure_customer_id(request), id=website_id)
+    ws = get_object_or_404(Website.objects.valid(), customer_id=ensure_customer_id(request), id=website_id)
     ws.deleted = True
     ws.save()
     return {"success": True}
@@ -123,12 +123,12 @@ def create_page(request, payload: PageCreateSchema):
 
 @router.get("/pages/{page_id}", response=PageSchema)
 def read_page(request, page_id: int):
-    return get_object_or_404(Page, website__customer_id=ensure_customer_id(request), id=page_id)
+    return get_object_or_404(Page.objects.valid(), website__customer_id=ensure_customer_id(request), id=page_id)
 
 
 @router.put("/pages/{page_id}", response=PageSchema)
 def update_page(request, page_id: int, payload: PageUpdateSchema):
-    page = get_object_or_404(Page, website__customer_id=ensure_customer_id(request), id=page_id)
+    page = get_object_or_404(Page.objects.valid(), website__customer_id=ensure_customer_id(request), id=page_id)
     for attr, value in payload.dict().items():
         setattr(page, attr, value)
     page.save()
@@ -137,7 +137,7 @@ def update_page(request, page_id: int, payload: PageUpdateSchema):
 
 @router.delete("/pages/{page_id}")
 def delete_page(request, page_id: int):
-    page = get_object_or_404(Page, website__customer_id=ensure_customer_id(request), id=page_id)
+    page = get_object_or_404(Page.objects.valid(), website__customer_id=ensure_customer_id(request), id=page_id)
     page.deleted = True
     page.save()
     return {"success": True}
@@ -162,12 +162,12 @@ def create_image(request, image_file: File[UploadedFile], payload: ImageCreateSc
 
 @router.get("/images/{image_id}", response=ImageSchema)
 def read_image(request, image_id: int):
-    return get_object_or_404(Image, website__customer_id=ensure_customer_id(request), id=image_id)
+    return get_object_or_404(Image.objects.valid(), website__customer_id=ensure_customer_id(request), id=image_id)
 
 
 @router.put("/images/{image_id}", response=ImageSchema)
 def update_image(request, image_id: int, payload: ImageUpdateSchema):
-    image = get_object_or_404(Image, website__customer_id=ensure_customer_id(request), id=image_id)
+    image = get_object_or_404(Image.objects.valid(), website__customer_id=ensure_customer_id(request), id=image_id)
     for attr, value in payload.dict().items():
         setattr(image, attr, value)
     image.save()
@@ -176,7 +176,7 @@ def update_image(request, image_id: int, payload: ImageUpdateSchema):
 
 @router.delete("/images/{image_id}")
 def delete_image(request, image_id: int):
-    image = get_object_or_404(Image, website__customer_id=ensure_customer_id(request), id=image_id)
+    image = get_object_or_404(Image.objects.valid(), website__customer_id=ensure_customer_id(request), id=image_id)
     image.deleted = True
     image.save()
     return {"success": True}

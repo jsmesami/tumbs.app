@@ -4,10 +4,11 @@ from io import BytesIO
 
 import pytest
 from django.conf import settings
+from django.core.files.base import ContentFile
 from django.db import connection
 from psycopg.sql import SQL, Identifier
 
-from tumbs.websites.models import Website
+from tumbs.websites.models import Image, Page, Website
 
 TESTS_DIR = "tumbs/websites/tests"
 
@@ -54,12 +55,6 @@ def truncate_table():
 
 
 @pytest.fixture
-@pytest.mark.django_db
-def new_website(random_string):
-    return lambda customer_id: Website.objects.create(customer_id=customer_id, name=random_string(8))
-
-
-@pytest.fixture
 def small_image_jpg():
     def closure(name):
         image_bytes = BytesIO(SMALL_IMAGE_DATA_JPG)
@@ -77,3 +72,24 @@ def larger_image_jpg():
         return image_bytes
 
     return closure
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def new_website(random_string):
+    return lambda customer_id: Website.objects.create(customer_id=customer_id, name=random_string(8))
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def new_image(random_string, small_image_jpg):
+    return lambda website: Image.objects.create(
+        website=website,
+        file=ContentFile(SMALL_IMAGE_DATA_JPG, name="test.jpg"),
+    )
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def new_page(random_string):
+    return lambda website: Page.objects.create(website=website)

@@ -1,4 +1,5 @@
 import pytest
+from django.forms import model_to_dict
 from django.urls import reverse
 
 from tumbs.websites.models import Website
@@ -76,3 +77,28 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     )
     assert response.status_code == 200
     assert response.json() == {"success": True}
+
+
+@pytest.mark.django_db
+def test_delete_list(authorized_client, new_website, new_page):
+    website = new_website(authorized_client.session["customer"]["id"])
+    page1 = new_page(website)
+    page2 = new_page(website)
+
+    response = authorized_client.delete(
+        reverse("api-1.0.0:delete_page", args=[page2.pk]),
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json() == {"success": True}
+
+    website_dict = model_to_dict(website, fields=["id", "name"])
+    page1_dict = model_to_dict(page1, fields=["id", "title", "description", "content"])
+    expected = website_dict | {"images": [], "pages": [page1_dict]}
+
+    response = authorized_client.get(
+        reverse("api-1.0.0:read_website", args=[website.pk]),
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json() == expected

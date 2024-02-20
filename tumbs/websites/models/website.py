@@ -1,11 +1,17 @@
 from django.db import models
+from django.db.models import Prefetch
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
+
+from tumbs.websites.models import Image, Page
 
 
 class ValidWebsiteQuerySet(models.QuerySet):
     def valid(self):
-        return self.exclude(deleted=True)
+        return self.exclude(deleted=True).prefetch_related(
+            Prefetch("images", queryset=Image.objects.valid()),
+            Prefetch("pages", queryset=Page.objects.valid()),
+        )
 
 
 class Website(TimeStampedModel):
