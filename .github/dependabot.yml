@@ -7,7 +7,7 @@ updates:
     directory: '/'
     open-pull-requests-limit: 0
     schedule:
-      interval: 'weekly'
+      interval: 'daily'
 
   - package-ecosystem: 'pip'
     # Look for a `requirements.txt` in the `root` directory
@@ -15,4 +15,4 @@ updates:
     directory: '/'
     open-pull-requests-limit: 0
     schedule:
-      interval: 'weekly'
+      interval: 'daily'
