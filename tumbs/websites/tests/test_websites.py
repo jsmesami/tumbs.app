@@ -59,8 +59,7 @@ def test_create_read_list(authorized_client, truncate_table):
 @pytest.mark.django_db(transaction=False)
 def test_update_delete(authorized_client, truncate_table, new_website):
     truncate_table(Website)
-
-    website = new_website(authorized_client.session["customer"]["id"])
+    website = new_website()
 
     response = authorized_client.put(
         reverse("api-1.0.0:update_website", args=[website.pk]),

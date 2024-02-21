@@ -29,7 +29,7 @@ def test_unauthorized(client, method, url):
 @pytest.mark.django_db
 def test_create_read_update_delete(authorized_client, truncate_table, new_website, small_image_jpg):
     truncate_table(Website)
-    website = new_website(authorized_client.session["customer"]["id"])
+    website = new_website()
 
     # ---------------- Create
     fields = {
@@ -93,7 +93,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
 
 @pytest.mark.django_db
 def test_delete_list(authorized_client, new_website, new_image):
-    website = new_website(authorized_client.session["customer"]["id"])
+    website = new_website()
     image1 = new_image(website)
     image2 = new_image(website)
 
@@ -118,7 +118,7 @@ def test_delete_list(authorized_client, new_website, new_image):
 
 @pytest.mark.django_db
 def test_create_too_large(authorized_client, new_website):
-    website = new_website(authorized_client.session["customer"]["id"])
+    website = new_website()
 
     response = authorized_client.post(
         reverse("api-1.0.0:create_image"),
@@ -129,3 +129,18 @@ def test_create_too_large(authorized_client, new_website):
     )
     assert response.status_code == 422
     assert response.json() == {"detail": [{"msg": "File too large. Size should not exceed 0.00 MiB."}]}
+
+
+@pytest.mark.django_db
+def test_create_unsupported(authorized_client, new_website):
+    website = new_website()
+
+    response = authorized_client.post(
+        reverse("api-1.0.0:create_image"),
+        data={
+            "payload": json.dumps({"website_id": website.pk}),
+            "image_file": ContentFile(conftest.SMALL_IMAGE_DATA_PNG, name="test.jpg"),
+        },
+    )
+    assert response.status_code == 422
+    assert response.json() == {"detail": [{"msg": "File type 'image/png' is not supported."}]}

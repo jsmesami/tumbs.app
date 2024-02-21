@@ -20,6 +20,9 @@ with open(settings.BASE_DIR / TESTS_DIR / "data/small_image.jpg", "rb") as image
 with open(settings.BASE_DIR / TESTS_DIR / "data/larger_image.jpg", "rb") as image_file:
     LARGER_IMAGE_DATA_JPG = image_file.read()
 
+with open(settings.BASE_DIR / TESTS_DIR / "data/small_image.png", "rb") as image_file:
+    SMALL_IMAGE_DATA_PNG = image_file.read()
+
 
 @pytest.fixture
 def random_string():
@@ -75,8 +78,10 @@ def larger_image_jpg():
 
 
 @pytest.fixture
-def new_website(random_string):
-    return lambda customer_id: Website.objects.create(customer_id=customer_id, name=random_string(8))
+def new_website(authorized_client, random_string):
+    return lambda: Website.objects.create(
+        customer_id=authorized_client.session["customer"]["id"], name=random_string(8)
+    )
 
 
 @pytest.fixture

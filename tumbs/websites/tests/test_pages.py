@@ -25,7 +25,7 @@ def test_unauthorized(client, method, url):
 @pytest.mark.django_db
 def test_create_read_update_delete(authorized_client, truncate_table, new_website):
     truncate_table(Website)
-    website = new_website(authorized_client.session["customer"]["id"])
+    website = new_website()
 
     # ---------------- Create
     fields = {
@@ -82,7 +82,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
 
 @pytest.mark.django_db
 def test_delete_list(authorized_client, new_website, new_page):
-    website = new_website(authorized_client.session["customer"]["id"])
+    website = new_website()
     page1 = new_page(website)
     page2 = new_page(website)
 
