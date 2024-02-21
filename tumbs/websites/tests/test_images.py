@@ -2,10 +2,12 @@
 import json
 
 import pytest
+from django.core.files.base import ContentFile
 from django.forms.models import model_to_dict
 from django.urls import reverse
 
 from tumbs.websites.models import Website
+from tumbs.websites.tests import conftest
 
 
 @pytest.mark.django_db
@@ -48,8 +50,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
 
     assert response.status_code == 201
     response = response.json()
-    path = response.pop("file")
-    assert path.startswith(f"/media/website/{website.pk}/")
+    assert response.pop("file").startswith(f"http://media.testserver/website/{website.pk}/")
     assert response == expected
 
     # ---------------- Read
@@ -60,7 +61,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     )
     assert response.status_code == 200
     response = response.json()
-    assert response.pop("file").startswith(f"/media/website/{website.pk}/")
+    assert response.pop("file").startswith(f"http://media.testserver/website/{website.pk}/")
     assert response == expected
 
     # ---------------- Update
@@ -78,7 +79,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     )
     assert response.status_code == 200
     response = response.json()
-    assert response.pop("file").startswith(f"/media/website/{website.pk}/")
+    assert response.pop("file").startswith(f"http://media.testserver/website/{website.pk}/")
     assert response == expected
 
     # ---------------- Delete
@@ -113,3 +114,18 @@ def test_delete_list(authorized_client, new_website, new_image):
     )
     assert response.status_code == 200
     assert response.json() == expected
+
+
+@pytest.mark.django_db
+def test_create_too_large(authorized_client, new_website):
+    website = new_website(authorized_client.session["customer"]["id"])
+
+    response = authorized_client.post(
+        reverse("api-1.0.0:create_image"),
+        data={
+            "payload": json.dumps({"website_id": website.pk}),
+            "image_file": ContentFile(conftest.LARGER_IMAGE_DATA_JPG, name="test.jpg"),
+        },
+    )
+    assert response.status_code == 422
+    assert response.json() == {"detail": [{"msg": "File too large. Size should not exceed 0.00 MiB."}]}

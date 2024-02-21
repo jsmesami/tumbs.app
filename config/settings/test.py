@@ -32,5 +32,7 @@ MEDIA_URL = "http://media.testserver"
 # django-webpack-loader
 # ------------------------------------------------------------------------------
 WEBPACK_LOADER["DEFAULT"]["LOADER_CLASS"] = "webpack_loader.loader.FakeWebpackLoader"  # noqa: F405
-# Your stuff...
+
+# My stuff
 # ------------------------------------------------------------------------------
+CMS_IMAGE_ALLOWED_MAX_SIZE = 700

@@ -45,7 +45,6 @@ def authorized_client(client):
 
 
 @pytest.fixture
-@pytest.mark.django_db
 def truncate_table():
     def closure(model):
         table_name = Identifier(model._meta.db_table)
@@ -76,13 +75,11 @@ def larger_image_jpg():
 
 
 @pytest.fixture
-@pytest.mark.django_db
 def new_website(random_string):
     return lambda customer_id: Website.objects.create(customer_id=customer_id, name=random_string(8))
 
 
 @pytest.fixture
-@pytest.mark.django_db
 def new_image():
     return lambda website: Image.objects.create(
         website=website,
@@ -91,6 +88,5 @@ def new_image():
 
 
 @pytest.fixture
-@pytest.mark.django_db
 def new_page():
     return lambda website: Page.objects.create(website=website)

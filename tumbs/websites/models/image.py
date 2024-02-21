@@ -19,8 +19,9 @@ def image_upload_path(instance, filename):
 
 def file_size_validator(value):
     max_size = settings.CMS_IMAGE_ALLOWED_MAX_SIZE
+    max_size_mib = max_size / 1024 / 1024
     if value.size > max_size:
-        raise ValidationError(f"File too large. Size should not exceed {max_size / 1048576:.0f} MiB.")
+        raise ValidationError(f"File too large. Size should not exceed {max_size_mib:.2f} MiB.")
 
 
 def file_type_validator(value):
