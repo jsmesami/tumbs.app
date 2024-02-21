@@ -22,7 +22,7 @@ botocore==1.34.46
     # via
     #   boto3
     #   s3transfer
-certifi==2022.12.7
+certifi==2024.2.2
     # via
     #   kinde-python-sdk
     #   requests
