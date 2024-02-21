@@ -17,7 +17,8 @@ Create your artistic portfolio in minutes
     source venv/bin/activate
     
     # install python dependencies
-    pip install -r requirements-dev.txt
+    pip install -U pip
+    pip install -r requirements/dev.txt
     
     # prepare (+edit) and load env variables for development
     cp .env.dev .env
@@ -36,6 +37,13 @@ Create your artistic portfolio in minutes
 
     # run development servers
     npm run dev
+
+### Run tests with coverage
+
+To run the tests, check your test coverage, and generate an HTML coverage report:
+
+    pip install -r requirements/test.txt
+    npm run test
 
 ### Email Server
 

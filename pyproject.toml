@@ -84,10 +84,14 @@ include = ["tumbs/**"]
 omit = ["*/migrations/*", "*/tests/*"]
 plugins = ["django_coverage_plugin"]
 
+[tool.coverage.report]
+show_missing = true
+precision = 2
+
 # ==== Black ====
 [tool.black]
 line-length = 119
-target-version = ['py311']
+target-version = ['py312']
 
 # ==== Isort ====
 [tool.isort]

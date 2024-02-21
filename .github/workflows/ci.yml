@@ -1,0 +1,90 @@
+name: CI
+
+# Enable Buildkit and let compose use it to speed up image building
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+on:
+  pull_request:
+    branches: ['main']
+
+  push:
+    branches: ['main']
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements/test.txt
+
+      - name: Install Dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements/test.txt
+
+      - name: Black
+        run: black tumbs --check
+
+      - name: Isort
+        run: isort tumbs --check-only
+
+      - name: PyLint
+        run: pylint tumbs
+
+      - name: djLint
+        run: djlint tumbs
+
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+
+    env:
+      # postgres://user:password@host:port/database
+      DATABASE_URL: 'postgres://postgres:postgres@localhost:5432/postgres'
+
+    steps:
+      - name: Install system dependencies
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libmagic1
+
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements/test.txt
+
+      - name: Install Dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements/test.txt
+
+      - name: Test with pytest
+        run: pytest tumbs
