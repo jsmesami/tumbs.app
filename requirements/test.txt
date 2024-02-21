@@ -112,6 +112,10 @@ platformdirs==4.2.0
     #   pylint
 pluggy==1.4.0
     # via pytest
+psycopg==3.1.18
+    # via tumbs.app (pyproject.toml)
+psycopg-binary==3.1.18
+    # via psycopg
 pycparser==2.21
     # via cffi
 pydantic==2.6.1
@@ -167,6 +171,7 @@ tqdm==4.66.2
 typing-extensions==4.8.0
     # via
     #   kinde-python-sdk
+    #   psycopg
     #   pydantic
     #   pydantic-core
 urllib3==2.0.7

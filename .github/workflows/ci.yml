@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DJANGO_SETTINGS_MODULE: 'config.settings.test'
+      DJANGO_SETTINGS_MODULE: config.settings.test
 
     steps:
       - name: Checkout Code Repository
@@ -66,7 +66,7 @@ jobs:
     env:
       # postgres://user:password@host:port/database
       DATABASE_URL: 'postgres://postgres:postgres@localhost:5432/postgres'
-      DJANGO_SETTINGS_MODULE: 'config.settings.test'
+      DJANGO_SETTINGS_MODULE: config.settings.test
 
     steps:
       - name: Install system dependencies

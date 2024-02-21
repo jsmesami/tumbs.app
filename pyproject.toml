@@ -40,6 +40,7 @@ dev = [
     "django-debug-toolbar",         # https://github.com/jazzband/django-debug-toolbar
 ]
 test = [
+    "psycopg[binary]",              # https://github.com/psycopg/psycopg
     "black",                        # https://github.com/psf/black
     "isort",                        # https://github.com/pycqa/isort/
     "pytest",                       # https://github.com/pytest-dev/pytest
