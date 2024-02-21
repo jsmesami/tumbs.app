@@ -46,12 +46,15 @@ dill==0.3.8
     # via pylint
 django==5.0.2
     # via
+    #   django-extensions
     #   django-ninja
     #   django-redis
     #   tumbs.app (pyproject.toml)
 django-coverage-plugin==3.1.0
     # via tumbs.app (pyproject.toml)
 django-environ==0.11.2
+    # via tumbs.app (pyproject.toml)
+django-extensions==3.2.3
     # via tumbs.app (pyproject.toml)
 django-ninja==1.1.0
     # via tumbs.app (pyproject.toml)

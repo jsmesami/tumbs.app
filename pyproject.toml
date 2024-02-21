@@ -23,6 +23,7 @@ dependencies = [
 
     "django",                       # https://www.djangoproject.com/
     "django-environ",               # https://github.com/joke2k/django-environ
+    "django-extensions",            # https://github.com/django-extensions/django-extensions
     "django-ninja",                 # https://github.com/vitalik/django-ninja
     "django-ordered-model",         # https://github.com/django-ordered-model/django-ordered-model
     "django-redis",                 # https://github.com/jazzband/django-redis
@@ -36,7 +37,6 @@ dev = [
     "pip-tools",                    # https://github.com/jazzband/pip-tools
     "psycopg[binary]",              # https://github.com/psycopg/psycopg
     "Werkzeug[watchdog]",           # https://github.com/pallets/werkzeug
-    "django-extensions",            # https://github.com/django-extensions/django-extensions
     "django-debug-toolbar",         # https://github.com/jazzband/django-debug-toolbar
 ]
 test = [
