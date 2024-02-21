@@ -2,6 +2,8 @@
 
 Create your artistic portfolio in minutes
 
+![CI](https://github.com/jsmesami/tumbs.app/actions/workflows/ci.yml/badge.svg)
+
 ## Development
 
 ### Prerequisites
