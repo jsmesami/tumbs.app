@@ -3,7 +3,8 @@ from django.db.models import Prefetch
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 
-from tumbs.websites.models import Image, Page
+from tumbs.websites.models.image import Image
+from tumbs.websites.models.page import Page
 
 
 class ValidWebsiteQuerySet(models.QuerySet):
