@@ -34,7 +34,7 @@ click==8.1.7
     #   djlint
 colorama==0.4.6
     # via djlint
-coverage==7.4.1
+coverage==7.4.2
     # via
     #   django-coverage-plugin
     #   tumbs.app (pyproject.toml)
@@ -87,7 +87,7 @@ jsbeautifier==1.15.1
     # via
     #   cssbeautifier
     #   djlint
-json5==0.9.14
+json5==0.9.17
     # via djlint
 kinde-python-sdk==1.2.2
     # via tumbs.app (pyproject.toml)

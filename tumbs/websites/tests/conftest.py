@@ -1,3 +1,4 @@
+# pylint: disable=W0621, R0801
 import random
 import string
 from io import BytesIO
@@ -82,7 +83,7 @@ def new_website(random_string):
 
 @pytest.fixture
 @pytest.mark.django_db
-def new_image(random_string, small_image_jpg):
+def new_image():
     return lambda website: Image.objects.create(
         website=website,
         file=ContentFile(SMALL_IMAGE_DATA_JPG, name="test.jpg"),
@@ -91,5 +92,5 @@ def new_image(random_string, small_image_jpg):
 
 @pytest.fixture
 @pytest.mark.django_db
-def new_page(random_string):
+def new_page():
     return lambda website: Page.objects.create(website=website)
