@@ -1,4 +1,6 @@
 # pylint: disable=R0801
+from operator import itemgetter
+
 import pytest
 from django.urls import reverse
 
@@ -51,7 +53,7 @@ def test_create_read_list(authorized_client, truncate_table):
         content_type="application/json",
     )
     assert response.status_code == 200
-    assert response.json() == dst
+    assert sorted(response.json(), key=itemgetter("id")) == dst
 
 
 @pytest.mark.django_db(transaction=False)
