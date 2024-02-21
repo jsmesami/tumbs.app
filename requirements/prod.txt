@@ -56,7 +56,7 @@ django-storages==1.14.2
     # via tumbs.app (pyproject.toml)
 django-webpack-loader==3.0.1
     # via tumbs.app (pyproject.toml)
-frozendict==2.3.10
+frozendict==2.4.0
     # via kinde-python-sdk
 gevent==24.2.1
     # via gunicorn

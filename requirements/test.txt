@@ -67,7 +67,7 @@ editorconfig==0.12.4
     # via
     #   cssbeautifier
     #   jsbeautifier
-frozendict==2.3.10
+frozendict==2.4.0
     # via kinde-python-sdk
 hiredis==2.3.2
     # via tumbs.app (pyproject.toml)
