@@ -174,7 +174,7 @@ typing-extensions==4.8.0
     #   psycopg
     #   pydantic
     #   pydantic-core
-urllib3==2.0.7
+urllib3==2.2.1
     # via
     #   kinde-python-sdk
     #   requests
