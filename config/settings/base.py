@@ -250,14 +250,6 @@ WEBPACK_LOADER = {
     }
 }
 
-# Kinde configuration
-# ------------------------------------------------------------------------------
-KINDE_ISSUER_URL = env("KINDE_ISSUER_URL")
-KINDE_CALLBACK_URL = env("KINDE_CALLBACK_URL")
-KINDE_CLIENT_ID = env("KINDE_CLIENT_ID")
-KINDE_CLIENT_SECRET = env("KINDE_CLIENT_SECRET")
-
-
 # CMS configuration
 # ------------------------------------------------------------------------------
 CMS_IMAGE_ALLOWED_MAX_SIZE = 20 * 1024 * 1024

@@ -14,7 +14,7 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
-    # My stuff
+    # App stuff
     path("accounts/", include("tumbs.accounts.urls", namespace="accounts")),
     path("websites/", include("tumbs.websites.urls", namespace="websites")),
     path("api/", api.urls),

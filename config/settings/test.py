@@ -33,6 +33,13 @@ MEDIA_URL = "http://media.testserver"
 # ------------------------------------------------------------------------------
 WEBPACK_LOADER["DEFAULT"]["LOADER_CLASS"] = "webpack_loader.loader.FakeWebpackLoader"  # noqa: F405
 
-# My stuff
+# Kinde configuration
+# ------------------------------------------------------------------------------
+KINDE_ISSUER_URL = None
+KINDE_CALLBACK_URL = None
+KINDE_CLIENT_ID = None
+KINDE_CLIENT_SECRET = None
+
+# CMS configuration
 # ------------------------------------------------------------------------------
 CMS_IMAGE_ALLOWED_MAX_SIZE = 700

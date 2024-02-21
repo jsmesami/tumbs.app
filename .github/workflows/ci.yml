@@ -20,6 +20,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
 
+    env:
+      DJANGO_SETTINGS_MODULE: 'config.settings.test'
+
     steps:
       - name: Checkout Code Repository
         uses: actions/checkout@v4
@@ -63,6 +66,7 @@ jobs:
     env:
       # postgres://user:password@host:port/database
       DATABASE_URL: 'postgres://postgres:postgres@localhost:5432/postgres'
+      DJANGO_SETTINGS_MODULE: 'config.settings.test'
 
     steps:
       - name: Install system dependencies

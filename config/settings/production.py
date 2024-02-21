@@ -179,3 +179,10 @@ sentry_sdk.init(
     environment=env("SENTRY_ENVIRONMENT", default="production"),
     traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.0),
 )
+
+# Kinde configuration
+# ------------------------------------------------------------------------------
+KINDE_ISSUER_URL = env("KINDE_ISSUER_URL")
+KINDE_CALLBACK_URL = env("KINDE_CALLBACK_URL")
+KINDE_CLIENT_ID = env("KINDE_CLIENT_ID")
+KINDE_CLIENT_SECRET = env("KINDE_CLIENT_SECRET")
