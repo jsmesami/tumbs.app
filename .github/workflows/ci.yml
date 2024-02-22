@@ -69,7 +69,7 @@ jobs:
       DJANGO_SETTINGS_MODULE: config.settings.test
 
     steps:
-      - name: Install system dependencies
+      - name: Install System Dependencies
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: libmagic1

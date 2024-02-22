@@ -1,12 +1,12 @@
 import React from "react";
-import { createRoot } from 'react-dom/client';
+import { createRoot } from "react-dom/client";
 import App from "./cms/components/App";
 
-const container= document.getElementById("cms");
+const container = document.getElementById("cms");
 const root = createRoot(container);
 
 root.render(
-    <React.StrictMode>
-        <App {...JSON.parse(container.dataset.init)}/>
-    </React.StrictMode>,
+  <React.StrictMode>
+    <App {...JSON.parse(container.dataset.init)} />
+  </React.StrictMode>
 );

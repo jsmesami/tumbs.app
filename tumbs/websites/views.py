@@ -10,7 +10,7 @@ from tumbs.websites.models import Image, Page, Website
 def prepare_page(page: Page):
     return {
         "id": page.id,
-        "url": page.title,
+        "title": page.title,
         "description": page.description,
         "content": page.content,
     }
