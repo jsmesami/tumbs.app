@@ -12,7 +12,7 @@ argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 asgiref==3.7.2
     # via django
-astroid==3.0.3
+astroid==3.1.0
     # via pylint
 authlib==1.2.1
     # via kinde-python-sdk
@@ -34,11 +34,11 @@ click==8.1.7
     #   djlint
 colorama==0.4.6
     # via djlint
-coverage==7.4.2
+coverage==7.4.3
     # via
     #   django-coverage-plugin
     #   tumbs.app (pyproject.toml)
-cryptography==42.0.4
+cryptography==42.0.5
     # via authlib
 cssbeautifier==1.15.1
     # via djlint
@@ -121,13 +121,13 @@ psycopg-binary==3.1.18
     # via psycopg
 pycparser==2.21
     # via cffi
-pydantic==2.6.1
+pydantic==2.6.2
     # via django-ninja
-pydantic-core==2.16.2
+pydantic-core==2.16.3
     # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk
-pylint==3.0.3
+pylint==3.1.0
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -135,7 +135,7 @@ pylint-django==2.5.5
     # via tumbs.app (pyproject.toml)
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pytest==8.0.1
+pytest==8.0.2
     # via
     #   pytest-django
     #   pytest-sugar

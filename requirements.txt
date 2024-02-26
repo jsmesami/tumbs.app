@@ -24,7 +24,7 @@ cffi==1.16.0
     #   cryptography
 charset-normalizer==3.3.2
     # via requests
-cryptography==42.0.4
+cryptography==42.0.5
     # via authlib
 django==5.0.2
     # via
@@ -56,9 +56,9 @@ pillow==10.2.0
     # via tumbs.app (pyproject.toml)
 pycparser==2.21
     # via cffi
-pydantic==2.6.1
+pydantic==2.6.2
     # via django-ninja
-pydantic-core==2.16.2
+pydantic-core==2.16.3
     # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk

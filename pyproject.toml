@@ -15,11 +15,12 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
-    "Pillow",                       # https://github.com/python-pillow/Pillow
     "argon2-cffi",                  # https://github.com/hynek/argon2_cffi
-    "whitenoise",                   # https://github.com/evansd/whitenoise
-    "redis",                        # https://github.com/redis/redis-py
     "hiredis",                      # https://github.com/redis/hiredis-py
+    "Pillow",                       # https://github.com/python-pillow/Pillow
+    "python-magic",                 # https://github.com/ahupp/python-magic
+    "redis",                        # https://github.com/redis/redis-py
+    "whitenoise",                   # https://github.com/evansd/whitenoise
 
     "django",                       # https://www.djangoproject.com/
     "django-environ",               # https://github.com/joke2k/django-environ
@@ -28,36 +29,36 @@ dependencies = [
     "django-ordered-model",         # https://github.com/django-ordered-model/django-ordered-model
     "django-redis",                 # https://github.com/jazzband/django-redis
     "django-webpack-loader",        # https://github.com/django-webpack/django-webpack-loader
+
     "kinde-python-sdk",             # https://kinde.com/
-    "python-magic",                 # https://github.com/ahupp/python-magic
 ]
 
 [project.optional-dependencies]
 dev = [
+    "django-debug-toolbar",         # https://github.com/jazzband/django-debug-toolbar
     "pip-tools",                    # https://github.com/jazzband/pip-tools
     "psycopg[binary]",              # https://github.com/psycopg/psycopg
     "Werkzeug[watchdog]",           # https://github.com/pallets/werkzeug
-    "django-debug-toolbar",         # https://github.com/jazzband/django-debug-toolbar
 ]
 test = [
-    "psycopg[binary]",              # https://github.com/psycopg/psycopg
-    "black",                        # https://github.com/psf/black
-    "isort",                        # https://github.com/pycqa/isort/
-    "pytest",                       # https://github.com/pytest-dev/pytest
-    "pytest-sugar",                 # https://github.com/Frozenball/pytest-sugar
-    "pytest-django",                # https://github.com/pytest-dev/pytest-django
     "coverage",                     # https://github.com/nedbat/coveragepy
+    "black",                        # https://github.com/psf/black
     "django-coverage-plugin",       # https://github.com/nedbat/django_coverage_plugin
     "djlint",                       # https://github.com/Riverside-Healthcare/djLint
+    "isort",                        # https://github.com/pycqa/isort/
+    "psycopg[binary]",              # https://github.com/psycopg/psycopg
     "pylint-django",                # https://github.com/PyCQA/pylint-django
+    "pytest",                       # https://github.com/pytest-dev/pytest
+    "pytest-django",                # https://github.com/pytest-dev/pytest-django
+    "pytest-sugar",                 # https://github.com/Frozenball/pytest-sugar
 ]
 prod = [
+    "django-anymail[amazon-ses]",   # https://github.com/anymail/django-anymail
+    "django-storages[s3]",          # https://github.com/jschneier/django-storages
     "gunicorn",                     # https://github.com/benoitc/gunicorn
     "gunicorn[gevent]",
     "psycopg[c]",                   # https://github.com/psycopg/psycopg
     "sentry-sdk",                   # https://github.com/getsentry/sentry-python
-    "django-storages[s3]",          # https://github.com/jschneier/django-storages
-    "django-anymail[amazon-ses]",   # https://github.com/anymail/django-anymail
 ]
 
 [project.urls]
