@@ -4,6 +4,7 @@ from django.forms import Textarea
 from django.utils.html import format_html
 from django.utils.text import Truncator
 from django.utils.translation import gettext_lazy as _
+from ipware import get_client_ip
 from ordered_model.admin import OrderedInlineModelAdminMixin, OrderedModelAdmin
 
 from tumbs.websites.models import Image, Page, Website
@@ -86,3 +87,8 @@ class ImageAdmin(NoDeleteMixin, admin.ModelAdmin):
     @admin.display(description=_("caption"))
     def _short_caption(self, obj):
         return Truncator(obj.caption).chars(50)
+
+    def save_model(self, request, obj, form, change):
+        ip, _trusted_route = get_client_ip(request)
+        obj.meta = (obj.meta or {}) | {"IP": ip}
+        super().save_model(request, obj, form, change)

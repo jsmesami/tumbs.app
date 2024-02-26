@@ -16,12 +16,15 @@ TESTS_DIR = "tumbs/websites/tests"
 with open(settings.BASE_DIR / TESTS_DIR / "data/small_image.jpg", "rb") as image_file:
     SMALL_IMAGE_DATA_JPG = image_file.read()
 
-
 with open(settings.BASE_DIR / TESTS_DIR / "data/larger_image.jpg", "rb") as image_file:
     LARGER_IMAGE_DATA_JPG = image_file.read()
 
 with open(settings.BASE_DIR / TESTS_DIR / "data/small_image.png", "rb") as image_file:
     SMALL_IMAGE_DATA_PNG = image_file.read()
+
+EXIF_IMAGE_GPS = settings.BASE_DIR / TESTS_DIR / "data/exif_gps.jpg"
+
+EXIF_IMAGE_CORRUPTED = settings.BASE_DIR / TESTS_DIR / "data/exif_corrupted.jpg"
 
 
 @pytest.fixture
@@ -37,14 +40,6 @@ def set_default_language(settings):
 @pytest.fixture(autouse=True)
 def set_media_root(settings):
     settings.MEDIA_ROOT = settings.BASE_DIR / TESTS_DIR / "media"
-
-
-@pytest.fixture
-def authorized_client(client):
-    session = client.session
-    session["customer"] = {"id": 1}
-    session.save()
-    return client
 
 
 @pytest.fixture

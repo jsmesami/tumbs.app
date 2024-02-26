@@ -25,6 +25,7 @@ dependencies = [
     "django",                       # https://www.djangoproject.com/
     "django-environ",               # https://github.com/joke2k/django-environ
     "django-extensions",            # https://github.com/django-extensions/django-extensions
+    "django-ipware",                # https://github.com/un33k/django-ipware
     "django-ninja",                 # https://github.com/vitalik/django-ninja
     "django-ordered-model",         # https://github.com/django-ordered-model/django-ordered-model
     "django-redis",                 # https://github.com/jazzband/django-redis

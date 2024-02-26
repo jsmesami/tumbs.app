@@ -23,6 +23,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="website",
             name="deleted",
-            field=models.BooleanField(db_index=True, default=False, verbose_name=""),
+            field=models.BooleanField(db_index=True, default=False, verbose_name="deleted"),
         ),
     ]

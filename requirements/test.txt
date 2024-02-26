@@ -56,6 +56,8 @@ django-environ==0.11.2
     # via tumbs.app (pyproject.toml)
 django-extensions==3.2.3
     # via tumbs.app (pyproject.toml)
+django-ipware==6.0.4
+    # via tumbs.app (pyproject.toml)
 django-ninja==1.1.0
     # via tumbs.app (pyproject.toml)
 django-ordered-model==3.7.4
@@ -146,6 +148,8 @@ pytest-sugar==1.0.0
     # via tumbs.app (pyproject.toml)
 python-dateutil==2.8.2
     # via kinde-python-sdk
+python-ipware==2.0.1
+    # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
 pyyaml==6.0.1

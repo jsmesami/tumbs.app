@@ -8,6 +8,9 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
+from PIL import Image as RawImage
+
+from tumbs.websites.utils import exif
 
 
 def image_upload_path(instance, filename):
@@ -20,6 +23,7 @@ def image_upload_path(instance, filename):
 def file_size_validator(value):
     max_size = settings.CMS_IMAGE_ALLOWED_MAX_SIZE
     max_size_mib = max_size / 1024 / 1024
+
     if value.size > max_size:
         raise ValidationError(f"File too large. Size should not exceed {max_size_mib:.2f} MiB.")
 
@@ -47,9 +51,20 @@ class Image(TimeStampedModel):
     )
     alt = models.TextField(_("alt text"), blank=True)
     caption = models.TextField(_("caption"), blank=True)
+    meta = models.JSONField(_("meta"), blank=True, null=True)
     deleted = models.BooleanField(_("deleted"), default=False, db_index=True)
 
     objects = models.Manager.from_queryset(ValidImageQuerySet)()
+
+    def clean(self):
+        with RawImage.open(self.file.file) as image:
+            exif_data = image.getexif()
+            self.meta = (self.meta or {}) | {
+                "gps": exif.get_location(exif_data),
+                "created": exif.get_creation_time(exif_data),
+            }
+
+        super().clean()
 
     def __str__(self):
         return self.file.name
