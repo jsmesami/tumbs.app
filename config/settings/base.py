@@ -49,7 +49,7 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 DATABASES = {
     "default": env.db(
         "DATABASE_URL",
-        default="postgres://local@localhost/tumbs",
+        default="postgres://tumbs@localhost/tumbs",
     ),
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
