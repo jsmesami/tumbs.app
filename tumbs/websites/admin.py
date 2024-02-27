@@ -36,12 +36,13 @@ class ImageAdminInline(NoDeleteMixin, admin.TabularInline):
     extra = 0
     formfield_overrides = {
         models.TextField: {"widget": SMALL_TEXTAREA},
+        models.JSONField: {"widget": SMALL_TEXTAREA},
     }
 
 
 @admin.register(Website)
 class WebsiteAdmin(NoDeleteMixin, admin.ModelAdmin):
-    list_display = ("id", "customer_id", "name", "_pages_count", "_images_count", "deleted")
+    list_display = ("_id", "customer_id", "name", "_pages_count", "_images_count", "deleted")
     list_filter = ("deleted",)
     search_fields = ("name", "customer_id")
     inlines = (PageAdminInline, ImageAdminInline)
@@ -49,6 +50,10 @@ class WebsiteAdmin(NoDeleteMixin, admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.annotate(pages_count=models.Count("pages"), images_count=models.Count("images"))
+
+    @admin.display(description=_("ID"), ordering="id")
+    def _id(self, obj):
+        return repr(obj)
 
     @admin.display(description=_("pages count"), ordering="pages_count")
     def _pages_count(self, obj):
@@ -61,9 +66,13 @@ class WebsiteAdmin(NoDeleteMixin, admin.ModelAdmin):
 
 @admin.register(Page)
 class PageAdmin(OrderedInlineModelAdminMixin, NoDeleteMixin, OrderedModelAdmin):
-    list_display = ("id", "website", "title", "_short_description", "order", "move_up_down_links", "deleted")
+    list_display = ("_id", "website", "title", "_short_description", "order", "move_up_down_links", "deleted")
     list_filter = ("deleted",)
     search_fields = ("title", "website__name")
+
+    @admin.display(description=_("ID"), ordering="id")
+    def _id(self, obj):
+        return repr(obj)
 
     @admin.display(description=_("description"))
     def _short_description(self, obj):
@@ -72,9 +81,13 @@ class PageAdmin(OrderedInlineModelAdminMixin, NoDeleteMixin, OrderedModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(NoDeleteMixin, admin.ModelAdmin):
-    list_display = ("id", "website", "_image_tag", "_short_alt", "_short_caption", "deleted")
+    list_display = ("_id", "website", "_image_tag", "_short_alt", "_short_caption", "deleted")
     list_filter = ("deleted",)
     search_fields = ("alt", "caption", "website__name")
+
+    @admin.display(description=_("ID"), ordering="id")
+    def _id(self, obj):
+        return repr(obj)
 
     @admin.display(description=_("image"))
     def _image_tag(self, obj):
