@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-20 17:11+0000\n"
+"POT-Creation-Date: 2024-02-28 13:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,13 +48,19 @@ msgstr ""
 msgid "Portfolio website generator"
 msgstr ""
 
+msgid "Customer"
+msgstr ""
+
 msgid "Sign out"
+msgstr ""
+
+msgid "Sign up"
 msgstr ""
 
 msgid "Sign in"
 msgstr ""
 
-msgid "Sign up"
+msgid "Close"
 msgstr ""
 
 msgid "Personal info"
@@ -78,6 +84,9 @@ msgstr ""
 msgid "email address"
 msgstr ""
 
+msgid "ID"
+msgstr ""
+
 msgid "pages count"
 msgstr ""
 
@@ -99,19 +108,25 @@ msgstr ""
 msgid "Websites"
 msgstr ""
 
-msgid "customer ID"
+msgid "website"
 msgstr ""
 
-msgid "name"
+msgid "image file"
+msgstr ""
+
+msgid "alt text"
+msgstr ""
+
+msgid "meta"
 msgstr ""
 
 msgid "deleted"
 msgstr ""
 
-msgid "website"
+msgid "images"
 msgstr ""
 
-msgid "websites"
+msgid "name"
 msgstr ""
 
 msgid "content"
@@ -123,11 +138,8 @@ msgstr ""
 msgid "pages"
 msgstr ""
 
-msgid "image file"
+msgid "customer ID"
 msgstr ""
 
-msgid "alt text"
-msgstr ""
-
-msgid "images"
+msgid "websites"
 msgstr ""

@@ -1,9 +1,10 @@
 import React from "react";
+import * as R from "ramda";
 
-const App = (init) => {
-  console.log(init.websites);
+const App = ({ init }) => {
+  const currentWebsite = R.head(init.websites);
 
-  return <h1>Websites CMS</h1>;
+  return <h1>{currentWebsite.name}</h1>;
 };
 
 export default App;

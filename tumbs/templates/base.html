@@ -1,40 +1,54 @@
-{% load static i18n %}
-{% load render_bundle from webpack_loader %}
+{% extends "_base.html" %}
+{% load i18n %}
 
-<!DOCTYPE html>
-{% get_current_language as LANGUAGE_CODE %}
-<html lang="{{ LANGUAGE_CODE }}">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>{% block title %}Tumbs.app{% endblock title %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="{% trans 'Portfolio website generator' %}" />
-    <meta name="author" content="Ondřej Nejedlý" />
-    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
+{% block body %}
+  <nav class="navbar bg-dark navbar-dark navbar-expand">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url "home" %}">Tumbs.app</a>
+      <ul class="navbar-nav">
+        {% if customer %}
 
-    {% block css %}
-    {% render_bundle 'project' 'css' %}
-    {% endblock css %}
-  
-    {% block javascript %}
-    {% render_bundle 'vendors' 'js' attrs='defer' %}
-    {% render_bundle 'project' 'js' attrs='defer' %}
-    {% endblock javascript %}
-</head>
-<body>
-  <div class="container">
+          <li class="nav-item">
+            <a class="nav-link {% block websites_active %}{% endblock %}"
+               href="{% url "websites:websites_cms" %}">{% trans "My Websites" %}</a>
+          </li>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="button" id="customerDropdownButton"
+               data-bs-toggle="dropdown" aria-label="{% trans 'Customer' %}" aria-expanded="false">
+              <i class="bi-person-circle"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="customerDropdownButton">
+              <li><h6 class="dropdown-header">{{ customer.email }}</h6></li>
+              <li><a class="dropdown-item" href="{% url "accounts:sign_out" %}">{% trans "Sign out" %}</a></li>
+            </ul>
+          </li>
+          
+        {% else %}
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url "accounts:sign_up" %}">{% trans "Sign up" %}</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-light" href="{% url "accounts:sign_in" %}">{% trans "Sign in" %}</a>
+          </li>
+          
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
     {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-          {{ message }}
-          <button type="button"
-                  class="btn-close"
-                  data-bs-dismiss="alert"
-                  aria-label="Close">
-          </button>
-        </div>
-      {% endfor %}
+      <div class="alerts">
+        {% for message in messages %}
+          <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% trans 'Close' %}">
+            </button>
+          </div>
+        {% endfor %}
+      </div>
     {% endif %}
 
     {% block content %}
@@ -53,5 +67,4 @@
     </script>
     {% endcomment %}
   {% endblock inline_javascript %}
-</body>
-</html>
+{% endblock body %}

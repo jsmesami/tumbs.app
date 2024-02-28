@@ -7,6 +7,6 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <App {...JSON.parse(container.dataset.init)} />
-  </React.StrictMode>
+    <App init={JSON.parse(container.dataset.init)} />
+  </React.StrictMode>,
 );
