@@ -5,6 +5,7 @@ from django_extensions.db.models import TimeStampedModel
 
 from tumbs.websites.models.image import Image
 from tumbs.websites.models.page import Page
+from tumbs.websites.utils.languages import LANG_CODES
 
 
 class ValidWebsiteQuerySet(models.QuerySet):
@@ -16,8 +17,19 @@ class ValidWebsiteQuerySet(models.QuerySet):
 
 
 class Website(TimeStampedModel):
+    class Regions(models.TextChoices):
+        EUROPE = "eu", _("Europe")
+        NORTH_AMERICA = "na", _("North America")
+        SOUTH_AMERICA = "sa", _("South America")
+        ASIA_PACIFIC = "ap", _("Asia Pacific")
+        MIDDLE_EAST = "me", _("Middle East")
+        OCEANIA = "oc", _("Oceania")
+        AFRICA = "af", _("Africa")
+
     customer_id = models.CharField(_("customer ID"), max_length=255, db_index=True)
     name = models.CharField(_("name"), max_length=255)
+    language = models.CharField(_("region"), max_length=2, choices=LANG_CODES, default="en")
+    region = models.CharField(_("region"), max_length=3, choices=Regions, default=Regions.EUROPE)
     deleted = models.BooleanField(_("deleted"), default=False, db_index=True)
 
     objects = models.Manager.from_queryset(ValidWebsiteQuerySet)()

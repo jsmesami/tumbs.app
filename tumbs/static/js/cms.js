@@ -1,12 +1,15 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import store from "./cms/store";
 import App from "./cms/components/App";
 
-const container = document.getElementById("cms");
-const root = createRoot(container);
+const root = createRoot(document.getElementById("cms"));
 
 root.render(
   <React.StrictMode>
-    <App init={JSON.parse(container.dataset.init)} />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
 );

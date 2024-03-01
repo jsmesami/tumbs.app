@@ -7,11 +7,11 @@
   {% render_bundle 'cms' 'js' attrs='defer' %}
 {% endblock javascript %}
 
-{% block websites_active %}active disabled{% endblock %}
+{% block websites_active %}active disabled{% endblock websites_active %}
 
 {% block content %}
   <div id="cms" data-init='{{ js_init }}'>
-    <div class="d-flex justify-content-center align-items-end" style="height: 5rem">
+    <div class="d-flex justify-content-center align-items-end my-4">
       <div class="spinner-grow text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>

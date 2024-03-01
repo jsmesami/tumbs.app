@@ -1,10 +1,23 @@
 import React from "react";
-import * as R from "ramda";
+import { useDispatch } from "react-redux";
+import { actions as newWebsiteActions } from "../slices/newWebsiteModal";
+import Button from "react-bootstrap/Button";
+import NewWebsiteModal from "./NewWebsiteModal";
+import SelectWebsite from "./SelectWebsite";
 
-const App = ({ init }) => {
-  const currentWebsite = R.head(init.websites);
+const App = () => {
+  const dispatch = useDispatch();
+  const showNewWebsiteModal = () => dispatch(newWebsiteActions.showModal());
 
-  return <h1>{currentWebsite.name}</h1>;
+  return (
+    <>
+      <SelectWebsite />
+      <Button variant="primary" onClick={showNewWebsiteModal}>
+        Create site
+      </Button>
+      <NewWebsiteModal />
+    </>
+  );
 };
 
 export default App;

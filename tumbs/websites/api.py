@@ -89,6 +89,7 @@ def list_websites(request):
 
 @router.post("/websites", response={201: WebsiteSchema})
 def create_website(request, payload: WebsiteCreateUpdateSchema):
+    # TODO: return sensible error when creation fails  # pylint: disable=W0511
     return 201, Website.objects.create(customer_id=ensure_customer_id(request), **payload.dict())
 
 

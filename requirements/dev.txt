@@ -12,9 +12,11 @@ argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 asgiref==3.7.2
     # via django
+async-timeout==4.0.3
+    # via redis
 authlib==1.2.1
     # via kinde-python-sdk
-build==1.0.3
+build==1.1.1
     # via pip-tools
 certifi==2022.12.7
     # via
@@ -59,7 +61,7 @@ hiredis==2.3.2
     # via tumbs.app (pyproject.toml)
 idna==3.6
     # via requests
-kinde-python-sdk==1.2.2
+kinde-python-sdk==1.2.3
     # via tumbs.app (pyproject.toml)
 markupsafe==2.1.5
     # via werkzeug
@@ -75,7 +77,7 @@ psycopg-binary==3.1.18
     # via psycopg
 pycparser==2.21
     # via cffi
-pydantic==2.6.2
+pydantic==2.6.3
     # via django-ninja
 pydantic-core==2.16.3
     # via pydantic
@@ -87,11 +89,11 @@ pyproject-hooks==1.0.0
     #   pip-tools
 python-dateutil==2.8.2
     # via kinde-python-sdk
-python-ipware==2.0.1
+python-ipware==2.0.2
     # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
-redis==5.0.1
+redis==5.0.2
     # via
     #   django-redis
     #   tumbs.app (pyproject.toml)

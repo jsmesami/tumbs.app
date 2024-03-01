@@ -1,13 +1,16 @@
+import itertools
 import json
 
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
 
+from config.urls import api
 from tumbs.accounts.decorators import auth_required
 from tumbs.websites.models import Image, Page, Website
+from tumbs.websites.utils.languages import LANG_CODES
 
 
-def prepare_page(page: Page):
+def _prepare_page(page: Page):
     return {
         "id": page.id,
         "title": page.title,
@@ -16,7 +19,7 @@ def prepare_page(page: Page):
     }
 
 
-def prepare_image(image: Image):
+def _prepare_image(image: Image):
     return {
         "id": image.id,
         "url": image.file.url,
@@ -25,22 +28,52 @@ def prepare_image(image: Image):
     }
 
 
-def prepare_website(website: Website):
+def _prepare_website(website: Website):
     return {
         "id": website.id,
         "customer_id": website.customer_id,
         "name": website.name,
-        "pages": [prepare_page(page) for page in website.pages.all()],
-        "images": [prepare_image(image) for image in website.images.all()],
+        "pages": [_prepare_page(page) for page in website.pages.all()],
+        "images": [_prepare_image(image) for image in website.images.all()],
+    }
+
+
+def _get_api_endpoints(server_uri):
+    """
+    Reads API schema to find available CMS endpoints. Returns them in a dictionary {name: {uri: method:}}
+    """
+    paths = api.get_openapi_schema().get_paths()
+
+    def flatten_paths(uri, params):
+        yield from ((v["operationId"], uri, method) for method, v in params.items())
+
+    return {
+        name.removeprefix("tumbs_websites_api_"): {
+            "uri": server_uri + uri,
+            "method": method.upper(),
+        }
+        for name, uri, method in itertools.chain(
+            *(flatten_paths(p, params) for p, params in paths.items() if p.startswith("/api/cms/"))
+        )
     }
 
 
 @require_GET
 @auth_required
 def websites_cms(request):
+    server_uri = request.build_absolute_uri("/")[:-1]
     customer_id = request.session["customer"]["id"]
     websites = [
-        prepare_website(ws) for ws in Website.objects.valid().filter(customer_id=customer_id).order_by("created")
+        _prepare_website(ws) for ws in Website.objects.valid().filter(customer_id=customer_id).order_by("created")
     ]
-    context = {"js_init": json.dumps({"websites": websites})}
+    context = {
+        "js_init": json.dumps(
+            {
+                "websites": websites,
+                "endpoints": _get_api_endpoints(server_uri),
+                "languages": LANG_CODES,
+                "regions": [(code, str(name)) for code, name in Website.Regions.choices],
+            }
+        )
+    }
     return render(request, "pages/websites.html", context)
