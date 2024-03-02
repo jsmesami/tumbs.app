@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { actions as alertsActions } from "../slices/alerts";
 import { actions as newWebsiteActions } from "../slices/newWebsiteModal";
 import { actions as websitesActions } from "../slices/websites";
 import Button from "react-bootstrap/Button";
@@ -30,12 +31,11 @@ const NewWebsiteModal = () => {
         setStatus("success");
         dispatch(websitesActions.addWebsite(data));
         dispatch(websitesActions.setCurrent(data.id));
-        // TODO: display success notification
         hideModal();
       },
-      onError: (_err) => {
+      onError: (err) => {
         setStatus("error");
-        // TODO: display error notification
+        dispatch(alertsActions.addAlert({ content: `Could not add website: ${err}`, severity: "danger" }));
         // TODO: notify Sentry
         hideModal();
       },

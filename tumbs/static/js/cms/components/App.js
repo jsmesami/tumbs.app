@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { actions as newWebsiteActions } from "../slices/newWebsiteModal";
 import Button from "react-bootstrap/Button";
+import Alerts from "./Alerts";
 import NewWebsiteModal from "./NewWebsiteModal";
 import SelectWebsite from "./SelectWebsite";
 
@@ -11,6 +12,7 @@ const App = () => {
 
   return (
     <>
+      <Alerts />
       <SelectWebsite />
       <Button variant="primary" onClick={showNewWebsiteModal}>
         Create site

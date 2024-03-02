@@ -12,7 +12,7 @@
             <a class="nav-link {% block websites_active %}{% endblock websites_active %}"
                href="{% url "websites:websites_cms" %}">{% trans "My Site" %}</a>
           </li>
-          
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" id="customerDropdownButton"
                data-bs-toggle="dropdown" aria-label="{% trans 'Customer' %}" aria-expanded="false">
@@ -23,16 +23,16 @@
               <li><a class="dropdown-item" href="{% url "accounts:sign_out" %}">{% trans "Sign out" %}</a></li>
             </ul>
           </li>
-          
+
         {% else %}
-          
+
           <li class="nav-item">
             <a class="nav-link" href="{% url "accounts:sign_up" %}">{% trans "Sign up" %}</a>
           </li>
           <li class="nav-item">
             <a class="btn btn-outline-light" href="{% url "accounts:sign_in" %}">{% trans "Sign in" %}</a>
           </li>
-          
+
         {% endif %}
       </ul>
     </div>
@@ -40,8 +40,8 @@
 
   <div class="container-fluid">
     {% if messages %}
-      <div class="alerts">
-        {% for message in messages %}
+      <div class="alerts row container-md">
+        {% for message in messages reversed %}
           <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% trans 'Close' %}">

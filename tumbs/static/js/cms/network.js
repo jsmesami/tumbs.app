@@ -11,9 +11,7 @@ export const request = (endpoint, { payload = {}, onSuccess = null, onError = nu
   })
     .then((response) => {
       if (response.ok) return response.json();
-
-      onError && onError(`${response.status} ${response.statusText}`);
-      return Promise.reject(response);
+      return Promise.reject(response.statusText);
     })
     .then((data) => {
       onSuccess && onSuccess(data);
