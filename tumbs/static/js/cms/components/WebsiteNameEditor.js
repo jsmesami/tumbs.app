@@ -53,11 +53,7 @@ const WebsiteNameEditor = ({ website }) => {
               <i className="bi-x-circle" />
             </Button>
             <Button variant="outline-secondary" type="submit" disabled={isLoading}>
-              {isLoading ? (
-                <i className="spinner-grow spinner-grow-sm" />
-              ) : (
-                <i className="bi-check-circle text-success" />
-              )}
+              {isLoading ? <i className="spinner-grow spinner-grow-sm" /> : <i className="bi-floppy text-success" />}
             </Button>
           </InputGroup>
         </Form>

@@ -98,15 +98,22 @@ const UpdateWebsiteModal = ({ website }) => {
 
         <Modal.Footer className="d-flex justify-content-between">
           <Button variant="secondary" disabled={isLoading} onClick={hideModal}>
-            Cancel
+            <>
+              <i className="bi-x-circle" aria-hidden="true" />
+              &ensp;<span>Cancel</span>
+            </>
           </Button>
           <Button type="submit" disabled={isLoading}>
             {isLoading ? (
               <>
-                <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" /> Saving
+                <i className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
+                &ensp;<span>Saving</span>
               </>
             ) : (
-              "Save changes"
+              <>
+                <i className="bi-floppy" aria-hidden="true" />
+                &ensp;<span>Save changes</span>
+              </>
             )}
           </Button>
         </Modal.Footer>
