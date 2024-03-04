@@ -14,7 +14,7 @@ const SelectWebsite = () => {
 
   if (currentWebsite) {
     return (
-      <Form.Group className="mt-3 mb-3">
+      <Form.Group>
         <Form.Label>Sites</Form.Label>
         <Form.Select
           name="website"

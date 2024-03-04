@@ -1,23 +1,27 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { actions as newWebsiteActions } from "../slices/newWebsiteModal";
-import Button from "react-bootstrap/Button";
+import { useSelector } from "react-redux";
 import Alerts from "./Alerts";
-import NewWebsiteModal from "./NewWebsiteModal";
-import SelectWebsite from "./SelectWebsite";
+import CreateWebsiteButton from "./CreateWebsiteButton";
+import UpdateWebsiteModal from "./UpdateWebsiteModal";
+import WebsiteTopBar from "./WebsiteTopBar";
 
 const App = () => {
-  const dispatch = useDispatch();
-  const showNewWebsiteModal = () => dispatch(newWebsiteActions.showModal());
+  const currentWebsite = useSelector((state) => state.websites.current);
 
   return (
     <>
       <Alerts />
-      <SelectWebsite />
-      <Button variant="primary" onClick={showNewWebsiteModal}>
-        Create site
-      </Button>
-      <NewWebsiteModal />
+      {currentWebsite ? (
+        <>
+          <WebsiteTopBar website={currentWebsite} />
+          <UpdateWebsiteModal website={currentWebsite} />
+        </>
+      ) : (
+        <div className="d-flex flex-column justify-content-center align-items-center my-4">
+          <h4>No site yet</h4>
+          <CreateWebsiteButton />
+        </div>
+      )}
     </>
   );
 };

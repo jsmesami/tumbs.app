@@ -4,3 +4,34 @@
   position: fixed;
   bottom: 0;
 }
+
+.button-icon {
+  background: $body-bg;
+  border-color: $body-bg;
+  &:hover {
+    background: $light;
+    border-color: $light-border-subtle;
+  }
+  &:active {
+    border-color: $dark-border-subtle;
+  }
+}
+
+.website-top-bar {
+  padding: 1rem 0;
+  display: flex;
+  gap: 1rem;
+
+  h3 {
+    margin: 0;
+    padding: .2rem;
+  }
+
+  .button-start-editing {
+    margin-left: -1rem;
+  }
+
+  .button-settings {
+    margin-left: auto;
+  }
+}

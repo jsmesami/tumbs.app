@@ -1,40 +1,22 @@
 import itertools
 import json
 
+from django.forms import model_to_dict
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
 
 from config.urls import api
 from tumbs.accounts.decorators import auth_required
-from tumbs.websites.models import Image, Page, Website
+from tumbs.websites.models import Website
 from tumbs.websites.utils.languages import LANG_CODES
 
 
-def _prepare_page(page: Page):
-    return {
-        "id": page.id,
-        "title": page.title,
-        "description": page.description,
-        "content": page.content,
-    }
-
-
-def _prepare_image(image: Image):
-    return {
-        "id": image.id,
-        "url": image.file.url,
-        "alt": image.alt,
-        "caption": image.caption,
-    }
-
-
-def _prepare_website(website: Website):
-    return {
-        "id": website.id,
-        "customer_id": website.customer_id,
-        "name": website.name,
-        "pages": [_prepare_page(page) for page in website.pages.all()],
-        "images": [_prepare_image(image) for image in website.images.all()],
+def _prepare_website(website):
+    return model_to_dict(website, ["id", "name", "language", "region"]) | {
+        "pages": [
+            model_to_dict(page, fields=["id", "title", "description", "content"]) for page in website.pages.all()
+        ],
+        "images": [model_to_dict(image, exclude=["id", "url", "alt", "caption"]) for image in website.images.all()],
     }
 
 

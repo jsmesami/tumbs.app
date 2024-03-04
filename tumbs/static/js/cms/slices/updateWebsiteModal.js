@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const slice = createSlice({
-  name: "newWebsiteModal",
+  name: "updateWebsiteModal",
   initialState: {
     visible: false,
   },

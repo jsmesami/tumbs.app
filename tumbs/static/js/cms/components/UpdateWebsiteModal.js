@@ -1,53 +1,53 @@
 import React, { useState } from "react";
+import * as R from "ramda";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as alertsActions } from "../slices/alerts";
-import { actions as newWebsiteActions } from "../slices/newWebsiteModal";
+import { actions as updateWebsiteActions } from "../slices/updateWebsiteModal";
 import { actions as websitesActions } from "../slices/websites";
+import { apiRequest } from "../network";
+import { LANGUAGES, REGIONS } from "../store";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { request } from "../network";
-import { LANGUAGES, REGIONS } from "../store";
 
-const NewWebsiteModal = () => {
+const UpdateWebsiteModal = ({ website }) => {
   const dispatch = useDispatch();
-  const modalVisible = useSelector((state) => state.newWebsiteModal.visible);
+  const modalVisible = useSelector((state) => state.updateWebsiteModal.visible);
   const [status, setStatus] = useState("not asked");
   let isLoading = status === "loading";
-  let defaultLanguage = (navigator.language || "en").slice(0, 2);
 
-  const hideModal = () => dispatch(newWebsiteActions.hideModal());
+  const hideModal = () => dispatch(updateWebsiteActions.hideModal());
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     setStatus("loading");
 
-    request("create_website", {
-      payload: {
+    apiRequest("update_website", {
+      payload: R.mergeRight(website, {
         name: e.target.name.value,
         language: e.target.language.value,
         region: e.target.region.value,
-      },
-      onSuccess: (data) => {
+      }),
+      args: { website_id: website.id },
+    })
+      .then((data) => {
         setStatus("success");
-        dispatch(websitesActions.addWebsite(data));
-        dispatch(websitesActions.setCurrent(data.id));
+        dispatch(websitesActions.updateWebsite(data));
         hideModal();
-      },
-      onError: (err) => {
+      })
+      .catch((err) => {
         setStatus("error");
-        dispatch(alertsActions.addAlert({ content: `Could not add website: ${err}`, severity: "danger" }));
+        dispatch(alertsActions.addAlert({ content: `Could not update website: ${err}`, severity: "danger" }));
         // TODO: notify Sentry
         hideModal();
-      },
-    });
-    e.preventDefault();
+      });
   };
 
   return (
     <Modal show={modalVisible} onHide={hideModal} fullscreen="md-down">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Create Site</Modal.Title>
+          <Modal.Title>Edit Site</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -56,9 +56,10 @@ const NewWebsiteModal = () => {
             <Form.Control
               type="text"
               name="name"
+              defaultValue={website.name}
               required
               disabled={isLoading}
-              placeholder="New site name"
+              placeholder="Site name"
               autoFocus
               maxLength="255"
             />
@@ -67,7 +68,7 @@ const NewWebsiteModal = () => {
             <Form.Label>Language</Form.Label>
             <Form.Select
               name="language"
-              defaultValue={defaultLanguage}
+              defaultValue={website.language}
               disabled={isLoading}
               aria-label="Available languages"
             >
@@ -80,7 +81,12 @@ const NewWebsiteModal = () => {
           </Form.Group>
           <Form.Group>
             <Form.Label>Region</Form.Label>
-            <Form.Select name="region" defaultValue="eu" disabled={isLoading} aria-label="Available regions">
+            <Form.Select
+              name="region"
+              defaultValue={website.region}
+              disabled={isLoading}
+              aria-label="Available regions"
+            >
               {REGIONS.map(([code, name]) => (
                 <option value={code} key={code}>
                   {name}
@@ -109,4 +115,4 @@ const NewWebsiteModal = () => {
   );
 };
 
-export default NewWebsiteModal;
+export default UpdateWebsiteModal;

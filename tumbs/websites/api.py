@@ -52,12 +52,16 @@ class ImageUpdateSchema(Schema):
 class WebsiteSchema(Schema):
     id: int
     name: str
+    language: str
+    region: str
     pages: List[PageSchema]
     images: List[ImageSchema]
 
 
 class WebsiteCreateUpdateSchema(Schema):
-    name: str = ""
+    name: Optional[str] = None
+    language: Optional[str] = None
+    region: Optional[str] = None
 
 
 def ensure_customer_id(request):
@@ -89,8 +93,13 @@ def list_websites(request):
 
 @router.post("/websites", response={201: WebsiteSchema})
 def create_website(request, payload: WebsiteCreateUpdateSchema):
+    ws = Website(customer_id=ensure_customer_id(request))
+    for attr, value in payload.dict().items():
+        if value is not None:
+            setattr(ws, attr, value)
+    ws.save()
     # TODO: return sensible error when creation fails  # pylint: disable=W0511
-    return 201, Website.objects.create(customer_id=ensure_customer_id(request), **payload.dict())
+    return 201, ws
 
 
 @router.get("/websites/{website_id}", response=WebsiteSchema)
@@ -101,7 +110,9 @@ def read_website(request, website_id: int):
 @router.put("/websites/{website_id}", response=WebsiteSchema)
 def update_website(request, website_id: int, payload: WebsiteCreateUpdateSchema):
     ws = get_object_or_404(Website.objects.valid(), customer_id=ensure_customer_id(request), id=website_id)
-    ws.name = payload.name
+    for attr, value in payload.dict().items():
+        if value is not None:
+            setattr(ws, attr, value)
     ws.save()
     return ws
 

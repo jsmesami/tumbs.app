@@ -28,7 +28,10 @@ def test_unauthorized(client, method, url):
 def test_create_read_list(authorized_client, truncate_table):
     names = ("", "Eenie", "Meenie", "Miney", "Moe", "🫣🤫🤔")
     src = [{"name": n} for n in names]
-    dst = [{"name": n, "id": i, "pages": [], "images": []} for i, n in enumerate(names, start=1)]
+    dst = [
+        {"id": i, "name": n, "language": "en", "region": "eu", "pages": [], "images": []}
+        for i, n in enumerate(names, start=1)
+    ]
 
     truncate_table(Website)
 
@@ -70,6 +73,8 @@ def test_update_delete(authorized_client, truncate_table, new_website):
     assert response.json() == {
         "name": "x.com",
         "id": website.pk,
+        "language": "en",
+        "region": "eu",
         "pages": [],
         "images": [],
     }

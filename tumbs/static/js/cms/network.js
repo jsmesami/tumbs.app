@@ -1,22 +1,30 @@
+import * as R from "ramda";
 import { ENDPOINTS } from "./store";
 
-export const request = (endpoint, { payload = {}, onSuccess = null, onError = null }) => {
+const interpolate = (str, o) => {
+  return str.replace(/{([^{}]*)}/g, function (a, b) {
+    const r = o[b];
+    return typeof r === "string" || typeof r === "number" ? r : a;
+  });
+};
+
+export const apiRequest = (endpoint, { args = {}, payload = {}, init = {} }) => {
   const { uri, method } = ENDPOINTS[endpoint];
-  fetch(uri, {
-    method: method,
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => {
-      if (response.ok) return response.json();
-      return Promise.reject(response.statusText);
-    })
-    .then((data) => {
-      onSuccess && onSuccess(data);
-    })
-    .catch((err) => {
-      onError && onError(err);
-    });
+
+  return fetch(
+    interpolate(uri, args),
+    R.mergeRight(
+      {
+        method: method,
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+      init,
+    ),
+  ).then((response) => {
+    if (response.ok) return response.json();
+    return Promise.reject(response.statusText);
+  });
 };

@@ -11,11 +11,17 @@ export const slice = createSlice({
     current: R.last(initData.websites),
   },
   reducers: {
-    addWebsite: (state, { payload }) => {
-      state.available.push(payload);
+    addWebsite: (state, { payload: ws }) => {
+      state.available.push(ws);
     },
-    setCurrent: (state, { payload }) => {
-      state.current = R.find(R.propEq(payload, "id"))(state.available);
+    updateWebsite: (state, { payload: ws }) => {
+      const idx = R.findIndex(R.propEq(ws.id, "id"))(state.available);
+      if (idx >= 0) state.available[idx] = ws;
+      else state.available.push(ws);
+      state.current = ws;
+    },
+    setCurrent: (state, { payload: id }) => {
+      state.current = R.find(R.propEq(id, "id"))(state.available);
     },
   },
 });

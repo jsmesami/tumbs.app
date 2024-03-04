@@ -13,8 +13,8 @@ export const slice = createSlice({
       const exists = R.find(R.propEq(id, "id"))(state.list);
       if (!exists) state.list.push({ id: id, ...payload });
     },
-    removeAlert: (state, { payload }) => {
-      state.list = R.reject(R.propEq(payload, "id"))(state.list);
+    removeAlert: (state, { payload: id }) => {
+      state.list = R.reject(R.propEq(id, "id"))(state.list);
     },
     removeAll: (state) => {
       state.list = [];
