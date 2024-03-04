@@ -59,7 +59,7 @@ class WebsiteSchema(Schema):
 
 
 class WebsiteCreateUpdateSchema(Schema):
-    name: Optional[str] = None
+    name: str
     language: Optional[str] = None
     region: Optional[str] = None
 

@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Alerts from "./components/Alerts";
 import CreateWebsiteButton from "./components/CreateWebsiteButton";
+import PageEditor from "./components/PageEditor";
 import UpdateWebsiteModal from "./components/UpdateWebsiteModal";
 import WebsiteTopBar from "./components/WebsiteTopBar";
 
@@ -14,6 +15,7 @@ const App = () => {
       {currentWebsite ? (
         <>
           <WebsiteTopBar website={currentWebsite} />
+          <PageEditor website={currentWebsite} />
           <UpdateWebsiteModal website={currentWebsite} />
         </>
       ) : (

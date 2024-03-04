@@ -18,7 +18,6 @@ const CreateWebsiteButton = () => {
       },
     })
       .then((website) => {
-        console.log(website);
         return apiRequest("create_page", {
           payload: {
             website_id: website.id,
