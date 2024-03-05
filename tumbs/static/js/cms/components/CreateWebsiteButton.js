@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { _, interpolate } from "../i18n";
 import { actions as websitesActions } from "../slices/websites";
 import { actions as alertsActions } from "../slices/alerts";
 import { apiRequest } from "../network";
+import { CURRENT_LANGUAGE } from "../store";
 import Button from "react-bootstrap/Button";
 
 const CreateWebsiteButton = () => {
@@ -14,14 +16,15 @@ const CreateWebsiteButton = () => {
     setStatus("loading");
     apiRequest("create_website", {
       payload: {
-        name: "My New Site",
+        name: _("My New Site"),
+        language: CURRENT_LANGUAGE,
       },
     })
       .then((website) => {
         return apiRequest("create_page", {
           payload: {
             website_id: website.id,
-            title: "Homepage",
+            title: _("Homepage"),
           },
         }).then((page) => {
           website.pages = [page];
@@ -32,7 +35,9 @@ const CreateWebsiteButton = () => {
       })
       .catch((err) => {
         setStatus("error");
-        dispatch(alertsActions.addAlert({ content: `Could not create site: ${err}`, severity: "danger" }));
+        dispatch(
+          alertsActions.addAlert({ content: interpolate(_("Could not create site: %s"), err), severity: "danger" }),
+        );
         // TODO: notify Sentry
       });
   };
@@ -45,7 +50,7 @@ const CreateWebsiteButton = () => {
         <span className="bi bi-plus-circle" aria-hidden="true" />
       )}
       &ensp;
-      <span>Create Site</span>
+      <span>{_("Create Site")}</span>
     </Button>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as R from "ramda";
 import { useDispatch } from "react-redux";
+import { _, interpolate } from "../i18n";
 import { actions as websitesActions } from "../slices/websites";
 import { actions as alertsActions } from "../slices/alerts";
 import { apiRequest } from "../network";
@@ -31,7 +32,9 @@ const WebsiteNameEditor = ({ website }) => {
       })
       .catch((err) => {
         setStatus("error");
-        dispatch(alertsActions.addAlert({ content: `Could not update website: ${err}`, severity: "danger" }));
+        dispatch(
+          alertsActions.addAlert({ content: interpolate(_("Could not update site: %s"), err), severity: "danger" }),
+        );
         // TODO: notify Sentry
       });
   };
@@ -46,13 +49,18 @@ const WebsiteNameEditor = ({ website }) => {
               defaultValue={website.name}
               disabled={isLoading}
               autoFocus
-              placeholder="Site name"
-              aria-label="Site name"
+              placeholder={_("Site name")}
+              aria-label={_("Site name")}
             />
-            <Button variant="outline-secondary" disabled={isLoading} onClick={stopEditing}>
+            <Button variant="outline-secondary" disabled={isLoading} onClick={stopEditing} title={_("Cancel")}>
               <i className="bi-x-circle" />
             </Button>
-            <Button variant="outline-secondary" type="submit" disabled={isLoading}>
+            <Button
+              variant="outline-secondary"
+              type="submit"
+              disabled={isLoading}
+              title={isLoading ? _("Saving") : _("Save changes")}
+            >
               {isLoading ? <i className="spinner-grow spinner-grow-sm" /> : <i className="bi-floppy text-success" />}
             </Button>
           </InputGroup>
@@ -60,7 +68,12 @@ const WebsiteNameEditor = ({ website }) => {
       ) : (
         <>
           <h3>{website.name}</h3>
-          <Button variant="light" onClick={startEditing} className="button-icon button-start-editing">
+          <Button
+            variant="light"
+            onClick={startEditing}
+            className="button-icon button-start-editing"
+            title={_("Edit title")}
+          >
             <i className="bi-pencil" />
           </Button>
         </>

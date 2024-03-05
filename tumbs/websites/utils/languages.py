@@ -1,4 +1,4 @@
-LANG_CODES = [
+LANGUAGES = [
     ("ab", "Abkhazian"),
     ("aa", "Afar"),
     ("af", "Afrikaans"),
@@ -183,3 +183,5 @@ LANG_CODES = [
     ("za", "Zhuang, Chuang"),
     ("zu", "Zulu"),
 ]
+
+LANG_CODES = [code for code, _name in LANGUAGES]

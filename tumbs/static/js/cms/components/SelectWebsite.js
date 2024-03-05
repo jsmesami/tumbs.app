@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { _ } from "../i18n";
 import { actions as websitesActions } from "../slices/websites";
 import Form from "react-bootstrap/Form";
 
@@ -19,7 +20,7 @@ const SelectWebsite = () => {
         <Form.Select
           name="website"
           value={currentWebsite.id}
-          aria-label="Available websites"
+          aria-label={_("Available websites")}
           onChange={setCurrentWebsite}
         >
           {websites.map(({ id, name }) => (
@@ -31,7 +32,7 @@ const SelectWebsite = () => {
       </Form.Group>
     );
   } else {
-    return <h3 className="mt-3 mb-3">No sites yet</h3>;
+    return <h3 className="mt-3 mb-3">{_("No sites yet")}</h3>;
   }
 };
 

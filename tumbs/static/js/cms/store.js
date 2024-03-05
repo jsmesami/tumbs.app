@@ -7,6 +7,7 @@ const container = document.getElementById("cms");
 const initData = JSON.parse(container.dataset.init);
 
 export const LANGUAGES = initData.languages;
+export const CURRENT_LANGUAGE = initData.currentLanguage;
 export const REGIONS = initData.regions;
 export const ENDPOINTS = initData.endpoints;
 

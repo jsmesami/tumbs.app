@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as R from "ramda";
 import { useSelector, useDispatch } from "react-redux";
+import { _, interpolate } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
 import { actions as updateWebsiteActions } from "../slices/updateWebsiteModal";
 import { actions as websitesActions } from "../slices/websites";
@@ -37,7 +38,9 @@ const UpdateWebsiteModal = ({ website }) => {
       })
       .catch((err) => {
         setStatus("error");
-        dispatch(alertsActions.addAlert({ content: `Could not update website: ${err}`, severity: "danger" }));
+        dispatch(
+          alertsActions.addAlert({ content: interpolate(_("Could not update site: %s"), err), severity: "danger" }),
+        );
         // TODO: notify Sentry
         hideModal();
       });
@@ -52,40 +55,40 @@ const UpdateWebsiteModal = ({ website }) => {
 
         <Modal.Body>
           <Form.Group className="mb-3">
-            <Form.Label>Site name</Form.Label>
+            <Form.Label>{_("Site name")}</Form.Label>
             <Form.Control
               type="text"
               name="name"
               defaultValue={website.name}
               required
               disabled={isLoading}
-              placeholder="Site name"
+              placeholder={_("Site name")}
               autoFocus
               maxLength="255"
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Language</Form.Label>
+            <Form.Label>{_("Language")}</Form.Label>
             <Form.Select
               name="language"
               defaultValue={website.language}
               disabled={isLoading}
-              aria-label="Available languages"
+              aria-label={_("Available languages")}
             >
               {LANGUAGES.map(([code, name]) => (
                 <option value={code} key={code}>
-                  {name}
+                  {`${code.toUpperCase()} (${name})`}
                 </option>
               ))}
             </Form.Select>
           </Form.Group>
           <Form.Group>
-            <Form.Label>Region</Form.Label>
+            <Form.Label>{_("Region")}</Form.Label>
             <Form.Select
               name="region"
               defaultValue={website.region}
               disabled={isLoading}
-              aria-label="Available regions"
+              aria-label={_("Available regions")}
             >
               {REGIONS.map(([code, name]) => (
                 <option value={code} key={code}>
@@ -100,19 +103,19 @@ const UpdateWebsiteModal = ({ website }) => {
           <Button variant="secondary" disabled={isLoading} onClick={hideModal}>
             <>
               <i className="bi-x-circle" aria-hidden="true" />
-              &ensp;<span>Cancel</span>
+              &ensp;<span>{_("Cancel")}</span>
             </>
           </Button>
           <Button type="submit" disabled={isLoading}>
             {isLoading ? (
               <>
                 <i className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
-                &ensp;<span>Saving</span>
+                &ensp;<span>{_("Saving")}</span>
               </>
             ) : (
               <>
                 <i className="bi-floppy" aria-hidden="true" />
-                &ensp;<span>Save changes</span>
+                &ensp;<span>{_("Save changes")}</span>
               </>
             )}
           </Button>

@@ -5,6 +5,7 @@ Base settings to build other settings files upon.
 from pathlib import Path
 
 import environ
+from django.utils.translation import gettext_noop
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # tumbs/
@@ -30,7 +31,7 @@ LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/dev/ref/settings/#languages
 
 LANGUAGES = [
-    ("en", "English"),
+    ("en", gettext_noop("English")),
     ("cs", "Čeština"),
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id

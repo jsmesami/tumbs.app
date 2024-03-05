@@ -3,12 +3,13 @@ import json
 
 from django.forms import model_to_dict
 from django.shortcuts import render
+from django.utils.translation import get_language
 from django.views.decorators.http import require_GET
 
 from config.urls import api
 from tumbs.accounts.decorators import auth_required
 from tumbs.websites.models import Website
-from tumbs.websites.utils.languages import LANG_CODES
+from tumbs.websites.utils.languages import LANG_CODES, LANGUAGES
 
 
 def _prepare_website(website):
@@ -45,6 +46,7 @@ def _get_api_endpoints(server_uri):
 def websites_cms(request):
     server_uri = request.build_absolute_uri("/")[:-1]
     customer_id = request.session["customer"]["id"]
+    current_language = get_language()
     websites = [
         _prepare_website(ws) for ws in Website.objects.valid().filter(customer_id=customer_id).order_by("created")
     ]
@@ -53,7 +55,8 @@ def websites_cms(request):
             {
                 "websites": websites,
                 "endpoints": _get_api_endpoints(server_uri),
-                "languages": LANG_CODES,
+                "languages": LANGUAGES,
+                "currentLanguage": current_language if current_language in LANG_CODES else "en",
                 "regions": [(code, str(name)) for code, name in Website.Regions.choices],
             }
         )

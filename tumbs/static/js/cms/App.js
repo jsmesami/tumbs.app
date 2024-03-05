@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { _ } from "./i18n";
 import Alerts from "./components/Alerts";
 import CreateWebsiteButton from "./components/CreateWebsiteButton";
 import PageEditor from "./components/PageEditor";
@@ -20,7 +21,7 @@ const App = () => {
         </>
       ) : (
         <div className="d-flex flex-column justify-content-center align-items-center my-4">
-          <h4>No site yet</h4>
+          <h4>{_("No site yet")}</h4>
           <CreateWebsiteButton />
         </div>
       )}

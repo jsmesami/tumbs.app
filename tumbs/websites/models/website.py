@@ -5,7 +5,7 @@ from django_extensions.db.models import TimeStampedModel
 
 from tumbs.websites.models.image import Image
 from tumbs.websites.models.page import Page
-from tumbs.websites.utils.languages import LANG_CODES
+from tumbs.websites.utils.languages import LANGUAGES
 
 
 class ValidWebsiteQuerySet(models.QuerySet):
@@ -28,7 +28,7 @@ class Website(TimeStampedModel):
 
     customer_id = models.CharField(_("customer ID"), max_length=255, db_index=True)
     name = models.CharField(_("name"), max_length=255)
-    language = models.CharField(_("region"), max_length=2, choices=LANG_CODES, default="en")
+    language = models.CharField(_("region"), max_length=2, choices=LANGUAGES, default="en")
     region = models.CharField(_("region"), max_length=3, choices=Regions, default=Regions.EUROPE)
     deleted = models.BooleanField(_("deleted"), default=False, db_index=True)
 

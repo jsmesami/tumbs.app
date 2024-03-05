@@ -5,6 +5,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
+from django.views.i18n import JavaScriptCatalog, set_language
 from ninja import NinjaAPI
 
 api = NinjaAPI(version="1.0.0")
@@ -14,6 +15,8 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
+    path("jsi18n/cms/", JavaScriptCatalog.as_view(packages=["tumbs.websites"]), name="cms-i18n"),
+    path("set-lang/", set_language, name="set_language"),
     # App stuff
     path("accounts/", include("tumbs.accounts.urls", namespace="accounts")),
     path("websites/", include("tumbs.websites.urls", namespace="websites")),

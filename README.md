@@ -47,6 +47,11 @@ To run the tests, check your test coverage, and generate an HTML coverage report
     pip install -r requirements/test.txt
     npm run test
 
+### Prepare locale messages
+
+    npm run msg:make     # Collect strings for translation
+    npm run msg:compile  # Compile translation catalogues
+
 ### Email Server
 
 In development, it is often nice to be able to see emails that are being sent from your application. 

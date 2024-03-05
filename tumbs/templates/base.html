@@ -6,13 +6,34 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="{% url "home" %}">Tumbs.app</a>
       <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="button" id="languageDropdownButton"
+               data-bs-toggle="dropdown" aria-label="{% trans 'Language' %}" aria-expanded="false">
+              {% trans 'Language' %}
+            </a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownButton">
+              <form action="{% url 'set_language' %}" method="post" class="form-inline">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.path }}" />
+                {% get_current_language as CURRENT_LANGUAGE %}
+                {% get_available_languages as AVAILABLE_LANGUAGES %}
+                {% for lang_code, lang_name in AVAILABLE_LANGUAGES %}
+                  <button class="dropdown-item" type="submit" name="language" value="{{ lang_code }}"
+                    {% if lang_code == CURRENT_LANGUAGE %} disabled {% endif %}>
+                    {{ lang_name }}
+                  </button>
+                {% endfor %}
+              </form>
+            </div>
+          </li>
+
         {% if customer %}
 
           <li class="nav-item">
             <a class="nav-link {% block websites_active %}{% endblock websites_active %}"
                href="{% url "websites:websites_cms" %}">{% trans "My Site" %}</a>
           </li>
-
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" id="customerDropdownButton"
                data-bs-toggle="dropdown" aria-label="{% trans 'Customer' %}" aria-expanded="false">
@@ -20,8 +41,9 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="customerDropdownButton">
               <li><h6 class="dropdown-header">{{ customer.email }}</h6></li>
-              <li><a class="dropdown-item" href="{% url "accounts:sign_out" %}"><i
-                class="bi-box-arrow-right"></i>&ensp;{% trans "Sign out" %}</a></li>
+              <li><a class="dropdown-item" href="{% url "accounts:sign_out" %}">
+                <i class="bi-box-arrow-right"></i>&ensp;{% trans "Sign out" %}</a>
+              </li>
             </ul>
           </li>
 
@@ -30,6 +52,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url "accounts:sign_up" %}">{% trans "Sign up" %}</a>
           </li>
+          &ensp;
           <li class="nav-item">
             <a class="btn btn-outline-light" href="{% url "accounts:sign_in" %}">{% trans "Sign in" %}</a>
           </li>

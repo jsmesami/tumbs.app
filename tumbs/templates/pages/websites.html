@@ -3,6 +3,7 @@
 {% load render_bundle from webpack_loader %}
 
 {% block javascript %}
+  <script src="{% url 'cms-i18n' %}"></script>
   {{ block.super }}
   {% render_bundle 'cms' 'js' attrs='defer' %}
 {% endblock javascript %}
