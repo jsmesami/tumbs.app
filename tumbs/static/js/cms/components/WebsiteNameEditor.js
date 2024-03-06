@@ -11,6 +11,10 @@ const WebsiteNameEditor = ({ website }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState("initial");
   let isLoading = status === "loading";
+  let isEditing = ["editing", "loading"].includes(status);
+
+  const startEditing = () => setStatus("editing");
+  const stopEditing = () => setStatus("initial");
 
   const handleSubmit = ({ value, previousValue }) => {
     if (value === previousValue) return;
@@ -38,13 +42,19 @@ const WebsiteNameEditor = ({ website }) => {
   };
 
   return (
-    <EditText
-      defaultValue={website.name}
-      name="name"
-      onSave={handleSubmit}
-      readonly={isLoading}
-      className="h3 content-editable"
-    />
+    <div className="inline-editable">
+      <EditText
+        defaultValue={website.name}
+        name="name"
+        onSave={handleSubmit}
+        readonly={isLoading}
+        className="h3 inline-editable"
+        inputClassName="inline-editable-input"
+        onEditMode={startEditing}
+        onBlur={stopEditing}
+      />
+      {isEditing ? null : <i className="edit-icon bi-pencil-square" />}
+    </div>
   );
 };
 

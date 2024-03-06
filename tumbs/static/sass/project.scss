@@ -20,14 +20,36 @@
 .website-top-bar {
   padding: 1rem 0;
   display: flex;
+  align-items: center;
   gap: 1rem;
 
-  h3 {
+  .h3 {
     margin: 0;
-    padding: .2rem;
   }
 
   .button-settings {
     margin-left: auto;
+  }
+}
+
+.inline-editable {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &-input {
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    padding: .2rem;
+    outline: none;
+  }
+
+  .edit-icon {
+    position: absolute;
+    right: -1rem;
+    top: -0.4rem;
+    &::before {
+      font-size: .8rem;
+    }
   }
 }
