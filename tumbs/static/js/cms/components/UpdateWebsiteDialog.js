@@ -8,8 +8,8 @@ import { actions as websitesActions } from "../slices/websites";
 import { apiRequest } from "../network";
 import { LANGUAGES, REGIONS } from "../store";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import Offcanvas from "react-bootstrap/Offcanvas";
 
 const UpdateWebsiteDialog = ({ website }) => {
   const dispatch = useDispatch();
@@ -47,13 +47,13 @@ const UpdateWebsiteDialog = ({ website }) => {
   };
 
   return (
-    <Modal show={visible} onHide={hide} fullscreen="md-down">
+    <Offcanvas show={visible} onHide={hide} placement="end">
       <Form onSubmit={handleSubmit}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Site</Modal.Title>
-        </Modal.Header>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Edit Site</Offcanvas.Title>
+        </Offcanvas.Header>
 
-        <Modal.Body>
+        <Offcanvas.Body>
           <Form.Group className="mb-3">
             <Form.Label>{_("Site name")}</Form.Label>
             <Form.Control
@@ -97,31 +97,31 @@ const UpdateWebsiteDialog = ({ website }) => {
               ))}
             </Form.Select>
           </Form.Group>
-        </Modal.Body>
 
-        <Modal.Footer className="d-flex justify-content-between">
-          <Button variant="secondary" disabled={isLoading} onClick={hide}>
-            <>
-              <i className="bi-x-circle" aria-hidden="true" />
-              &ensp;<span>{_("Cancel")}</span>
-            </>
-          </Button>
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? (
+          <div className="d-flex justify-content-between mt-5">
+            <Button variant="secondary" disabled={isLoading} onClick={hide}>
               <>
-                <i className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
-                &ensp;<span>{_("Saving")}</span>
+                <i className="bi-x-circle" aria-hidden="true" />
+                &ensp;<span>{_("Close")}</span>
               </>
-            ) : (
-              <>
-                <i className="bi-floppy" aria-hidden="true" />
-                &ensp;<span>{_("Save changes")}</span>
-              </>
-            )}
-          </Button>
-        </Modal.Footer>
+            </Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <i className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
+                  &ensp;<span>{_("Saving")}</span>
+                </>
+              ) : (
+                <>
+                  <i className="bi-floppy" aria-hidden="true" />
+                  &ensp;<span>{_("Save changes")}</span>
+                </>
+              )}
+            </Button>
+          </div>
+        </Offcanvas.Body>
       </Form>
-    </Modal>
+    </Offcanvas>
   );
 };
 
