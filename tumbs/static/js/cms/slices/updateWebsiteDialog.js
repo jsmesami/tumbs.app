@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const slice = createSlice({
-  name: "updateWebsiteModal",
+  name: "updateWebsiteDialog",
   initialState: {
     visible: false,
   },
   reducers: {
-    showModal: (state) => {
+    show: (state) => {
       state.visible = true;
     },
-    hideModal: (state) => {
+    hide: (state) => {
       state.visible = false;
     },
   },

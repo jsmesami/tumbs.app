@@ -3,7 +3,7 @@ import * as R from "ramda";
 import { useSelector, useDispatch } from "react-redux";
 import { _, interpolate } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
-import { actions as updateWebsiteActions } from "../slices/updateWebsiteModal";
+import { actions as updateWebsiteActions } from "../slices/updateWebsiteDialog";
 import { actions as websitesActions } from "../slices/websites";
 import { apiRequest } from "../network";
 import { LANGUAGES, REGIONS } from "../store";
@@ -11,13 +11,13 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
-const UpdateWebsiteModal = ({ website }) => {
+const UpdateWebsiteDialog = ({ website }) => {
   const dispatch = useDispatch();
-  const modalVisible = useSelector((state) => state.updateWebsiteModal.visible);
+  const visible = useSelector((state) => state.updateWebsiteDialog.visible);
   const [status, setStatus] = useState("not asked");
   let isLoading = status === "loading";
 
-  const hideModal = () => dispatch(updateWebsiteActions.hideModal());
+  const hide = () => dispatch(updateWebsiteActions.hide());
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ const UpdateWebsiteModal = ({ website }) => {
       .then((data) => {
         setStatus("success");
         dispatch(websitesActions.updateWebsite(data));
-        hideModal();
+        hide();
       })
       .catch((err) => {
         setStatus("error");
@@ -42,12 +42,12 @@ const UpdateWebsiteModal = ({ website }) => {
           alertsActions.addAlert({ content: interpolate(_("Could not update site: %s"), err), severity: "danger" }),
         );
         // TODO: notify Sentry
-        hideModal();
+        hide();
       });
   };
 
   return (
-    <Modal show={modalVisible} onHide={hideModal} fullscreen="md-down">
+    <Modal show={visible} onHide={hide} fullscreen="md-down">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Site</Modal.Title>
@@ -77,7 +77,7 @@ const UpdateWebsiteModal = ({ website }) => {
             >
               {LANGUAGES.map(([code, name]) => (
                 <option value={code} key={code}>
-                  {`${code.toUpperCase()} (${name})`}
+                  {name}
                 </option>
               ))}
             </Form.Select>
@@ -100,7 +100,7 @@ const UpdateWebsiteModal = ({ website }) => {
         </Modal.Body>
 
         <Modal.Footer className="d-flex justify-content-between">
-          <Button variant="secondary" disabled={isLoading} onClick={hideModal}>
+          <Button variant="secondary" disabled={isLoading} onClick={hide}>
             <>
               <i className="bi-x-circle" aria-hidden="true" />
               &ensp;<span>{_("Cancel")}</span>
@@ -125,4 +125,4 @@ const UpdateWebsiteModal = ({ website }) => {
   );
 };
 
-export default UpdateWebsiteModal;
+export default UpdateWebsiteDialog;

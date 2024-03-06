@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { reducer as alertsReducer } from "./slices/alerts";
-import { reducer as updateWebsiteReducer } from "./slices/updateWebsiteModal";
+import { reducer as updateWebsiteReducer } from "./slices/updateWebsiteDialog";
 import { reducer as websitesReducer } from "./slices/websites";
 
 const container = document.getElementById("cms");
@@ -14,7 +14,7 @@ export const ENDPOINTS = initData.endpoints;
 export default configureStore({
   reducer: {
     alerts: alertsReducer,
-    updateWebsiteModal: updateWebsiteReducer,
+    updateWebsiteDialog: updateWebsiteReducer,
     websites: websitesReducer,
   },
 });
