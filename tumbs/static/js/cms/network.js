@@ -1,18 +1,11 @@
 import * as R from "ramda";
 import { ENDPOINTS } from "./store";
 
-const interpolate = (str, o) => {
-  return str.replace(/{([^{}]*)}/g, function (a, b) {
-    const r = o[b];
-    return typeof r === "string" || typeof r === "number" ? r : a;
-  });
-};
-
 export const apiRequest = (endpoint, { args = {}, payload = {}, init = {} }) => {
   const { uri, method } = ENDPOINTS[endpoint];
 
   return fetch(
-    interpolate(uri, args),
+    uri.supplant(args),
     R.mergeRight(
       {
         method: method,

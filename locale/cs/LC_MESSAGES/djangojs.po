@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-04 23:22+0000\n"
+"POT-Creation-Date: 2024-03-06 13:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,8 +28,7 @@ msgstr ""
 msgid "Homepage"
 msgstr "Domů"
 
-#, javascript-format
-msgid "Could not create site: %s"
+msgid "Could not update site: {err}"
 msgstr ""
 
 msgid "Create Site"
@@ -38,8 +37,7 @@ msgstr ""
 msgid "Available websites"
 msgstr ""
 
-#, javascript-format
-msgid "Could not update site: %s"
+msgid "No sites yet"
 msgstr ""
 
 msgid "Site name"
@@ -57,16 +55,13 @@ msgstr ""
 msgid "Available regions"
 msgstr ""
 
-msgid "Cancel"
+msgid "Close"
 msgstr ""
 
 msgid "Saving"
 msgstr ""
 
 msgid "Save changes"
-msgstr ""
-
-msgid "Edit title"
 msgstr ""
 
 msgid "Preview"

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { _, interpolate } from "../i18n";
+import { _ } from "../i18n";
 import { actions as websitesActions } from "../slices/websites";
 import { actions as alertsActions } from "../slices/alerts";
 import { apiRequest } from "../network";
@@ -36,7 +36,10 @@ const CreateWebsiteButton = () => {
       .catch((err) => {
         setStatus("error");
         dispatch(
-          alertsActions.addAlert({ content: interpolate(_("Could not create site: %s"), err), severity: "danger" }),
+          alertsActions.addAlert({
+            content: _('Could not create site: "{err}"').supplant({ err: String(err) }),
+            severity: "danger",
+          }),
         );
         // TODO: notify Sentry
       });

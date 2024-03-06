@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as R from "ramda";
 import { useSelector, useDispatch } from "react-redux";
-import { _, interpolate } from "../i18n";
+import { _ } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
 import { actions as updateWebsiteActions } from "../slices/updateWebsiteDialog";
 import { actions as websitesActions } from "../slices/websites";
@@ -39,7 +39,10 @@ const UpdateWebsiteDialog = ({ website }) => {
       .catch((err) => {
         setStatus("error");
         dispatch(
-          alertsActions.addAlert({ content: interpolate(_("Could not update site: %s"), err), severity: "danger" }),
+          alertsActions.addAlert({
+            content: _('Could not update site: "{err}"').supplant({ err: String(err) }),
+            severity: "danger",
+          }),
         );
         // TODO: notify Sentry
         hide();
@@ -47,10 +50,10 @@ const UpdateWebsiteDialog = ({ website }) => {
   };
 
   return (
-    <Offcanvas show={visible} onHide={hide} placement="end">
+    <Offcanvas show={visible} onHide={hide} placement="end" aria-labelledby="updateWebsiteLabel">
       <Form onSubmit={handleSubmit}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Edit Site</Offcanvas.Title>
+          <Offcanvas.Title id="updateWebsiteLabel">Edit Site</Offcanvas.Title>
         </Offcanvas.Header>
 
         <Offcanvas.Body>
