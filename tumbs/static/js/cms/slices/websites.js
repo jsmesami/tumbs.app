@@ -7,7 +7,7 @@ export const slice = createSlice({
   name: "websites",
   initialState: {
     available: initData.websites,
-    current: initData.websites.slice(-1),
+    currentId: undefined,
   },
   reducers: {
     addWebsite: (state, { payload: ws }) => {
@@ -20,16 +20,22 @@ export const slice = createSlice({
       } else {
         state.available.push(ws);
       }
-      state.current = ws;
+      state.currentId = ws.id;
     },
     setCurrent: (state, { payload: id }) => {
       const current = state.available.find((item) => item.id === id);
       if (current) {
-        state.current = current;
+        state.currentId = current.id;
       }
+    },
+  },
+  selectors: {
+    selectCurrent: (state) => {
+      return state.available.find((item) => item.id === state.currentId);
     },
   },
 });
 
 export const actions = slice.actions;
 export const reducer = slice.reducer;
+export const selectors = slice.selectors;

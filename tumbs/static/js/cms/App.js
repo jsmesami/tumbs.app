@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { selectors as websitesSelectors } from "./slices/websites";
 import { _ } from "./i18n";
 import Alerts from "./components/Alerts";
 import CreateWebsiteButton from "./components/CreateWebsiteButton";
@@ -8,7 +9,7 @@ import UpdateWebsiteDialog from "./components/UpdateWebsiteDialog";
 import WebsiteTopBar from "./components/WebsiteTopBar";
 
 const App = () => {
-  const currentWebsite = useSelector((state) => state.websites.current);
+  const currentWebsite = useSelector(websitesSelectors.selectCurrent);
 
   return (
     <>

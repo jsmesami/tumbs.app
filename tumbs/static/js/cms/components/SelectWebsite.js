@@ -4,22 +4,21 @@ import { _ } from "../i18n";
 import { actions as websitesActions } from "../slices/websites";
 import Form from "react-bootstrap/Form";
 
-const SelectWebsite = () => {
+const SelectWebsite = ({ website }) => {
   const dispatch = useDispatch();
   const websites = useSelector((state) => state.websites.available);
-  const currentWebsite = useSelector((state) => state.websites.current);
 
   const setCurrentWebsite = (e) => {
     dispatch(websitesActions.setCurrent(parseInt(e.target.value)));
   };
 
-  if (currentWebsite) {
+  if (website) {
     return (
       <Form.Group>
         <Form.Label>Sites</Form.Label>
         <Form.Select
           name="website"
-          value={currentWebsite.id}
+          value={website.id}
           aria-label={_("Available websites")}
           onChange={setCurrentWebsite}
         >
