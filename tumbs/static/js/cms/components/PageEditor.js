@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectors as stashSelectors } from "../slices/stash";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
-const PageEditor = ({ website: { pages } }) => {
+const PageEditor = ({ website }) => {
+  const pages = useSelector(stashSelectors.selectPages);
   const [active, setActive] = useState(0);
 
   useEffect(() => {

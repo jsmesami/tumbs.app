@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const slice = createSlice({
+const slice = createSlice({
   name: "updateWebsiteDialog",
   initialState: {
     visible: false,

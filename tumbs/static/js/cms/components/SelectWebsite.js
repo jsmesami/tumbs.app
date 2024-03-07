@@ -1,15 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { actions as stashActions } from "../slices/stash";
 import { _ } from "../i18n";
-import { actions as websitesActions } from "../slices/websites";
 import Form from "react-bootstrap/Form";
 
 const SelectWebsite = ({ website }) => {
   const dispatch = useDispatch();
-  const websites = useSelector((state) => state.websites.available);
+  const websites = useSelector((state) => state.stash.websites);
 
   const setCurrentWebsite = (e) => {
-    dispatch(websitesActions.setCurrent(parseInt(e.target.value)));
+    dispatch(stashActions.setCurrentWebsite(parseInt(e.target.value)));
   };
 
   if (website) {

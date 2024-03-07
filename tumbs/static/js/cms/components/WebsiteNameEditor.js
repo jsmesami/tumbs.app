@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
-import { actions as websitesActions } from "../slices/websites";
 import { actions as alertsActions } from "../slices/alerts";
+import { actions as stashActions } from "../slices/stash";
 import { apiRequest } from "../network";
 import { EditText } from "react-edit-text";
 
@@ -26,7 +26,7 @@ const WebsiteNameEditor = ({ website }) => {
     })
       .then((data) => {
         setStatus("success");
-        dispatch(websitesActions.updateWebsite(data));
+        dispatch(stashActions.updateWebsite(data));
       })
       .catch((err) => {
         setStatus("error");

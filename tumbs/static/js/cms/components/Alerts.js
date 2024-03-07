@@ -5,7 +5,7 @@ import Alert from "react-bootstrap/Alert";
 
 const Alerts = () => {
   const dispatch = useDispatch();
-  const alerts = useSelector((state) => state.alerts.list);
+  const alerts = useSelector((state) => state.alerts.all);
   const dismiss = (id) => dispatch(alertsActions.removeAlert(id));
 
   return (

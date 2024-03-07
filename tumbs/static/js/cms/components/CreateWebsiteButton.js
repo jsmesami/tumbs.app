@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
-import { actions as websitesActions } from "../slices/websites";
 import { actions as alertsActions } from "../slices/alerts";
+import { actions as stashActions } from "../slices/stash";
 import { apiRequest } from "../network";
 import { INIT } from "../config";
 import Button from "react-bootstrap/Button";
@@ -29,8 +29,8 @@ const CreateWebsiteButton = () => {
         }).then((page) => {
           website.pages = [page];
           setStatus("success");
-          dispatch(websitesActions.addWebsite(website));
-          dispatch(websitesActions.setCurrent(website.id));
+          dispatch(stashActions.addWebsite(website));
+          dispatch(stashActions.setCurrentWebsite(website.id));
         });
       })
       .catch((err) => {

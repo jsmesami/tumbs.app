@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
+import { actions as stashActions } from "../slices/stash";
 import { actions as updateWebsiteActions } from "../slices/updateWebsiteDialog";
-import { actions as websitesActions } from "../slices/websites";
 import { apiRequest } from "../network";
 import { INIT } from "../config";
 import Button from "react-bootstrap/Button";
@@ -35,7 +35,7 @@ const UpdateWebsiteDialog = ({ website }) => {
     })
       .then((data) => {
         setStatus("success");
-        dispatch(websitesActions.updateWebsite(data));
+        dispatch(stashActions.updateWebsite(data));
         hide();
       })
       .catch((err) => {
