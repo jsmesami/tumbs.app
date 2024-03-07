@@ -69,7 +69,7 @@ packaging==23.2
     # via build
 pillow==10.2.0
     # via tumbs.app (pyproject.toml)
-pip-tools==7.4.0
+pip-tools==7.4.1
     # via tumbs.app (pyproject.toml)
 psycopg==3.1.18
     # via tumbs.app (pyproject.toml)

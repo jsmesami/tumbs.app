@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as R from "ramda";
 import { useSelector, useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
@@ -24,11 +23,14 @@ const UpdateWebsiteDialog = ({ website }) => {
     setStatus("loading");
 
     apiRequest("update_website", {
-      payload: R.mergeRight(website, {
-        name: e.target.name.value,
-        language: e.target.language.value,
-        region: e.target.region.value,
-      }),
+      payload: {
+        ...website,
+        ...{
+          name: e.target.name.value,
+          language: e.target.language.value,
+          region: e.target.region.value,
+        },
+      },
       args: { website_id: website.id },
     })
       .then((data) => {

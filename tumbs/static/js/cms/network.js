@@ -1,23 +1,21 @@
-import * as R from "ramda";
 import { ENDPOINTS } from "./store";
 
-export const apiRequest = (endpoint, { args = {}, payload = {}, init = {} }) => {
+export const apiRequest = (endpoint, { args = {}, payload = {}, params = {} }) => {
   const { uri, method } = ENDPOINTS[endpoint];
-
-  return fetch(
-    uri.supplant(args),
-    R.mergeRight(
-      {
-        method: method,
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-      init,
-    ),
-  ).then((response) => {
-    if (response.ok) return response.json();
+  const init = {
+    method: method,
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  return fetch(uri.supplant(args), {
+    ...init,
+    ...params,
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
     return Promise.reject(response.statusText);
   });
 };

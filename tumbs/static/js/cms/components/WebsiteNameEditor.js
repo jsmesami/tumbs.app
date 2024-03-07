@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as R from "ramda";
 import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { actions as websitesActions } from "../slices/websites";
@@ -22,7 +21,7 @@ const WebsiteNameEditor = ({ website }) => {
     setStatus("loading");
 
     apiRequest("update_website", {
-      payload: R.assoc("name", value, website),
+      payload: { ...website, ...{ name: value } },
       args: { website_id: website.id },
     })
       .then((data) => {

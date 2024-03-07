@@ -1,5 +1,4 @@
 import React from "react";
-import * as R from "ramda";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as alertsActions } from "../slices/alerts";
 import Alert from "react-bootstrap/Alert";
@@ -11,7 +10,7 @@ const Alerts = () => {
 
   return (
     <div className="alerts row container-md">
-      {R.reverse(alerts).map(({ id, content, severity }) => (
+      {[...alerts].reverse().map(({ id, content, severity }) => (
         <Alert key={id} variant={severity} dismissible onClose={() => dismiss(id)}>
           {content}
         </Alert>
