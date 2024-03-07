@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
-  name: "updateWebsiteDialog",
+  name: "dialogs",
   initialState: {
-    visible: false,
+    visibleDialogId: null,
   },
   reducers: {
-    show: (state) => {
-      state.visible = true;
+    showDialog: (state, { payload: id }) => {
+      state.visibleDialogId = id;
     },
-    hide: (state) => {
-      state.visible = false;
+    hideDialogs: (state) => {
+      state.visibleDialogId = null;
     },
   },
 });

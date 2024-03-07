@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { reducer as alertsReducer } from "./slices/alerts";
+import { reducer as dialogsReducer } from "./slices/dialogs";
 import { reducer as stashReducer } from "./slices/stash";
-import { reducer as updateWebsiteReducer } from "./slices/updateWebsiteDialog";
 
 export default configureStore({
   reducer: {
     alerts: alertsReducer,
+    dialogs: dialogsReducer,
     stash: stashReducer,
-    updateWebsiteDialog: updateWebsiteReducer,
   },
 });

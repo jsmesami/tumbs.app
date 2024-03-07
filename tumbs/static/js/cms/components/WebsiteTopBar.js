@@ -1,13 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
-import { actions as updateWebsiteActions } from "../slices/updateWebsiteDialog";
+import { actions as dialogsActions } from "../slices/dialogs";
 import WebsiteNameEditor from "./WebsiteNameEditor";
 import Button from "react-bootstrap/Button";
 
 const WebsiteTopBar = ({ website }) => {
   const dispatch = useDispatch();
-  const showUpdateWebsiteDialog = () => dispatch(updateWebsiteActions.show());
+  const showUpdateWebsiteDialog = () => dispatch(dialogsActions.showDialog("updateWebsite"));
 
   return (
     <div className="website-top-bar">

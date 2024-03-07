@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
+import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as stashActions } from "../slices/stash";
-import { actions as updateWebsiteActions } from "../slices/updateWebsiteDialog";
 import { apiRequest } from "../network";
 import { INIT } from "../config";
 import Button from "react-bootstrap/Button";
@@ -12,11 +12,11 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 
 const UpdateWebsiteDialog = ({ website }) => {
   const dispatch = useDispatch();
-  const visible = useSelector((state) => state.updateWebsiteDialog.visible);
+  const visible = useSelector((state) => state.dialogs.visibleDialogId) === "updateWebsite";
   const [status, setStatus] = useState("not asked");
   let isLoading = status === "loading";
 
-  const hide = () => dispatch(updateWebsiteActions.hide());
+  const hide = () => dispatch(dialogsActions.hideDialogs());
 
   const handleSubmit = (e) => {
     e.preventDefault();
