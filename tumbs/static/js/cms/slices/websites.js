@@ -7,7 +7,7 @@ export const slice = createSlice({
   name: "websites",
   initialState: {
     available: initData.websites,
-    currentId: undefined,
+    currentId: initData.websites[initData.websites.length - 1]?.id,
   },
   reducers: {
     addWebsite: (state, { payload: ws }) => {
