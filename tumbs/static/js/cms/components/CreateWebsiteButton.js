@@ -4,7 +4,7 @@ import { _ } from "../i18n";
 import { actions as websitesActions } from "../slices/websites";
 import { actions as alertsActions } from "../slices/alerts";
 import { apiRequest } from "../network";
-import { CURRENT_LANGUAGE } from "../store";
+import { INIT } from "../config";
 import Button from "react-bootstrap/Button";
 
 const CreateWebsiteButton = () => {
@@ -17,7 +17,7 @@ const CreateWebsiteButton = () => {
     apiRequest("create_website", {
       payload: {
         name: _("My New Site"),
-        language: CURRENT_LANGUAGE,
+        language: INIT.currentLanguage,
       },
     })
       .then((website) => {

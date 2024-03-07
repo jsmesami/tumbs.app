@@ -5,7 +5,7 @@ import { actions as alertsActions } from "../slices/alerts";
 import { actions as updateWebsiteActions } from "../slices/updateWebsiteDialog";
 import { actions as websitesActions } from "../slices/websites";
 import { apiRequest } from "../network";
-import { LANGUAGES, REGIONS } from "../store";
+import { INIT } from "../config";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Offcanvas from "react-bootstrap/Offcanvas";
@@ -80,7 +80,7 @@ const UpdateWebsiteDialog = ({ website }) => {
               disabled={isLoading}
               aria-label={_("Available languages")}
             >
-              {LANGUAGES.map(([code, name]) => (
+              {INIT.languages.map(([code, name]) => (
                 <option value={code} key={code}>
                   {name}
                 </option>
@@ -95,7 +95,7 @@ const UpdateWebsiteDialog = ({ website }) => {
               disabled={isLoading}
               aria-label={_("Available regions")}
             >
-              {REGIONS.map(([code, name]) => (
+              {INIT.regions.map(([code, name]) => (
                 <option value={code} key={code}>
                   {name}
                 </option>

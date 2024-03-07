@@ -1,13 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const container = document.getElementById("cms");
-const initData = JSON.parse(container.dataset.init);
+import { INIT } from "../config";
 
 export const slice = createSlice({
   name: "websites",
   initialState: {
-    available: initData.websites,
-    currentId: initData.websites[initData.websites.length - 1]?.id,
+    available: INIT.websites,
+    currentId: INIT.websites[INIT.websites.length - 1]?.id,
   },
   reducers: {
     addWebsite: (state, { payload: ws }) => {

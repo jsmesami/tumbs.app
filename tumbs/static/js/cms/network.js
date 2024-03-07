@@ -1,7 +1,7 @@
-import { ENDPOINTS } from "./store";
+import { INIT } from "./config";
 
 export const apiRequest = (endpoint, { args = {}, payload = {}, params = {} }) => {
-  const { uri, method } = ENDPOINTS[endpoint];
+  const { uri, method } = INIT.endpoints[endpoint];
   const init = {
     method: method,
     body: JSON.stringify(payload),
