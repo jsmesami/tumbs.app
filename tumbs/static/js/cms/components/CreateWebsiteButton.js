@@ -10,7 +10,7 @@ import Button from "react-bootstrap/Button";
 const CreateWebsiteButton = () => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState("initial");
-  let isLoading = status === "loading";
+  const isLoading = status === "loading";
 
   const createWebsite = () => {
     setStatus("loading");

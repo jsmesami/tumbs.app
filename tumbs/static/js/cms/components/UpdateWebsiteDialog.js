@@ -14,14 +14,22 @@ const UpdateWebsiteDialog = ({ website }) => {
   const dispatch = useDispatch();
   const visible = useSelector((state) => state.dialogs.visibleDialogId) === "updateWebsite";
   const [status, setStatus] = useState("not asked");
-  let isLoading = status === "loading";
+  const isLoading = status === "loading";
 
   const hide = () => dispatch(dialogsActions.hideDialogs());
 
+  const valuesChanged = (e) => {
+    return ["name", "language", "region"].some((field) => e.target[field].value !== website[field]);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus("loading");
+    if (!valuesChanged(e)) {
+      hide();
+      return;
+    }
 
+    setStatus("loading");
     apiService
       .request("update_website", {
         args: { website_id: website.id },

@@ -9,8 +9,8 @@ import { EditText } from "react-edit-text";
 const WebsiteNameEditor = ({ website }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState("initial");
-  let isLoading = status === "loading";
-  let isEditing = ["editing", "loading"].includes(status);
+  const isLoading = status === "loading";
+  const isEditing = ["editing", "loading"].includes(status);
 
   const startEditing = () => setStatus("editing");
   const stopEditing = () => setStatus("initial");
