@@ -18,29 +18,38 @@ const slice = createSlice({
   name: "stash",
   initialState: initState(INIT.websites),
   reducers: {
-    addWebsite: (state, { payload: ws }) => {
-      state.websites.push(ws);
+    addWebsite: (state, { payload }) => {
+      const { pages, images, ...website } = payload;
+      state.pagesByWebsiteId[website.id] = pages;
+      state.imagesByWebsiteId[website.id] = images;
+      state.websites.push(website);
     },
-    updateWebsite: (state, { payload: ws }) => {
-      const idx = state.websites.findIndex((item) => item.id === ws.id);
-      if (idx >= 0) {
-        state.websites[idx] = ws;
-      } else {
-        state.websites.push(ws);
-      }
-      state.currentWebsiteId = ws.id;
+    updateWebsite: (state, { payload }) => {
+      const { pages, images, ...website } = payload;
+      const index = state.websites.findIndex((item) => item.id === website.id);
+      state.websites[index] = { ...state.websites[index], ...website };
     },
     setCurrentWebsite: (state, { payload: id }) => {
-      const ws = state.websites.find((item) => item.id === id);
-      if (ws) {
-        state.currentWebsiteId = ws.id;
+      const website = state.websites.find((item) => item.id === id);
+      if (website) {
+        state.currentWebsiteId = website.id;
       }
     },
-    addPage: (state, { payload: pg }) => {
-      state.pagesByWebsiteId[state.currentWebsiteId]?.push(pg);
+    addPage: (state, { payload: page }) => {
+      state.pagesByWebsiteId[state.currentWebsiteId].push(page);
     },
-    addImage: (state, { payload: im }) => {
-      state.imagesByWebsiteId[state.currentWebsiteId]?.push(im);
+    updatePage: (state, { payload: page }) => {
+      const pages = state.pagesByWebsiteId[state.currentWebsiteId];
+      const index = pages.findIndex((item) => item.id === page.id);
+      pages[index] = { ...pages[index], ...page };
+    },
+    addImage: (state, { payload: image }) => {
+      state.imagesByWebsiteId[state.currentWebsiteId].push(image);
+    },
+    updateImage: (state, { payload: image }) => {
+      const images = state.imagesByWebsiteId[state.currentWebsiteId];
+      const index = images.findIndex((item) => item.id === image.id);
+      images[index] = { ...images[index], ...image };
     },
   },
   selectors: {

@@ -10,11 +10,11 @@ const PageEditor = ({ website }) => {
 
   useEffect(() => {
     setActive(pages[0].id);
-  }, [pages]);
+  }, [website, pages]);
 
   return (
     <Tabs id="controlled-tab-example" activeKey={active} onSelect={setActive} className="mb-3">
-      {pages.map(({ id, title }) => {
+      {pages?.map(({ id, title }) => {
         return (
           <Tab key={id} eventKey={id} title={title}>
             <div className="container-fluid">Some content</div>

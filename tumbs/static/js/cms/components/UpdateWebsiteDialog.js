@@ -4,7 +4,7 @@ import { _ } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as stashActions } from "../slices/stash";
-import { apiRequest } from "../network";
+import { apiService } from "../network";
 import { INIT } from "../config";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -22,17 +22,18 @@ const UpdateWebsiteDialog = ({ website }) => {
     e.preventDefault();
     setStatus("loading");
 
-    apiRequest("update_website", {
-      payload: {
-        ...website,
-        ...{
-          name: e.target.name.value,
-          language: e.target.language.value,
-          region: e.target.region.value,
+    apiService
+      .request("update_website", {
+        args: { website_id: website.id },
+        payload: {
+          ...website,
+          ...{
+            name: e.target.name.value,
+            language: e.target.language.value,
+            region: e.target.region.value,
+          },
         },
-      },
-      args: { website_id: website.id },
-    })
+      })
       .then((data) => {
         setStatus("success");
         dispatch(stashActions.updateWebsite(data));

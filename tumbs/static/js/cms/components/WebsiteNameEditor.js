@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
 import { actions as stashActions } from "../slices/stash";
-import { apiRequest } from "../network";
+import { apiService } from "../network";
 import { EditText } from "react-edit-text";
 
 const WebsiteNameEditor = ({ website }) => {
@@ -20,10 +20,11 @@ const WebsiteNameEditor = ({ website }) => {
 
     setStatus("loading");
 
-    apiRequest("update_website", {
-      payload: { ...website, ...{ name: value } },
-      args: { website_id: website.id },
-    })
+    apiService
+      .request("update_website", {
+        payload: { ...website, ...{ name: value } },
+        args: { website_id: website.id },
+      })
       .then((data) => {
         setStatus("success");
         dispatch(stashActions.updateWebsite(data));
