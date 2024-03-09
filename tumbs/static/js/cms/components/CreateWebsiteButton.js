@@ -30,10 +30,10 @@ const CreateWebsiteButton = () => {
             },
           })
           .then((page) => {
-            website.pages = [page];
             setStatus("success");
             dispatch(stashActions.addWebsite(website));
             dispatch(stashActions.setCurrentWebsite(website.id));
+            dispatch(stashActions.addPage({ websiteId: website.id, page: page }));
           });
       })
       .catch((err) => {

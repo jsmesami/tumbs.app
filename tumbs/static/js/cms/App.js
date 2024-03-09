@@ -4,12 +4,12 @@ import { selectors as stashSelectors } from "./slices/stash";
 import { _ } from "./i18n";
 import Alerts from "./components/Alerts";
 import CreateWebsiteButton from "./components/CreateWebsiteButton";
-import PageEditor from "./components/PageEditor";
+import SelectPage from "./components/SelectPage";
 import UpdateWebsiteDialog from "./components/UpdateWebsiteDialog";
 import WebsiteTopBar from "./components/WebsiteTopBar";
 
 const App = () => {
-  const currentWebsite = useSelector(stashSelectors.selectWebsite);
+  const currentWebsite = useSelector(stashSelectors.selectCurrentWebsite);
 
   return (
     <>
@@ -17,7 +17,7 @@ const App = () => {
       {currentWebsite ? (
         <>
           <WebsiteTopBar website={currentWebsite} />
-          <PageEditor website={currentWebsite} />
+          <SelectPage website={currentWebsite} />
           <UpdateWebsiteDialog website={currentWebsite} />
         </>
       ) : (

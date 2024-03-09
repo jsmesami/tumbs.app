@@ -10,7 +10,7 @@ const WebsiteNameEditor = ({ website }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState("initial");
   const isLoading = status === "loading";
-  const isEditing = ["editing", "loading"].includes(status);
+  const isBusy = ["editing", "loading"].includes(status);
 
   const startEditing = () => setStatus("editing");
   const stopEditing = () => setStatus("initial");
@@ -53,7 +53,7 @@ const WebsiteNameEditor = ({ website }) => {
         onEditMode={startEditing}
         onBlur={stopEditing}
       />
-      {isEditing ? null : <i className="edit-icon bi-pencil-square" />}
+      {isBusy ? null : <i className="edit-icon bi-pencil-square" />}
     </div>
   );
 };

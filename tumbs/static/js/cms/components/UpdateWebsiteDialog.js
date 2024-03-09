@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
@@ -18,47 +18,50 @@ const UpdateWebsiteDialog = ({ website }) => {
 
   const hide = () => dispatch(dialogsActions.hideDialogs());
 
-  const valuesChanged = (e) => {
+  const haveValuesChanged = (e) => {
     return ["name", "language", "region"].some((field) => e.target[field].value !== website[field]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!valuesChanged(e)) {
-      hide();
-      return;
-    }
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!haveValuesChanged(e)) {
+        hide();
+        return;
+      }
 
-    setStatus("loading");
-    apiService
-      .request("update_website", {
-        args: { website_id: website.id },
-        payload: {
-          ...website,
-          ...{
-            name: e.target.name.value,
-            language: e.target.language.value,
-            region: e.target.region.value,
+      setStatus("loading");
+      apiService
+        .request("update_website", {
+          args: { website_id: website.id },
+          payload: {
+            ...website,
+            ...{
+              name: e.target.name.value,
+              language: e.target.language.value,
+              region: e.target.region.value,
+            },
           },
-        },
-      })
-      .then((data) => {
-        setStatus("success");
-        dispatch(stashActions.updateWebsite(data));
-        hide();
-      })
-      .catch((err) => {
-        setStatus("error");
-        dispatch(
-          alertsActions.addAlert({
-            content: _('Could not update site: "{err}"').supplant({ err: String(err) }),
-            severity: "danger",
-          }),
-        );
-        // TODO: notify Sentry
-        hide();
-      });
-  };
+        })
+        .then((data) => {
+          setStatus("success");
+          dispatch(stashActions.updateWebsite(data));
+          hide();
+        })
+        .catch((err) => {
+          setStatus("error");
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Could not update site: "{err}"').supplant({ err: String(err) }),
+              severity: "danger",
+            }),
+          );
+          // TODO: notify Sentry
+          hide();
+        });
+    },
+    [website, status],
+  );
 
   return (
     <Offcanvas show={visible} onHide={hide} placement="end" aria-labelledby="updateWebsiteLabel">
@@ -82,7 +85,7 @@ const UpdateWebsiteDialog = ({ website }) => {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>{_("Language")}</Form.Label>
+            <Form.Label>{_("Content language")}</Form.Label>
             <Form.Select
               name="language"
               defaultValue={website.language}
@@ -97,7 +100,7 @@ const UpdateWebsiteDialog = ({ website }) => {
             </Form.Select>
           </Form.Group>
           <Form.Group>
-            <Form.Label>{_("Region")}</Form.Label>
+            <Form.Label>{_("Audience region")}</Form.Label>
             <Form.Select
               name="region"
               defaultValue={website.region}

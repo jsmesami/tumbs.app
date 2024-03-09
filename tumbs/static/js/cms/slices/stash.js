@@ -1,68 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { INIT } from "../config";
 
-const initState = (websites) => {
-  const currentWebsiteId = websites[websites.length - 1]?.id;
-  const pagesByWebsiteId = Object.fromEntries(websites.map(({ id, pages }) => [id, pages]));
-  const imagesByWebsiteId = Object.fromEntries(websites.map(({ id, images }) => [id, images]));
-
-  return {
-    websites: websites.map(({ pages, images, ...rest }) => rest),
-    currentWebsiteId: currentWebsiteId,
-    pagesByWebsiteId: pagesByWebsiteId,
-    imagesByWebsiteId: imagesByWebsiteId,
-  };
-};
-
 const slice = createSlice({
   name: "stash",
-  initialState: initState(INIT.websites),
+  initialState: {
+    websites: INIT.websites,
+    currentWebsiteId: INIT.websites.length ? INIT.websites[INIT.websites.length - 1].id : undefined,
+  },
   reducers: {
-    addWebsite: (state, { payload }) => {
-      const { pages, images, ...website } = payload;
-      state.pagesByWebsiteId[website.id] = pages;
-      state.imagesByWebsiteId[website.id] = images;
+    addWebsite: (state, { payload: website }) => {
       state.websites.push(website);
     },
-    updateWebsite: (state, { payload }) => {
-      const { pages, images, ...website } = payload;
-      const index = state.websites.findIndex((item) => item.id === website.id);
-      state.websites[index] = { ...state.websites[index], ...website };
+    updateWebsite: (state, { payload: website }) => {
+      const index = state.websites.findIndex((i) => i.id === website.id);
+      const prevWebsite = state.websites[index];
+      state.websites[index] = { ...prevWebsite, ...website };
     },
     setCurrentWebsite: (state, { payload: id }) => {
-      const website = state.websites.find((item) => item.id === id);
-      if (website) {
-        state.currentWebsiteId = website.id;
+      const ws = state.websites.find((i) => i.id === id);
+      if (ws) {
+        state.currentWebsiteId = id;
       }
     },
-    addPage: (state, { payload: page }) => {
-      state.pagesByWebsiteId[state.currentWebsiteId].push(page);
+    addPage: (state, { payload: { websiteId, page } }) => {
+      const ws = state.websites.find((i) => i.id === websiteId);
+      if (ws) {
+        ws.pages.push(page);
+      }
     },
-    updatePage: (state, { payload: page }) => {
-      const pages = state.pagesByWebsiteId[state.currentWebsiteId];
-      const index = pages.findIndex((item) => item.id === page.id);
-      pages[index] = { ...pages[index], ...page };
-    },
-    addImage: (state, { payload: image }) => {
-      state.imagesByWebsiteId[state.currentWebsiteId].push(image);
-    },
-    updateImage: (state, { payload: image }) => {
-      const images = state.imagesByWebsiteId[state.currentWebsiteId];
-      const index = images.findIndex((item) => item.id === image.id);
-      images[index] = { ...images[index], ...image };
+    updatePage: (state, { payload: { websiteId, page } }) => {
+      const ws = state.websites.find((i) => i.id === websiteId);
+      if (ws) {
+        const index = ws.images.findIndex((i) => i.id === page.id);
+        const prevPage = ws.images[index];
+        ws.images[index] = { ...prevPage, ...page };
+      }
     },
   },
   selectors: {
-    selectWebsite: (state) => {
-      return state.websites.find((item) => item.id === state.currentWebsiteId);
-    },
-    selectPages: (state) => {
-      const ws = slice.getSelectors().selectWebsite(state);
-      return state.pagesByWebsiteId[ws.id];
-    },
-    selectImages: (state) => {
-      const ws = slice.getSelectors().selectWebsite(state);
-      return state.imagesByWebsiteId[ws.id];
+    selectCurrentWebsite: (state) => {
+      return state.websites.find((i) => i.id === state.currentWebsiteId);
     },
   },
 });
