@@ -4,6 +4,7 @@ import { _ } from "../i18n";
 import { apiService } from "../network";
 import { actions as alertsActions } from "../slices/alerts";
 import { actions as stashActions } from "../slices/stash";
+import { Nav } from "react-bootstrap";
 
 const SelectPage = ({ website }) => {
   const dispatch = useDispatch();
@@ -15,13 +16,6 @@ const SelectPage = ({ website }) => {
       setCurrent(website.pages[0].id);
     }
   }, [website, current]);
-
-  const tabDispatcher = (id) => {
-    return (e) => {
-      e.stopPropagation();
-      setCurrent(id);
-    };
-  };
 
   const createPage = useCallback(() => {
     setStatus("loading");
@@ -50,22 +44,20 @@ const SelectPage = ({ website }) => {
   }, [website, status]);
 
   return (
-    <ul className="nav nav-tabs">
+    <Nav variant="tabs" activeKey={current} onSelect={setCurrent}>
       {website.pages.map(({ id, title }) => {
         return (
-          <li className="nav-item" key={id} onClick={tabDispatcher(id)}>
-            <a className={`nav-link ${current === id ? "active" : ""}`} href="#">
-              {title}
-            </a>
-          </li>
+          <Nav.Item key={id}>
+            <Nav.Link eventKey={id}>{title}</Nav.Link>
+          </Nav.Item>
         );
       })}
-      <li className="nav-item">
-        <button className="nav-link" onClick={createPage}>
+      <Nav.Item className="nav-item">
+        <Nav.Link onClick={createPage}>
           <i className="bi-plus-circle text-success" />
-        </button>
-      </li>
-    </ul>
+        </Nav.Link>
+      </Nav.Item>
+    </Nav>
   );
 };
 

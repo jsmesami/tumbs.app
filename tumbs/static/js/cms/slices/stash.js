@@ -5,6 +5,7 @@ const slice = createSlice({
   name: "stash",
   initialState: {
     websites: INIT.websites,
+    // If there are any websites, make the last one current:
     currentWebsiteId: INIT.websites.length ? INIT.websites[INIT.websites.length - 1].id : undefined,
   },
   reducers: {
