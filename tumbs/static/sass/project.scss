@@ -1,5 +1,9 @@
 @import 'bs';
 
+.form-control::placeholder {
+  color: $gray-500;
+}
+
 .alerts {
   position: fixed;
   bottom: 0;
@@ -8,10 +12,12 @@
 .button-icon {
   background: $body-bg;
   border-color: $body-bg;
+
   &:hover {
     background: $light;
     border-color: $light-border-subtle;
   }
+
   &:active {
     border-color: $dark-border-subtle;
   }
@@ -48,6 +54,7 @@
     position: absolute;
     right: -1rem;
     top: -0.4rem;
+
     &::before {
       font-size: .8rem;
     }

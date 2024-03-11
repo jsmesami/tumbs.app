@@ -5,54 +5,55 @@ import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
-import { INIT } from "../config";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-const UpdateWebsiteDialog = ({ website }) => {
+const PageDetailsDialog = ({ website }) => {
+  const pageId = useSelector((state) => state.pages.currentId);
+  const page = website.pages.find((p) => p.id === pageId);
   const dispatch = useDispatch();
-  const visible = useSelector((state) => state.dialogs.visibleDialogId) === "updateWebsite";
-  const [status, setStatus] = useState("not asked");
+  const dialogId = useSelector((state) => state.dialogs.visibleDialogId);
+  const visible = dialogId === "pageDetails";
+  const [status, setStatus] = useState("initial");
   const isLoading = status === "loading";
 
   const hide = () => dispatch(dialogsActions.hideDialogs());
 
-  const haveValuesChanged = (e) => {
-    return ["name", "language", "region"].some((field) => e.target[field].value !== website[field]);
+  const haveValuesChanged = (form, page) => {
+    return ["title", "description"].some((field) => form[field].value !== page[field]);
   };
 
   const handleSubmit = useCallback(
-    (e) => {
+    (page) => (e) => {
       e.preventDefault();
-      if (!haveValuesChanged(e)) {
+      if (!haveValuesChanged(e.target, page)) {
         hide();
         return;
       }
 
       setStatus("loading");
       apiService
-        .request("update_website", {
-          args: { website_id: website.id },
+        .request("update_page", {
+          args: { page_id: page.id },
           payload: {
-            ...website,
+            ...page,
             ...{
-              name: e.target.name.value,
-              language: e.target.language.value,
-              region: e.target.region.value,
+              title: e.target.title.value,
+              description: e.target.description.value,
             },
           },
         })
         .then((data) => {
           setStatus("success");
-          dispatch(stashActions.updateWebsite(data));
+          dispatch(stashActions.updatePage({ websiteId: website.id, page: data }));
           hide();
         })
         .catch((err) => {
           setStatus("error");
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not update site: "{err}"').supplant({ err: String(err) }),
+              content: _('Could not update page: "{err}"').supplant({ err: String(err) }),
               severity: "danger",
             }),
           );
@@ -60,59 +61,42 @@ const UpdateWebsiteDialog = ({ website }) => {
           hide();
         });
     },
-    [website, status],
+    [website, page, status],
   );
 
-  return (
-    <Offcanvas show={visible} onHide={hide} placement="end" aria-labelledby="updateWebsiteLabel">
-      <Form onSubmit={handleSubmit}>
+  return !page ? null : (
+    <Offcanvas show={visible} onHide={hide} placement="end" aria-labelledby="pageDetailsLabel">
+      <Form onSubmit={handleSubmit(page)}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title id="updateWebsiteLabel">Edit Site</Offcanvas.Title>
+          <Offcanvas.Title id="pageDetailsLabel">{_("Page Details")}</Offcanvas.Title>
         </Offcanvas.Header>
 
         <Offcanvas.Body>
           <Form.Group className="mb-3">
-            <Form.Label>{_("Site name")}</Form.Label>
+            <Form.Label>{_("Title")}</Form.Label>
             <Form.Control
               type="text"
-              name="name"
-              defaultValue={website.name}
+              name="title"
+              defaultValue={page.title}
               required
               disabled={isLoading}
-              placeholder={_("Site name")}
+              placeholder={_("Title")}
               autoFocus
               maxLength="255"
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>{_("Content language")}</Form.Label>
-            <Form.Select
-              name="language"
-              defaultValue={website.language}
+            <Form.Label>{_("Description")}</Form.Label>
+            <Form.Control
+              type="text"
+              as="textarea"
+              rows={4}
+              name="description"
+              defaultValue={page.description}
               disabled={isLoading}
-              aria-label={_("Available languages")}
-            >
-              {INIT.languages.map(([code, name]) => (
-                <option value={code} key={code}>
-                  {name}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>{_("Audience region")}</Form.Label>
-            <Form.Select
-              name="region"
-              defaultValue={website.region}
-              disabled={isLoading}
-              aria-label={_("Available regions")}
-            >
-              {INIT.regions.map(([code, name]) => (
-                <option value={code} key={code}>
-                  {name}
-                </option>
-              ))}
-            </Form.Select>
+              placeholder={_("What is the page for? What's in it? ")}
+              maxLength="255"
+            />
           </Form.Group>
 
           <div className="d-flex justify-content-between mt-5">
@@ -142,4 +126,4 @@ const UpdateWebsiteDialog = ({ website }) => {
   );
 };
 
-export default UpdateWebsiteDialog;
+export default PageDetailsDialog;

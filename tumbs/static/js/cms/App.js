@@ -4,8 +4,9 @@ import { selectors as stashSelectors } from "./slices/stash";
 import { _ } from "./i18n";
 import Alerts from "./components/Alerts";
 import CreateWebsiteButton from "./components/CreateWebsiteButton";
+import PageDetailsDialog from "./components/PageDetailsDialog";
 import SelectPage from "./components/SelectPage";
-import UpdateWebsiteDialog from "./components/UpdateWebsiteDialog";
+import WebsiteDetailsDialog from "./components/WebsiteDetailsDialog";
 import WebsiteTopBar from "./components/WebsiteTopBar";
 
 const App = () => {
@@ -18,7 +19,8 @@ const App = () => {
         <>
           <WebsiteTopBar website={currentWebsite} />
           <SelectPage website={currentWebsite} />
-          <UpdateWebsiteDialog website={currentWebsite} />
+          <WebsiteDetailsDialog website={currentWebsite} />
+          <PageDetailsDialog website={currentWebsite} />
         </>
       ) : (
         <div className="d-flex flex-column justify-content-center align-items-center my-4">

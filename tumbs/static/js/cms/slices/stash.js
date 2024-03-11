@@ -6,7 +6,7 @@ const slice = createSlice({
   initialState: {
     websites: INIT.websites,
     // If there are any websites, make the last one current:
-    currentWebsiteId: INIT.websites.length ? INIT.websites[INIT.websites.length - 1].id : undefined,
+    currentWebsiteId: INIT.websites.length ? INIT.websites[INIT.websites.length - 1].id : null,
   },
   reducers: {
     addWebsite: (state, { payload: website }) => {
@@ -17,24 +17,20 @@ const slice = createSlice({
       const prevWebsite = state.websites[index];
       state.websites[index] = { ...prevWebsite, ...website };
     },
-    setCurrentWebsite: (state, { payload: id }) => {
-      const ws = state.websites.find((i) => i.id === id);
-      if (ws) {
-        state.currentWebsiteId = id;
-      }
+    setCurrentWebsite: (state, { payload: websiteId }) => {
+      const ws = state.websites.find((i) => i.id === websiteId);
+      if (ws) state.currentWebsiteId = websiteId;
     },
     addPage: (state, { payload: { websiteId, page } }) => {
       const ws = state.websites.find((i) => i.id === websiteId);
-      if (ws) {
-        ws.pages.push(page);
-      }
+      if (ws) ws.pages.push(page);
     },
     updatePage: (state, { payload: { websiteId, page } }) => {
       const ws = state.websites.find((i) => i.id === websiteId);
       if (ws) {
-        const index = ws.images.findIndex((i) => i.id === page.id);
-        const prevPage = ws.images[index];
-        ws.images[index] = { ...prevPage, ...page };
+        const index = ws.pages.findIndex((i) => i.id === page.id);
+        const prevPage = ws.pages[index];
+        ws.pages[index] = { ...prevPage, ...page };
       }
     },
   },

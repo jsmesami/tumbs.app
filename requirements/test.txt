@@ -102,7 +102,7 @@ mccabe==0.7.0
     # via pylint
 mypy-extensions==1.0.0
     # via black
-packaging==23.2
+packaging==24.0
     # via
     #   black
     #   pytest
@@ -139,7 +139,7 @@ pylint-django==2.5.5
     # via tumbs.app (pyproject.toml)
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pytest==8.0.2
+pytest==8.1.1
     # via
     #   pytest-django
     #   pytest-sugar

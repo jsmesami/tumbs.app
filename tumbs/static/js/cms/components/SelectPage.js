@@ -1,21 +1,27 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { _ } from "../i18n";
 import { apiService } from "../network";
 import { actions as alertsActions } from "../slices/alerts";
+import { actions as dialogsActions } from "../slices/dialogs";
+import { actions as pagesActions } from "../slices/pages";
 import { actions as stashActions } from "../slices/stash";
 import { Nav } from "react-bootstrap";
 
 const SelectPage = ({ website }) => {
   const dispatch = useDispatch();
-  const [current, setCurrent] = useState(0);
+  const pageId = useSelector((state) => state.pages.currentId);
+  const page = website.pages.find((p) => p.id === pageId);
   const [status, setStatus] = useState("initial");
 
+  const setCurrent = (id) => dispatch(pagesActions.setCurrentId(parseInt(id)));
+  const showPageDetailsDialog = () => dispatch(dialogsActions.showDialog("pageDetails"));
+
   useEffect(() => {
-    if (current < 1 && website.pages.length) {
+    if (!page && website.pages.length) {
       setCurrent(website.pages[0].id);
     }
-  }, [website, current]);
+  }, [website]);
 
   const createPage = useCallback(() => {
     setStatus("loading");
@@ -44,11 +50,19 @@ const SelectPage = ({ website }) => {
   }, [website, status]);
 
   return (
-    <Nav variant="tabs" activeKey={current} onSelect={setCurrent}>
+    <Nav variant="tabs" activeKey={pageId} onSelect={setCurrent}>
       {website.pages.map(({ id, title }) => {
         return (
           <Nav.Item key={id}>
-            <Nav.Link eventKey={id}>{title}</Nav.Link>
+            {pageId === id ? (
+              <Nav.Link eventKey={id}>
+                {title}
+                &ensp;
+                <i className="bi-gear" onClick={showPageDetailsDialog} />
+              </Nav.Link>
+            ) : (
+              <Nav.Link eventKey={id}>{title}</Nav.Link>
+            )}
           </Nav.Item>
         );
       })}

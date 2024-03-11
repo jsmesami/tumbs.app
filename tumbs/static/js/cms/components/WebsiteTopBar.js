@@ -7,12 +7,12 @@ import Button from "react-bootstrap/Button";
 
 const WebsiteTopBar = ({ website }) => {
   const dispatch = useDispatch();
-  const showUpdateWebsiteDialog = () => dispatch(dialogsActions.showDialog("updateWebsite"));
+  const showWebsiteDetailsDialog = () => dispatch(dialogsActions.showDialog("websiteDetails"));
 
   return (
     <div className="website-top-bar">
       <WebsiteNameEditor website={website} />
-      <Button variant="light" className="button-icon button-settings" onClick={showUpdateWebsiteDialog}>
+      <Button variant="light" className="button-icon button-settings" onClick={showWebsiteDetailsDialog}>
         <i className="bi-gear"></i>
       </Button>
       <Button variant="outline-primary">{_("Preview")}</Button>

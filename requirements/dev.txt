@@ -65,7 +65,7 @@ kinde-python-sdk==1.2.3
     # via tumbs.app (pyproject.toml)
 markupsafe==2.1.5
     # via werkzeug
-packaging==23.2
+packaging==24.0
     # via build
 pillow==10.2.0
     # via tumbs.app (pyproject.toml)
