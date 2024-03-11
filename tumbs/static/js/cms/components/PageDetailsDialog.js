@@ -5,12 +5,12 @@ import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
+import CollapseArea from "./CollapseArea";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
-import CollapseArea from "./CollapseArea";
 
 const DeletePage = ({ website, page, onSubmit }) => {
   const dispatch = useDispatch();

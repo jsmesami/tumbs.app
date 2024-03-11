@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-11 11:51+0000\n"
+"POT-Creation-Date: 2024-03-11 15:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,24 @@ msgstr ""
 msgid "Create Site"
 msgstr ""
 
+msgid "Page \"{title}\" has been successfully deleted."
+msgstr ""
+
+msgid "Could not delete page \"{title}\": \"{err}\""
+msgstr ""
+
+msgid "Destructive action"
+msgstr ""
+
+msgid "Deleting a page is irreversible and removes all of its content."
+msgstr ""
+
+msgid "Proceed"
+msgstr ""
+
+msgid "Delete page"
+msgstr ""
+
 msgid "Could not update page: \"{err}\""
 msgstr ""
 
@@ -47,6 +65,9 @@ msgid "Description"
 msgstr ""
 
 msgid "What is the page for? What's in it? "
+msgstr ""
+
+msgid "Advanced"
 msgstr ""
 
 msgid "Close"
@@ -70,6 +91,18 @@ msgstr ""
 msgid "No sites yet"
 msgstr ""
 
+msgid "Site \"{title}\" has been successfully deleted."
+msgstr ""
+
+msgid "Could not delete site \"{name}\": \"{err}\""
+msgstr ""
+
+msgid "Deleting a site is irreversible and removes all of its content."
+msgstr ""
+
+msgid "Delete site"
+msgstr ""
+
 msgid "Could not update site: \"{err}\""
 msgstr ""
 
@@ -89,6 +122,12 @@ msgid "Audience region"
 msgstr ""
 
 msgid "Available regions"
+msgstr ""
+
+msgid "Your own domain"
+msgstr ""
+
+msgid "eg. www.joesportfolio.org"
 msgstr ""
 
 msgid "Preview"

@@ -17,6 +17,9 @@ const slice = createSlice({
       const prevWebsite = state.websites[index];
       state.websites[index] = { ...prevWebsite, ...website };
     },
+    deleteWebsite: (state, { payload: { websiteId } }) => {
+      state.websites = state.websites.filter((i) => i.id !== websiteId);
+    },
     setCurrentWebsite: (state, { payload: websiteId }) => {
       const ws = state.websites.find((i) => i.id === websiteId);
       if (ws) state.currentWebsiteId = websiteId;

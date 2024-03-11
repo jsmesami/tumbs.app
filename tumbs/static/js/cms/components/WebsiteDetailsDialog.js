@@ -10,6 +10,67 @@ import CollapseArea from "./CollapseArea";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
+
+const DeleteWebsite = ({ website, onSubmit }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = useCallback(
+    (website) => (e) => {
+      e.stopPropagation();
+      onSubmit && onSubmit();
+      apiService
+        .request("delete_website", {
+          args: { website_id: website.id },
+        })
+        .then(() => {
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Site "{title}" has been successfully deleted.').supplant({ title: website.name }),
+              severity: "success",
+            }),
+          );
+          dispatch(stashActions.deleteWebsite({ websiteId: website.id }));
+        })
+        .catch((err) => {
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Could not delete site "{name}": "{err}"').supplant({ name: website.name, err: String(err) }),
+              severity: "danger",
+            }),
+          );
+          // TODO: notify Sentry
+        });
+    },
+    [website],
+  );
+
+  return (
+    <OverlayTrigger
+      trigger="click"
+      placement="top"
+      overlay={
+        <Popover>
+          <Popover.Header as="h3">{_("Destructive action")}</Popover.Header>
+          <Popover.Body>
+            <p>{_("Deleting a site is irreversible and removes all of its content.")}</p>
+            <div className="d-flex">
+              <Button variant="primary" size="sm" onClick={handleDelete(website)} className="mx-auto">
+                {_("Proceed")}
+              </Button>
+            </div>
+          </Popover.Body>
+        </Popover>
+      }
+    >
+      <Button variant="outline-warning">
+        <i className="bi-trash" />
+        &ensp;{_("Delete site")}
+      </Button>
+    </OverlayTrigger>
+  );
+};
 
 const WebsiteDetailsDialog = ({ website }) => {
   const dispatch = useDispatch();
@@ -119,7 +180,7 @@ const WebsiteDetailsDialog = ({ website }) => {
           </Form.Group>
 
           <CollapseArea className="mt-3" title={_("Advanced")}>
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>{_("Your own domain")}</Form.Label>
               <Form.Control
                 type="text"
@@ -132,6 +193,7 @@ const WebsiteDetailsDialog = ({ website }) => {
                 maxLength="255"
               />
             </Form.Group>
+            <DeleteWebsite website={website} onSubmit={hide}></DeleteWebsite>
           </CollapseArea>
 
           <div className="d-flex justify-content-between mt-5">
