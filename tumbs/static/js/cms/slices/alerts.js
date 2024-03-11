@@ -7,11 +7,11 @@ const slice = createSlice({
     all: [],
   },
   reducers: {
-    addAlert: (state, { payload }) => {
-      const id = hash.MD5(payload);
+    addAlert: (state, { payload: alert }) => {
+      const id = hash.MD5(alert);
       const exists = state.all.find((item) => item.id === id);
       if (!exists) {
-        state.all.push({ id: id, ...payload });
+        state.all.push({ id: id, ...alert });
       }
     },
     removeAlert: (state, { payload: id }) => {

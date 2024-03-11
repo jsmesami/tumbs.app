@@ -3,12 +3,17 @@ import Collapse from "react-bootstrap/Collapse";
 
 const CollapseArea = ({ title, children, ...rest }) => {
   const [open, setOpen] = useState(false);
+  const handleToggle = (e) => {
+    e.preventDefault();
+    setOpen(!open);
+  };
+
   return (
     <div {...rest}>
       <a
         className={`collapse-control ${open ? "" : "collapsed"}`}
         href="#"
-        onClick={() => setOpen(!open)}
+        onClick={handleToggle}
         aria-controls="collapse-content"
         aria-expanded={open}
       >

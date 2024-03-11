@@ -5,6 +5,7 @@ import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
+import { autoDismissMs } from "../config";
 import CollapseArea from "./CollapseArea";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -28,6 +29,7 @@ const DeletePage = ({ website, page, onSubmit }) => {
             alertsActions.addAlert({
               content: _('Page "{title}" has been successfully deleted.').supplant({ title: page.title }),
               severity: "success",
+              autoDismissMs: autoDismissMs,
             }),
           );
           dispatch(stashActions.deletePage({ websiteId: website.id, pageId: page.id }));

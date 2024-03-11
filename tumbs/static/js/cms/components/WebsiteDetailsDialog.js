@@ -5,7 +5,7 @@ import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
-import { INIT } from "../config";
+import { autoDismissMs, INIT } from "../config";
 import CollapseArea from "./CollapseArea";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -29,6 +29,7 @@ const DeleteWebsite = ({ website, onSubmit }) => {
             alertsActions.addAlert({
               content: _('Site "{title}" has been successfully deleted.').supplant({ title: website.name }),
               severity: "success",
+              autoDismissMs: autoDismissMs,
             }),
           );
           dispatch(stashActions.deleteWebsite({ websiteId: website.id }));
