@@ -124,6 +124,8 @@ def delete_website(request, website_id: int):
     ws = get_object_or_404(Website.objects.valid(), customer_id=ensure_customer_id(request), id=website_id)
     ws.deleted = True
     ws.save()
+    Page.objects.filter(website_id=website_id).update(deleted=True)
+    Image.objects.filter(website_id=website_id).update(deleted=True)
     return {"success": True}
 
 
