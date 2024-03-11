@@ -4,6 +4,11 @@
   color: $gray-500;
 }
 
+.fancy-gradient {
+  background: rgb(34,19,61);
+  background: linear-gradient(157deg, rgba(34,19,61,1) 0%, rgba(32,40,96,1) 35%, rgba(29,66,119,1) 100%);
+}
+
 .alerts {
   position: fixed;
   bottom: 0;
