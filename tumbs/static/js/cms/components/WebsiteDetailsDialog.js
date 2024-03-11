@@ -7,9 +7,31 @@ import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
 import { INIT } from "../config";
 import Button from "react-bootstrap/Button";
+import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
+const AdvancedSection = ({ title, children, ...rest }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div {...rest}>
+      <a
+        className={`collapse-control ${open ? "" : "collapsed"}`}
+        href="#"
+        onClick={() => setOpen(!open)}
+        aria-controls="collapse-content"
+        aria-expanded={open}
+      >
+        {open ? <i className="bi-caret-down-fill" /> : <i className="bi-caret-right-fill" />}
+        {title}
+        <hr />
+      </a>
+      <Collapse in={open}>
+        <div id="collapse-content">{children}</div>
+      </Collapse>
+    </div>
+  );
+};
 const WebsiteDetailsDialog = ({ website }) => {
   const dispatch = useDispatch();
   const dialogId = useSelector((state) => state.dialogs.visibleDialogId);
@@ -20,7 +42,7 @@ const WebsiteDetailsDialog = ({ website }) => {
   const hide = () => dispatch(dialogsActions.hideDialogs());
 
   const haveValuesChanged = (form, website) => {
-    return ["name", "language", "region"].some((field) => form[field].value !== website[field]);
+    return ["name", "language", "region", "domain"].some((field) => form[field].value !== website[field]);
   };
 
   const handleSubmit = useCallback(
@@ -41,6 +63,7 @@ const WebsiteDetailsDialog = ({ website }) => {
               name: e.target.name.value,
               language: e.target.language.value,
               region: e.target.region.value,
+              domain: e.target.domain.value,
             },
           },
         })
@@ -115,6 +138,22 @@ const WebsiteDetailsDialog = ({ website }) => {
               ))}
             </Form.Select>
           </Form.Group>
+
+          <AdvancedSection className="mt-3" title={_("Advanced")}>
+            <Form.Group>
+              <Form.Label>{_("Your own domain")}</Form.Label>
+              <Form.Control
+                type="text"
+                name="domain"
+                defaultValue={website.domain}
+                required
+                disabled={isLoading}
+                placeholder={_("eg. www.joes-portfolio.org")}
+                autoFocus
+                maxLength="255"
+              />
+            </Form.Group>
+          </AdvancedSection>
 
           <div className="d-flex justify-content-between mt-5">
             <Button variant="secondary" disabled={isLoading} onClick={hide}>

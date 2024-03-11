@@ -54,12 +54,14 @@ class WebsiteSchema(Schema):
     name: str
     language: str
     region: str
+    domain: str
     pages: List[PageSchema]
     images: List[ImageSchema]
 
 
 class WebsiteCreateUpdateSchema(Schema):
     name: str
+    domain: Optional[str] = None
     language: Optional[str] = None
     region: Optional[str] = None
 

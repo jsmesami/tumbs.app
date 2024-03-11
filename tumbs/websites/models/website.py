@@ -30,6 +30,7 @@ class Website(TimeStampedModel):
     name = models.CharField(_("name"), max_length=255)
     language = models.CharField(_("region"), max_length=2, choices=LANGUAGES, default="en")
     region = models.CharField(_("region"), max_length=3, choices=Regions, default=Regions.EUROPE)
+    domain = models.CharField(_("domain"), max_length=255, blank=True)
     deleted = models.BooleanField(_("deleted"), default=False, db_index=True)
 
     objects = models.Manager.from_queryset(ValidWebsiteQuerySet)()

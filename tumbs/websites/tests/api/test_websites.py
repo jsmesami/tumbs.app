@@ -29,7 +29,7 @@ def test_create_read_list(authorized_client, truncate_table):
     names = ("", "Eenie", "Meenie", "Miney", "Moe", "🫣🤫🤔")
     src = [{"name": n} for n in names]
     dst = [
-        {"id": i, "name": n, "language": "en", "region": "eu", "pages": [], "images": []}
+        {"id": i, "name": n, "language": "en", "region": "eu", "domain": "", "pages": [], "images": []}
         for i, n in enumerate(names, start=1)
     ]
 
@@ -75,6 +75,7 @@ def test_update_delete(authorized_client, truncate_table, new_website):
         "id": website.pk,
         "language": "en",
         "region": "eu",
+        "domain": "",
         "pages": [],
         "images": [],
     }

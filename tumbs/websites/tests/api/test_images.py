@@ -104,7 +104,7 @@ def test_delete_list(authorized_client, new_website, new_image):
     assert response.status_code == 200
     assert response.json() == {"success": True}
 
-    website_dict = model_to_dict(website, fields=["id", "name", "language", "region"])
+    website_dict = model_to_dict(website, fields=["id", "name", "language", "region", "domain"])
     image1_dict = model_to_dict(image1, fields=["id", "alt", "caption"]) | {"file": image1.file.url}
     expected = website_dict | {"images": [image1_dict], "pages": []}
 

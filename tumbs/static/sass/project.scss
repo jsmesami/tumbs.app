@@ -65,3 +65,18 @@
     }
   }
 }
+
+.collapse-control {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+  white-space: nowrap;
+  color: $gray-600;
+  text-decoration: none;
+  margin-bottom: 1rem;
+
+  hr {
+    width: 100%;
+  }
+}

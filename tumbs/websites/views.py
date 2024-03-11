@@ -13,11 +13,11 @@ from tumbs.websites.utils.languages import LANG_CODES, LANGUAGES
 
 
 def _prepare_website(website):
-    return model_to_dict(website, ["id", "name", "language", "region"]) | {
+    return model_to_dict(website, ["id", "name", "language", "region", "domain"]) | {
         "pages": [
             model_to_dict(page, fields=["id", "title", "description", "content"]) for page in website.pages.all()
         ],
-        "images": [model_to_dict(image, exclude=["id", "url", "alt", "caption"]) for image in website.images.all()],
+        "images": [model_to_dict(image, fields=["id", "url", "alt", "caption"]) for image in website.images.all()],
     }
 
 
