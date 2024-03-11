@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-06 13:34+0000\n"
+"POT-Creation-Date: 2024-03-11 11:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,31 +28,25 @@ msgstr ""
 msgid "Homepage"
 msgstr "Domů"
 
-msgid "Could not update site: {err}"
+msgid "Could not create site: \"{err}\""
 msgstr ""
 
 msgid "Create Site"
 msgstr ""
 
-msgid "Available websites"
+msgid "Could not update page: \"{err}\""
 msgstr ""
 
-msgid "No sites yet"
+msgid "Page Details"
 msgstr ""
 
-msgid "Site name"
+msgid "Title"
 msgstr ""
 
-msgid "Language"
+msgid "Description"
 msgstr ""
 
-msgid "Available languages"
-msgstr ""
-
-msgid "Region"
-msgstr ""
-
-msgid "Available regions"
+msgid "What is the page for? What's in it? "
 msgstr ""
 
 msgid "Close"
@@ -62,6 +56,39 @@ msgid "Saving"
 msgstr ""
 
 msgid "Save changes"
+msgstr ""
+
+msgid "Page {pageN}"
+msgstr ""
+
+msgid "Could not create page: \"{err}\""
+msgstr ""
+
+msgid "Available websites"
+msgstr ""
+
+msgid "No sites yet"
+msgstr ""
+
+msgid "Could not update site: \"{err}\""
+msgstr ""
+
+msgid "Site Details"
+msgstr ""
+
+msgid "Site name"
+msgstr ""
+
+msgid "Content language"
+msgstr ""
+
+msgid "Available languages"
+msgstr ""
+
+msgid "Audience region"
+msgstr ""
+
+msgid "Available regions"
 msgstr ""
 
 msgid "Preview"

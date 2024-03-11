@@ -47,9 +47,7 @@ def websites_cms(request):
     server_uri = request.build_absolute_uri("/")[:-1]
     customer_id = request.session["customer"]["id"]
     current_language = get_language()
-    websites = [
-        _prepare_website(ws) for ws in Website.objects.valid().filter(customer_id=customer_id).order_by("created")
-    ]
+    websites = [_prepare_website(ws) for ws in Website.objects.valid().filter(customer_id=customer_id)]
     context = {
         "js_init": json.dumps(
             {

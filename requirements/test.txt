@@ -14,8 +14,6 @@ asgiref==3.7.2
     # via django
 astroid==3.1.0
     # via pylint
-async-timeout==4.0.3
-    # via redis
 authlib==1.2.1
     # via kinde-python-sdk
 black==24.2.0
@@ -156,7 +154,7 @@ python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
 pyyaml==6.0.1
     # via djlint
-redis==5.0.2
+redis==5.0.3
     # via
     #   django-redis
     #   tumbs.app (pyproject.toml)
