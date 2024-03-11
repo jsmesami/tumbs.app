@@ -6,32 +6,11 @@ import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
 import { INIT } from "../config";
+import CollapseArea from "./CollapseArea";
 import Button from "react-bootstrap/Button";
-import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-const AdvancedSection = ({ title, children, ...rest }) => {
-  const [open, setOpen] = useState(false);
-  return (
-    <div {...rest}>
-      <a
-        className={`collapse-control ${open ? "" : "collapsed"}`}
-        href="#"
-        onClick={() => setOpen(!open)}
-        aria-controls="collapse-content"
-        aria-expanded={open}
-      >
-        {open ? <i className="bi-caret-down-fill" /> : <i className="bi-caret-right-fill" />}
-        {title}
-        <hr />
-      </a>
-      <Collapse in={open}>
-        <div id="collapse-content">{children}</div>
-      </Collapse>
-    </div>
-  );
-};
 const WebsiteDetailsDialog = ({ website }) => {
   const dispatch = useDispatch();
   const dialogId = useSelector((state) => state.dialogs.visibleDialogId);
@@ -139,7 +118,7 @@ const WebsiteDetailsDialog = ({ website }) => {
             </Form.Select>
           </Form.Group>
 
-          <AdvancedSection className="mt-3" title={_("Advanced")}>
+          <CollapseArea className="mt-3" title={_("Advanced")}>
             <Form.Group>
               <Form.Label>{_("Your own domain")}</Form.Label>
               <Form.Control
@@ -148,12 +127,12 @@ const WebsiteDetailsDialog = ({ website }) => {
                 defaultValue={website.domain}
                 required
                 disabled={isLoading}
-                placeholder={_("eg. www.joes-portfolio.org")}
+                placeholder={_("eg. www.joesportfolio.org")}
                 autoFocus
                 maxLength="255"
               />
             </Form.Group>
-          </AdvancedSection>
+          </CollapseArea>
 
           <div className="d-flex justify-content-between mt-5">
             <Button variant="secondary" disabled={isLoading} onClick={hide}>

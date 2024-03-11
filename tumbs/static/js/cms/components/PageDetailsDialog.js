@@ -8,6 +8,68 @@ import { apiService } from "../network";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
+import CollapseArea from "./CollapseArea";
+
+const DeletePage = ({ website, page, onSubmit }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = useCallback(
+    (page) => (e) => {
+      e.stopPropagation();
+      onSubmit && onSubmit();
+      apiService
+        .request("delete_page", {
+          args: { page_id: page.id },
+        })
+        .then(() => {
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Page "{title}" has been successfully deleted.').supplant({ title: page.title }),
+              severity: "success",
+            }),
+          );
+          dispatch(stashActions.deletePage({ websiteId: website.id, pageId: page.id }));
+        })
+        .catch((err) => {
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Could not delete page "{title}": "{err}"').supplant({ title: page.title, err: String(err) }),
+              severity: "danger",
+            }),
+          );
+          // TODO: notify Sentry
+        });
+    },
+    [website, page],
+  );
+
+  return (
+    <OverlayTrigger
+      trigger="click"
+      placement="top"
+      overlay={
+        <Popover>
+          <Popover.Header as="h3">{_("Destructive action")}</Popover.Header>
+          <Popover.Body>
+            <p>{_("Deleting a page is irreversible and removes all of its content.")}</p>
+            <div className="d-flex">
+              <Button variant="primary" size="sm" onClick={handleDelete(page)} className="mx-auto">
+                {_("Proceed")}
+              </Button>
+            </div>
+          </Popover.Body>
+        </Popover>
+      }
+    >
+      <Button variant="outline-warning">
+        <i className="bi-trash" />
+        &ensp;{_("Delete page")}
+      </Button>
+    </OverlayTrigger>
+  );
+};
 
 const PageDetailsDialog = ({ website }) => {
   const pageId = useSelector((state) => state.pages.currentId);
@@ -98,6 +160,10 @@ const PageDetailsDialog = ({ website }) => {
               maxLength="255"
             />
           </Form.Group>
+
+          <CollapseArea className="mt-3" title={_("Advanced")}>
+            <DeletePage website={website} page={page} onSubmit={hide} />
+          </CollapseArea>
 
           <div className="d-flex justify-content-between mt-5">
             <Button variant="secondary" disabled={isLoading} onClick={hide}>

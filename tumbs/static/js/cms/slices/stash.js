@@ -33,6 +33,12 @@ const slice = createSlice({
         ws.pages[index] = { ...prevPage, ...page };
       }
     },
+    deletePage: (state, { payload: { websiteId, pageId } }) => {
+      const ws = state.websites.find((i) => i.id === websiteId);
+      if (ws) {
+        ws.pages = ws.pages.filter((i) => i.id !== pageId);
+      }
+    },
   },
   selectors: {
     selectCurrentWebsite: (state) => {
