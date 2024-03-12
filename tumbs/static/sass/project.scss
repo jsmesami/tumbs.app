@@ -15,20 +15,6 @@
   max-width: 30em;
 }
 
-.button-icon {
-  background: $body-bg;
-  border-color: $body-bg;
-
-  &:hover {
-    background: $light;
-    border-color: $light-border-subtle;
-  }
-
-  &:active {
-    border-color: $dark-border-subtle;
-  }
-}
-
 .website-top-bar {
   padding: 1rem 0;
   display: flex;
@@ -37,10 +23,6 @@
 
   .h3 {
     margin: 0;
-  }
-
-  .button-settings {
-    margin-left: auto;
   }
 }
 
@@ -72,10 +54,10 @@
   align-items: center;
   gap: .5rem;
   width: 100%;
-  white-space: nowrap;
-  color: $gray-600;
-  text-decoration: none;
   margin-bottom: 1rem;
+  color: $gray-600;
+  white-space: nowrap;
+  text-decoration: none;
 
   hr {
     width: 100%;

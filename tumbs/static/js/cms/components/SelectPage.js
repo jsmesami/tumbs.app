@@ -6,7 +6,8 @@ import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as pagesActions } from "../slices/pages";
 import { actions as stashActions } from "../slices/stash";
-import { Nav } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Nav from "react-bootstrap/Nav";
 
 const SelectPage = ({ website }) => {
   const dispatch = useDispatch();
@@ -51,26 +52,23 @@ const SelectPage = ({ website }) => {
 
   return (
     <Nav variant="tabs" activeKey={pageId} onSelect={setCurrent}>
-      {website.pages.map(({ id, title }) => {
-        return (
-          <Nav.Item key={id}>
-            {pageId === id ? (
-              <Nav.Link eventKey={id}>
-                {title}
-                &ensp;
-                <i className="bi-gear" onClick={showPageDetailsDialog} />
-              </Nav.Link>
-            ) : (
-              <Nav.Link eventKey={id}>{title}</Nav.Link>
-            )}
-          </Nav.Item>
-        );
-      })}
-      <Nav.Item className="nav-item">
-        <Nav.Link onClick={createPage}>
-          <i className="bi-plus-circle text-success" />
-        </Nav.Link>
-      </Nav.Item>
+      {website.pages.map(({ id, title }) => (
+        <Nav.Item key={id}>
+          {pageId === id ? (
+            <Nav.Link eventKey={id}>
+              {title}
+              &ensp;
+              <i className="bi-gear" title={_("Edit page details")} onClick={showPageDetailsDialog} />
+            </Nav.Link>
+          ) : (
+            <Nav.Link eventKey={id}>{title}</Nav.Link>
+          )}
+        </Nav.Item>
+      ))}
+
+      <Button variant="link" className="ms-auto" title={_("Add page")} onClick={createPage}>
+        <i className="bi-plus-circle text-success" />
+      </Button>
     </Nav>
   );
 };

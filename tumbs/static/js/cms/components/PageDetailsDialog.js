@@ -125,72 +125,74 @@ const PageDetailsDialog = ({ website }) => {
           hide();
         });
     },
-    [website, page, status],
+    [website, page],
   );
 
-  return !page ? null : (
-    <Offcanvas show={visible} onHide={hide} placement="end" aria-labelledby="pageDetailsLabel">
-      <Form onSubmit={handleSubmit(page)}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title id="pageDetailsLabel">{_("Page Details")}</Offcanvas.Title>
-        </Offcanvas.Header>
+  return (
+    page && (
+      <Offcanvas show={visible} onHide={hide} placement="end" aria-labelledby="pageDetailsLabel">
+        <Form onSubmit={handleSubmit(page)}>
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title id="pageDetailsLabel">{_("Page Details")}</Offcanvas.Title>
+          </Offcanvas.Header>
 
-        <Offcanvas.Body>
-          <Form.Group className="mb-3">
-            <Form.Label>{_("Title")}</Form.Label>
-            <Form.Control
-              type="text"
-              name="title"
-              defaultValue={page.title}
-              required
-              disabled={isLoading}
-              placeholder={_("Title")}
-              autoFocus
-              maxLength="255"
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>{_("Description")}</Form.Label>
-            <Form.Control
-              type="text"
-              as="textarea"
-              rows={4}
-              name="description"
-              defaultValue={page.description}
-              disabled={isLoading}
-              placeholder={_("What is the page for? What's in it? ")}
-              maxLength="255"
-            />
-          </Form.Group>
+          <Offcanvas.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>{_("Title")}</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                defaultValue={page.title}
+                required
+                disabled={isLoading}
+                placeholder={_("Title")}
+                autoFocus
+                maxLength="255"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>{_("Description")}</Form.Label>
+              <Form.Control
+                type="text"
+                as="textarea"
+                rows={4}
+                name="description"
+                defaultValue={page.description}
+                disabled={isLoading}
+                placeholder={_("What is the page for? What's in it? ")}
+                maxLength="255"
+              />
+            </Form.Group>
 
-          <CollapseArea className="mt-3" title={_("Advanced")}>
-            <DeletePage website={website} page={page} onSubmit={hide} />
-          </CollapseArea>
+            <CollapseArea className="mt-3" title={_("Advanced")}>
+              <DeletePage website={website} page={page} onSubmit={hide} />
+            </CollapseArea>
 
-          <div className="d-flex justify-content-between mt-5">
-            <Button variant="secondary" disabled={isLoading} onClick={hide}>
-              <>
-                <i className="bi-x-circle" aria-hidden="true" />
-                &ensp;<span>{_("Close")}</span>
-              </>
-            </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? (
+            <div className="d-flex justify-content-between mt-5">
+              <Button variant="secondary" disabled={isLoading} onClick={hide}>
                 <>
-                  <i className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
-                  &ensp;<span>{_("Saving")}</span>
+                  <i className="bi-x-circle" aria-hidden="true" />
+                  &ensp;<span>{_("Close")}</span>
                 </>
-              ) : (
-                <>
-                  <i className="bi-floppy" aria-hidden="true" />
-                  &ensp;<span>{_("Save changes")}</span>
-                </>
-              )}
-            </Button>
-          </div>
-        </Offcanvas.Body>
-      </Form>
-    </Offcanvas>
+              </Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <i className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
+                    &ensp;<span>{_("Saving")}</span>
+                  </>
+                ) : (
+                  <>
+                    <i className="bi-floppy" aria-hidden="true" />
+                    &ensp;<span>{_("Save changes")}</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          </Offcanvas.Body>
+        </Form>
+      </Offcanvas>
+    )
   );
 };
 

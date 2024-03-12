@@ -14,7 +14,6 @@ const App = () => {
 
   return (
     <>
-      <Alerts />
       {currentWebsite ? (
         <>
           <WebsiteTopBar website={currentWebsite} />

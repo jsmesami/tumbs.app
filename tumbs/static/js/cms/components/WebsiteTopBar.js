@@ -12,7 +12,7 @@ const WebsiteTopBar = ({ website }) => {
   return (
     <div className="website-top-bar">
       <WebsiteNameEditor website={website} />
-      <Button variant="light" className="button-icon button-settings" onClick={showWebsiteDetailsDialog}>
+      <Button variant="link" className="ms-auto" title={_("Edit site details")} onClick={showWebsiteDetailsDialog}>
         <i className="bi-gear"></i>
       </Button>
       <Button variant="outline-primary">{_("Preview")}</Button>

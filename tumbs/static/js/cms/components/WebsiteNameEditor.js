@@ -8,12 +8,13 @@ import { EditText } from "react-edit-text";
 
 const WebsiteNameEditor = ({ website }) => {
   const dispatch = useDispatch();
+  const [editor, setEditor] = useState("initial");
   const [status, setStatus] = useState("initial");
   const isLoading = status === "loading";
-  const isBusy = ["editing", "loading"].includes(status);
+  const isBusy = editor === "editing" || isLoading;
 
-  const startEditing = () => setStatus("editing");
-  const stopEditing = () => setStatus("initial");
+  const startEditing = () => setEditor("editing");
+  const stopEditing = () => setEditor("initial");
 
   const handleSubmit = ({ value, previousValue }) => {
     if (value === previousValue) return;
@@ -47,13 +48,13 @@ const WebsiteNameEditor = ({ website }) => {
         defaultValue={website.name}
         name="name"
         onSave={handleSubmit}
-        readonly={isLoading}
+        readonly={status === "loading"}
         className="h3 inline-editable"
         inputClassName="inline-editable-input"
         onEditMode={startEditing}
         onBlur={stopEditing}
       />
-      {isBusy ? null : <i className="edit-icon bi-pencil-square" />}
+      {!isBusy && <i className="edit-icon bi-pencil-square" />}
     </div>
   );
 };
