@@ -1,17 +1,17 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Czech translations for tumbs.app backend.
+# Copyright (C) 2024 Ondřje Nejedlý
+# This file is distributed under the same license as the tumbs.app package.
+# Ondřej Nejedlý <jsmesami@gmail.com>, 2024.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-11 15:11+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2024-03-13 10:43+0000\n"
+"Last-Translator: Ondřej Nejedlý <jsmesami@gmail.com>\n"
+"Language-Team: CZ <jsmesami@gmail.com>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,159 +23,160 @@ msgid "English"
 msgstr "English"
 
 msgid "Accounts"
-msgstr ""
+msgstr "Účty"
 
 msgid "Forbidden (403)"
-msgstr ""
+msgstr "Nepřístupné (403)"
 
 msgid "You're not allowed to access this page."
-msgstr ""
+msgstr "Nemáte povolen přístup na tuto stránku."
 
 msgid "Page not found"
-msgstr ""
+msgstr "Stránka nenalezena"
 
 msgid "This is not the page you were looking for."
-msgstr ""
+msgstr "Toto není stránka, kterou jste hledali."
 
 msgid "Server Error"
-msgstr ""
+msgstr "Chyba serveru"
 
 msgid "Looks like something went wrong!"
-msgstr ""
+msgstr "Zdá se, že se něco pokazilo!"
 
 msgid ""
 "We track these errors automatically, but if the problem persists feel free "
 "to contact us. In the meantime, try refreshing."
-msgstr ""
+msgstr "Tyto chyby sledujeme automaticky, ale pokud problém přetrvává, "
+"neváhejte nás kontaktovat. Mezitím zkuste znovu načíst okno prohlížeče."
 
 msgid "Portfolio website generator"
-msgstr ""
+msgstr "Generátor webového portfolia"
 
 msgid "My Site"
-msgstr ""
+msgstr "Můj web"
 
 msgid "Language"
-msgstr ""
+msgstr "Jazyk"
 
 msgid "Customer"
-msgstr ""
+msgstr "Klient"
 
 msgid "Sign out"
-msgstr ""
+msgstr "Odhlásit"
 
 msgid "Sign up"
-msgstr ""
+msgstr "Zaregistrovat"
 
 msgid "Sign in"
-msgstr ""
+msgstr "Přihlásit"
 
 msgid "Close"
-msgstr ""
+msgstr "Zavřít"
 
 msgid "Personal info"
-msgstr ""
+msgstr "Osobní informace"
 
 msgid "Permissions"
-msgstr ""
+msgstr "Oprávnění"
 
 msgid "Important dates"
-msgstr ""
+msgstr "Důležitá data"
 
 msgid "Users"
-msgstr ""
+msgstr "Uživatelé"
 
 msgid "This email has already been taken."
-msgstr ""
+msgstr "Tato emailová adresa je již zabraná."
 
 msgid "user name"
-msgstr ""
+msgstr "jméno uživatele"
 
 msgid "email address"
-msgstr ""
+msgstr "e-mailová adresa"
 
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 msgid "pages count"
-msgstr ""
+msgstr "počet stránek"
 
 msgid "images count"
-msgstr ""
+msgstr "počet obrázků"
 
 msgid "description"
-msgstr ""
+msgstr "popis"
 
 msgid "image"
-msgstr ""
+msgstr "obrázek"
 
 msgid "alt"
-msgstr ""
+msgstr "alt."
 
 msgid "caption"
-msgstr ""
+msgstr "legenda"
 
 msgid "Websites"
-msgstr ""
+msgstr "Weby"
 
 msgid "website"
-msgstr ""
+msgstr "web"
 
 msgid "image file"
-msgstr ""
+msgstr "soubor obrázku"
 
 msgid "alt text"
-msgstr ""
+msgstr "alt. text"
 
 msgid "meta"
-msgstr ""
+msgstr "meta"
 
 msgid "deleted"
-msgstr ""
+msgstr "smazáno"
 
 msgid "images"
-msgstr ""
+msgstr "obrázky"
 
 msgid "name"
-msgstr ""
+msgstr "jméno"
 
 msgid "content"
-msgstr ""
+msgstr "obsah"
 
 msgid "page"
-msgstr ""
+msgstr "stránka"
 
 msgid "pages"
-msgstr ""
+msgstr "stránky"
 
 msgid "Europe"
-msgstr ""
+msgstr "Evropa"
 
 msgid "North America"
-msgstr ""
+msgstr "Severní Amerika"
 
 msgid "South America"
-msgstr ""
+msgstr "Jižní Amerika"
 
 msgid "Asia Pacific"
-msgstr ""
+msgstr "Asie a Tichomoří"
 
 msgid "Middle East"
-msgstr ""
+msgstr "Střední východ"
 
 msgid "Oceania"
-msgstr ""
+msgstr "Oceánie"
 
 msgid "Africa"
-msgstr ""
+msgstr "Afrika"
 
 msgid "customer ID"
-msgstr ""
+msgstr "ID klienta"
 
 msgid "region"
-msgstr ""
+msgstr "oblast"
 
 msgid "domain"
-msgstr ""
+msgstr "doména"
 
 msgid "websites"
-msgstr ""
+msgstr "weby"

@@ -1,17 +1,17 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Czech translations for tumbs.app frontend.
+# Copyright (C) 2024 Ondřje Nejedlý
+# This file is distributed under the same license as the tumbs.app package.
+# Ondřej Nejedlý <jsmesami@gmail.com>, 2024.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-11 15:11+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2024-03-13 10:43+0000\n"
+"PO-Revision-Date: 2024-03-13 10:43+0000\n"
+"Last-Translator: Ondřej Nejedlý <jsmesami@gmail.com>\n"
+"Language-Team: CZ <jsmesami@gmail.com>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,115 +20,127 @@ msgstr ""
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 msgid "No site yet"
-msgstr ""
+msgstr "Zatím žádný web"
 
 msgid "My New Site"
-msgstr ""
+msgstr "Můj nový web"
 
 msgid "Homepage"
 msgstr "Domů"
 
 msgid "Could not create site: \"{err}\""
-msgstr ""
+msgstr "Nelze vytvořit web: \"{err}\""
 
 msgid "Create Site"
-msgstr ""
+msgstr "Vytvořit web"
 
 msgid "Page \"{title}\" has been successfully deleted."
-msgstr ""
+msgstr "Stránka \"{title}\" byla úspěšně smazána."
 
 msgid "Could not delete page \"{title}\": \"{err}\""
-msgstr ""
+msgstr "Nelze smazat stránku \"{title}\": \"{err}\""
 
 msgid "Destructive action"
-msgstr ""
+msgstr "Destruktivní krok"
 
 msgid "Deleting a page is irreversible and removes all of its content."
-msgstr ""
+msgstr "Smazání stránky je nevratný krok, který odstraní veškerý její obsah."
 
 msgid "Proceed"
-msgstr ""
+msgstr "Pokračovat"
 
 msgid "Delete page"
-msgstr ""
+msgstr "Smazat stránku"
 
 msgid "Could not update page: \"{err}\""
-msgstr ""
+msgstr "Nelze upravit stránku: \"{err}\""
 
 msgid "Page Details"
-msgstr ""
+msgstr "Detaily stránky"
 
 msgid "Title"
-msgstr ""
+msgstr "Název"
 
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 msgid "What is the page for? What's in it? "
-msgstr ""
+msgstr "Jaký je účel stránky? Co je jejím obsahem?"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Pokročilé"
 
 msgid "Close"
-msgstr ""
+msgstr "Zavřít"
 
 msgid "Saving"
-msgstr ""
+msgstr "Ukládání"
 
 msgid "Save changes"
-msgstr ""
+msgstr "Uložit změny"
+
+msgid "Edit page details"
+msgstr "Upravit detaily stránky"
 
 msgid "Page {pageN}"
-msgstr ""
+msgstr "Stránka {pageN}"
 
 msgid "Could not create page: \"{err}\""
-msgstr ""
+msgstr "Nelze vytvořit stránku: \"{err}\""
+
+msgid "Could not update pages order: \"{err}\""
+msgstr "Nelze upravit pořadí stránek: \"{err}\""
+
+msgid "Add page"
+msgstr "Přidat stránku"
 
 msgid "Available websites"
-msgstr ""
+msgstr "Dostupné weby"
 
 msgid "No sites yet"
-msgstr ""
+msgstr "Zatím žádné weby"
 
 msgid "Site \"{title}\" has been successfully deleted."
-msgstr ""
+msgstr "Web \"{title}\" byl úspěšně smazán."
 
 msgid "Could not delete site \"{name}\": \"{err}\""
-msgstr ""
+msgstr "Nelze smazat web \"{name}\": \"{err}\""
 
 msgid "Deleting a site is irreversible and removes all of its content."
-msgstr ""
+msgstr "Smazání webu je nevratný krok, který odstraní veškerý jeho obsah."
 
 msgid "Delete site"
-msgstr ""
+msgstr "Smazat web"
 
 msgid "Could not update site: \"{err}\""
-msgstr ""
+msgstr "Nelze upravit web: \"{err}\""
 
 msgid "Site Details"
-msgstr ""
+msgstr "Detaily webu"
 
 msgid "Site name"
-msgstr ""
+msgstr "Název webu"
 
 msgid "Content language"
-msgstr ""
+msgstr "Jazyk obsahu"
 
 msgid "Available languages"
-msgstr ""
+msgstr "Dostupné jazyky"
 
 msgid "Audience region"
-msgstr ""
+msgstr "Region publika"
 
 msgid "Available regions"
-msgstr ""
+msgstr "Dostupné regiony"
 
 msgid "Your own domain"
-msgstr ""
+msgstr "Vaše vlastní doména"
 
 msgid "eg. www.joesportfolio.org"
-msgstr ""
+msgstr "např. www.honzovoportfolio.cz"
+
+msgid "Edit site details"
+msgstr "Upravit detaily webu"
 
 msgid "Preview"
 msgstr "Náhled"
