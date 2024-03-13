@@ -51,12 +51,18 @@ const CreateWebsiteButton = () => {
   return (
     <Button variant="outline-primary" disabled={isLoading} onClick={createWebsite}>
       {isLoading ? (
-        <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
+        <>
+          <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
+          &ensp;
+          <span>{_("Creating")}</span>
+        </>
       ) : (
-        <span className="bi bi-plus-circle" aria-hidden="true" />
+        <>
+          <span className="bi bi-plus-circle" aria-hidden="true" />
+          &ensp;
+          <span>{_("Create Site")}</span>
+        </>
       )}
-      &ensp;
-      <span>{_("Create Site")}</span>
     </Button>
   );
 };

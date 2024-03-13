@@ -7,6 +7,7 @@ import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
 import { autoDismissMs } from "../config";
 import CollapseArea from "./CollapseArea";
+import SeoBadge from "./SeoBadge";
 import { Button, Form, Offcanvas, OverlayTrigger, Popover } from "react-bootstrap";
 
 const DeletePage = ({ website, page, disabled, onSubmit, onSuccess, onError }) => {
@@ -156,7 +157,9 @@ const PageDetailsDialog = ({ website }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>{_("Description")}</Form.Label>
+              <Form.Label>
+                {_("Description")} <SeoBadge />
+              </Form.Label>
               <Form.Control
                 type="text"
                 as="textarea"

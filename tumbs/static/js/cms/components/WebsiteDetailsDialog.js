@@ -7,6 +7,7 @@ import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
 import { autoDismissMs, INIT } from "../config";
 import CollapseArea from "./CollapseArea";
+import SeoBadge from "./SeoBadge";
 import { Button, Form, Offcanvas, OverlayTrigger, Popover } from "react-bootstrap";
 
 const DeleteWebsite = ({ website, disabled, onSubmit, onSuccess, onError }) => {
@@ -163,7 +164,9 @@ const WebsiteDetailsDialog = ({ website }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>{_("Content language")}</Form.Label>
+              <Form.Label>
+                {_("Content language")} <SeoBadge />
+              </Form.Label>
               <Form.Select
                 name="language"
                 defaultValue={website.language}
