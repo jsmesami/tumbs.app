@@ -6,8 +6,8 @@ from django.shortcuts import render
 from django.utils.translation import get_language
 from django.views.decorators.http import require_GET
 
-from config.urls import api
 from tumbs.accounts.decorators import auth_required
+from tumbs.websites.api import router
 from tumbs.websites.models import Website
 from tumbs.websites.utils.languages import LANG_CODES, LANGUAGES
 
@@ -26,7 +26,7 @@ def _get_api_endpoints(server_uri):
     """
     Reads API schema to find available CMS endpoints. Returns them in a dictionary {name: {uri: method:}}
     """
-    paths = api.get_openapi_schema().get_paths()
+    paths = router.api.get_openapi_schema().get_paths()
 
     def flatten_paths(uri, params):
         yield from ((v["operationId"], uri, method) for method, v in params.items())
