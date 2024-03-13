@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as stashActions } from "../slices/stash";
 import { _ } from "../i18n";
-import Form from "react-bootstrap/Form";
+import { Form } from "react-bootstrap";
 
 const SelectWebsite = ({ website }) => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as alertsActions } from "../slices/alerts";
-import Alert from "react-bootstrap/Alert";
+import { Alert } from "react-bootstrap";
 
 const AlertWrapper = ({ id, severity, autoDismissMs, children }) => {
   const dispatch = useDispatch();

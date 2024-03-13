@@ -75,7 +75,7 @@ psycopg-binary==3.1.18
     # via psycopg
 pycparser==2.21
     # via cffi
-pydantic==2.6.3
+pydantic==2.6.4
     # via django-ninja
 pydantic-core==2.16.3
     # via pydantic
@@ -117,7 +117,7 @@ watchdog==4.0.0
     # via werkzeug
 werkzeug==3.0.1
     # via tumbs.app (pyproject.toml)
-wheel==0.42.0
+wheel==0.43.0
     # via pip-tools
 whitenoise==6.6.0
     # via tumbs.app (pyproject.toml)

@@ -58,7 +58,7 @@ pillow==10.2.0
     # via tumbs.app (pyproject.toml)
 pycparser==2.21
     # via cffi
-pydantic==2.6.3
+pydantic==2.6.4
     # via django-ninja
 pydantic-core==2.16.3
     # via pydantic

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Collapse from "react-bootstrap/Collapse";
+import { Collapse } from "react-bootstrap";
 
 const CollapseArea = ({ title, children, ...rest }) => {
   const [open, setOpen] = useState(false);

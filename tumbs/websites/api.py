@@ -15,6 +15,7 @@ class PageSchema(Schema):
     id: int
     title: str
     description: str
+    order: int
     content: Optional[dict] = None
 
 
@@ -22,12 +23,14 @@ class PageCreateSchema(Schema):
     website_id: int
     title: str = ""
     description: str = ""
+    order: Optional[int] = None
     content: Optional[dict] = None
 
 
 class PageUpdateSchema(Schema):
     title: str = ""
     description: str = ""
+    order: Optional[int] = None
     content: Optional[dict] = None
 
 

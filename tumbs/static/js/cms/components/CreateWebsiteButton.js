@@ -5,7 +5,7 @@ import { actions as alertsActions } from "../slices/alerts";
 import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
 import { INIT } from "../config";
-import Button from "react-bootstrap/Button";
+import { Button } from "react-bootstrap";
 
 const CreateWebsiteButton = () => {
   const dispatch = useDispatch();

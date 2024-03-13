@@ -7,19 +7,15 @@ import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
 import { autoDismissMs } from "../config";
 import CollapseArea from "./CollapseArea";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Popover from "react-bootstrap/Popover";
+import { Button, Form, Offcanvas, OverlayTrigger, Popover } from "react-bootstrap";
 
-const DeletePage = ({ website, page, onSubmit }) => {
+const DeletePage = ({ website, page, disabled, onSubmit, onSuccess, onError }) => {
   const dispatch = useDispatch();
 
   const handleDelete = useCallback(
     (page) => (e) => {
       e.stopPropagation();
-      onSubmit && onSubmit();
+      onSubmit();
       apiService
         .request("delete_page", {
           args: { page_id: page.id },
@@ -33,6 +29,7 @@ const DeletePage = ({ website, page, onSubmit }) => {
             }),
           );
           dispatch(stashActions.deletePage({ websiteId: website.id, pageId: page.id }));
+          onSuccess();
         })
         .catch((err) => {
           dispatch(
@@ -42,6 +39,7 @@ const DeletePage = ({ website, page, onSubmit }) => {
             }),
           );
           // TODO: notify Sentry
+          onError();
         });
     },
     [website, page],
@@ -57,7 +55,7 @@ const DeletePage = ({ website, page, onSubmit }) => {
           <Popover.Body>
             <p>{_("Deleting a page is irreversible and removes all of its content.")}</p>
             <div className="d-flex">
-              <Button variant="primary" size="sm" onClick={handleDelete(page)} className="mx-auto">
+              <Button variant="primary" size="sm" onClick={handleDelete(page)} className="mx-auto" disabled={disabled}>
                 {_("Proceed")}
               </Button>
             </div>
@@ -65,7 +63,7 @@ const DeletePage = ({ website, page, onSubmit }) => {
         </Popover>
       }
     >
-      <Button variant="outline-warning">
+      <Button variant="outline-warning" disabled={disabled}>
         <i className="bi-trash" />
         &ensp;{_("Delete page")}
       </Button>
@@ -83,6 +81,15 @@ const PageDetailsDialog = ({ website }) => {
   const isLoading = status === "loading";
 
   const hide = () => dispatch(dialogsActions.hideDialogs());
+  const onSubmit = () => setStatus("loading");
+  const onSuccess = () => {
+    setStatus("success");
+    hide();
+  };
+  const onError = () => {
+    setStatus("error");
+    hide();
+  };
 
   const haveValuesChanged = (form, page) => {
     return ["title", "description"].some((field) => form[field].value !== page[field]);
@@ -96,7 +103,7 @@ const PageDetailsDialog = ({ website }) => {
         return;
       }
 
-      setStatus("loading");
+      onSubmit();
       apiService
         .request("update_page", {
           args: { page_id: page.id },
@@ -109,12 +116,10 @@ const PageDetailsDialog = ({ website }) => {
           },
         })
         .then((data) => {
-          setStatus("success");
           dispatch(stashActions.updatePage({ websiteId: website.id, page: data }));
-          hide();
+          onSuccess();
         })
         .catch((err) => {
-          setStatus("error");
           dispatch(
             alertsActions.addAlert({
               content: _('Could not update page: "{err}"').supplant({ err: String(err) }),
@@ -122,7 +127,7 @@ const PageDetailsDialog = ({ website }) => {
             }),
           );
           // TODO: notify Sentry
-          hide();
+          onError();
         });
     },
     [website, page],
@@ -165,7 +170,7 @@ const PageDetailsDialog = ({ website }) => {
             </Form.Group>
 
             <CollapseArea className="mt-3" title={_("Advanced")}>
-              <DeletePage website={website} page={page} onSubmit={hide} />
+              <DeletePage {...{ website, page, disabled: isLoading, onSubmit, onSuccess, onError }} />
             </CollapseArea>
 
             <div className="d-flex justify-content-between mt-5">

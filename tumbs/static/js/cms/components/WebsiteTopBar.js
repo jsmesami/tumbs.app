@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { actions as dialogsActions } from "../slices/dialogs";
 import WebsiteNameEditor from "./WebsiteNameEditor";
-import Button from "react-bootstrap/Button";
+import { Button } from "react-bootstrap";
 
 const WebsiteTopBar = ({ website }) => {
   const dispatch = useDispatch();

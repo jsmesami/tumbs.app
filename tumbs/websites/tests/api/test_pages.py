@@ -31,6 +31,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     fields = {
         "title": "Little Page of Horrors",
         "description": "Delves into how individual lives and decisions contribute to the pattern of human existence.",
+        "order": 0,
         "content": {"A": ["B", "C"]},
     }
     page_id = 1
@@ -94,9 +95,13 @@ def test_delete_list(authorized_client, new_website, new_page):
     assert response.json() == {"success": True}
 
     website_dict = model_to_dict(website, fields=["id", "name", "language", "region", "domain"])
-    page1_dict = model_to_dict(page1, fields=["id", "title", "description", "content"])
+    page1_dict = model_to_dict(page1, fields=["id", "title", "description", "content"]) | {
+        "order": 0,  # <- model_to_dict doesn't return non-editable fields
+    }
     expected = website_dict | {"images": [], "pages": [page1_dict]}
 
+    print(page1.__dict__)
+    print(page1_dict)
     response = authorized_client.get(
         reverse("api-1.0.0:read_website", args=[website.pk]),
         content_type="application/json",

@@ -7,19 +7,15 @@ import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
 import { autoDismissMs, INIT } from "../config";
 import CollapseArea from "./CollapseArea";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Popover from "react-bootstrap/Popover";
+import { Button, Form, Offcanvas, OverlayTrigger, Popover } from "react-bootstrap";
 
-const DeleteWebsite = ({ website, onSubmit }) => {
+const DeleteWebsite = ({ website, disabled, onSubmit, onSuccess, onError }) => {
   const dispatch = useDispatch();
 
   const handleDelete = useCallback(
     (website) => (e) => {
       e.stopPropagation();
-      onSubmit && onSubmit();
+      onSubmit();
       apiService
         .request("delete_website", {
           args: { website_id: website.id },
@@ -33,6 +29,7 @@ const DeleteWebsite = ({ website, onSubmit }) => {
             }),
           );
           dispatch(stashActions.deleteWebsite({ websiteId: website.id }));
+          onSuccess();
         })
         .catch((err) => {
           dispatch(
@@ -42,6 +39,7 @@ const DeleteWebsite = ({ website, onSubmit }) => {
             }),
           );
           // TODO: notify Sentry
+          onError();
         });
     },
     [website],
@@ -57,7 +55,13 @@ const DeleteWebsite = ({ website, onSubmit }) => {
           <Popover.Body>
             <p>{_("Deleting a site is irreversible and removes all of its content.")}</p>
             <div className="d-flex">
-              <Button variant="primary" size="sm" onClick={handleDelete(website)} className="mx-auto">
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleDelete(website)}
+                className="mx-auto"
+                disabled={disabled}
+              >
                 {_("Proceed")}
               </Button>
             </div>
@@ -65,7 +69,7 @@ const DeleteWebsite = ({ website, onSubmit }) => {
         </Popover>
       }
     >
-      <Button variant="outline-warning">
+      <Button variant="outline-warning" disabled={disabled}>
         <i className="bi-trash" />
         &ensp;{_("Delete site")}
       </Button>
@@ -81,6 +85,15 @@ const WebsiteDetailsDialog = ({ website }) => {
   const isLoading = status === "loading";
 
   const hide = () => dispatch(dialogsActions.hideDialogs());
+  const onSubmit = () => setStatus("loading");
+  const onSuccess = () => {
+    setStatus("success");
+    hide();
+  };
+  const onError = () => {
+    setStatus("error");
+    hide();
+  };
 
   const haveValuesChanged = (form, website) => {
     return ["name", "language", "region", "domain"].some((field) => form[field].value !== website[field]);
@@ -94,7 +107,7 @@ const WebsiteDetailsDialog = ({ website }) => {
         return;
       }
 
-      setStatus("loading");
+      onSubmit();
       apiService
         .request("update_website", {
           args: { website_id: website.id },
@@ -109,9 +122,8 @@ const WebsiteDetailsDialog = ({ website }) => {
           },
         })
         .then((data) => {
-          setStatus("success");
           dispatch(stashActions.updateWebsite(data));
-          hide();
+          onSuccess();
         })
         .catch((err) => {
           setStatus("error");
@@ -122,7 +134,7 @@ const WebsiteDetailsDialog = ({ website }) => {
             }),
           );
           // TODO: notify Sentry
-          hide();
+          onError();
         });
     },
     [website],
@@ -188,14 +200,13 @@ const WebsiteDetailsDialog = ({ website }) => {
                   type="text"
                   name="domain"
                   defaultValue={website.domain}
-                  required
                   disabled={isLoading}
                   placeholder={_("eg. www.joesportfolio.org")}
                   autoFocus
                   maxLength="255"
                 />
               </Form.Group>
-              <DeleteWebsite website={website} onSubmit={hide}></DeleteWebsite>
+              <DeleteWebsite {...{ website, disabled: isLoading, onSubmit, onSuccess, onError }}></DeleteWebsite>
             </CollapseArea>
 
             <div className="d-flex justify-content-between mt-5">
