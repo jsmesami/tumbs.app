@@ -1,3 +1,4 @@
+import logging
 from typing import List, Optional
 
 from django.core.exceptions import ValidationError as DjangoValidationError
@@ -9,6 +10,7 @@ from ninja.errors import AuthenticationError, ValidationError
 from tumbs.websites.models import Image, Page, Website
 
 router = Router(auth=lambda request: request.session.get("customer"))
+logger = logging.getLogger(__name__)
 
 
 class PageSchema(Schema):
@@ -103,7 +105,7 @@ def create_website(request, payload: WebsiteCreateUpdateSchema):
         if value is not None:
             setattr(ws, attr, value)
     ws.save()
-    # TODO: return sensible error when creation fails  # pylint: disable=W0511
+    logger.info(f"User {request.session['customer']['id']} CREATED website {repr(ws)}")
     return 201, ws
 
 
@@ -129,6 +131,7 @@ def delete_website(request, website_id: int):
     ws.save()
     Page.objects.filter(website_id=website_id).update(deleted=True)
     Image.objects.filter(website_id=website_id).update(deleted=True)
+    logger.info(f"User {request.session['customer']['id']} DELETED website {repr(ws)}")
     return {"success": True}
 
 
@@ -138,7 +141,9 @@ def delete_website(request, website_id: int):
 @router.post("/pages", response={201: PageSchema})
 def create_page(request, payload: PageCreateSchema):
     ensure_website_owner(request, payload.website_id)
-    return 201, Page.objects.create(**payload.dict())
+    page = Page.objects.create(**payload.dict())
+    logger.info(f"User {request.session['customer']['id']} CREATED page {repr(page)}")
+    return 201, page
 
 
 @router.get("/pages/{page_id}", response=PageSchema)
@@ -160,6 +165,7 @@ def delete_page(request, page_id: int):
     page = get_object_or_404(Page.objects.valid(), website__customer_id=ensure_customer_id(request), id=page_id)
     page.deleted = True
     page.save()
+    logger.info(f"User {request.session['customer']['id']} DELETED page {repr(page)}")
     return {"success": True}
 
 
