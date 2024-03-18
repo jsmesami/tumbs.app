@@ -1,5 +1,6 @@
-import itertools
 import json
+import sys
+from inspect import getmembers, isfunction
 
 from django.forms import model_to_dict
 from django.shortcuts import render
@@ -7,7 +8,7 @@ from django.utils.translation import get_language
 from django.views.decorators.http import require_GET
 
 from tumbs.accounts.decorators import auth_required
-from tumbs.websites.api import router
+from tumbs.websites import api
 from tumbs.websites.models import Website
 from tumbs.websites.utils.languages import LANG_CODES, LANGUAGES
 
@@ -24,21 +25,17 @@ def _prepare_website(website):
 
 def _get_api_endpoints(server_uri):
     """
-    Reads API schema to find available CMS endpoints. Returns them in a dictionary {name: {uri: method:}}
+    Reads CMS API module to find available endpoints. Returns them in a dictionary {name: {uri: method:}}
     """
-    paths = router.api.get_openapi_schema().get_paths()
-
-    def flatten_paths(uri, params):
-        yield from ((v["operationId"], uri, method) for method, v in params.items())
+    cms_module = sys.modules[api.__name__]
+    operations = (func.__dict__.get("_ninja_operation") for _, func in getmembers(cms_module, isfunction))
 
     return {
-        name.removeprefix("tumbs_websites_api_"): {
-            "uri": server_uri + uri,
-            "method": method.upper(),
+        op.view_func.__name__: {
+            "method": op.methods[0],
+            "uri": f"{server_uri}/api/cms{op.path}",
         }
-        for name, uri, method in itertools.chain(
-            *(flatten_paths(p, params) for p, params in paths.items() if p.startswith("/api/cms/"))
-        )
+        for op in filter(None, operations)
     }
 
 
