@@ -16,10 +16,13 @@
 }
 
 .website-top-bar {
-  padding: 1rem 0;
+  padding: 1rem;
+  margin: 0 -1rem 1.5rem -1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
+  background: $gray-100;
+  border-bottom: 1px solid $gray-200;
 
   .h3 {
     margin: 0;
@@ -80,28 +83,44 @@
   width: 100%;
   position: relative;
   padding: 1.5rem;
-  border: 1px solid $gray-300;
+  border: 1px solid $gray-200;
   border-radius: $border-radius;
-  background: $body-bg;
+  background: $gray-100;
 
   .widget-drag-handle {
     position: absolute;
     left: -1px;
     top: -.7rem;
     line-height: .8rem;
-    padding: .2em .5rem;
+    padding: .2rem .5rem;
     border: 1px solid $gray-300;
     background: $body-bg;
     color: $text-muted;
     font-size: 80%;
 
-    &.disabled {
-      background: $gray-200;
-    }
-
     i {
       font-size: 120%;
       margin-right: .5rem;
+    }
+  }
+
+  .widget-delete-button {
+    position: absolute;
+    right: -1px;
+    top: -.7rem;
+    line-height: .8rem;
+    font-size: 115%;
+    padding: .1rem;
+    border: 1px solid $gray-300;
+    border-radius: 0;
+    background: $body-bg;
+    color: $text-muted;
+
+    &.btn:active {
+      border: 1px solid $gray-300;
+      border-radius: 0;
+      background: $body-bg;
+      color: $danger;
     }
   }
 }

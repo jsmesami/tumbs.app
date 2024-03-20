@@ -52,7 +52,11 @@ const DeleteWebsite = ({ website, disabled, onSubmit, onSuccess, onError }) => {
       placement="top"
       overlay={
         <Popover>
-          <Popover.Header as="h3">{_("Destructive action")}</Popover.Header>
+          <Popover.Header as="h3">
+            <i className="bi-exclamation-triangle-fill text-danger" />
+            &ensp;
+            {_("Destructive action")}
+          </Popover.Header>
           <Popover.Body>
             <p>{_("Deleting a site is irreversible and removes all of its content.")}</p>
             <div className="d-flex">

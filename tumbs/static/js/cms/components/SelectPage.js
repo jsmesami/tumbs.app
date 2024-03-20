@@ -142,13 +142,7 @@ const SelectPage = ({ website }) => {
                 <PageTab page={pg} active={pg.id === pageId} dragDisabled={dragDisabled} key={pg.id} index={index} />
               ))}
               {provided.placeholder}
-              <Button
-                variant="link"
-                className="ms-auto"
-                title={_("Add page")}
-                onClick={createPage}
-                disabled={addDisabled}
-              >
+              <Button variant="link" title={_("Add page")} onClick={createPage} disabled={addDisabled}>
                 <i className="bi-plus-circle text-success" />
               </Button>
             </Nav>

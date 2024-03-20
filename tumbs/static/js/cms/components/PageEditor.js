@@ -35,7 +35,7 @@ const widgetName = {
 
 const WidgetsMenu = ({ onClick, addDisabled }) => {
   return (
-    <div className="mt-3 mb-3 d-flex justify-content-center gap-2">
+    <div className="mt-4 mb-4 d-flex justify-content-center gap-3">
       <OverlayTrigger overlay={<Tooltip>{widgetName.gallery}</Tooltip>}>
         <Button variant="outline-secondary" size="sm" onClick={onClick("gallery")} disabled={addDisabled}>
           <i className="bi-images" />
@@ -55,15 +55,18 @@ const WidgetsMenu = ({ onClick, addDisabled }) => {
   );
 };
 
-const WidgetWrapper = ({ widget, dragDisabled, index, children }) => {
+const WidgetWrapper = ({ widget, dragDisabled, delDisabled, index, children }) => {
   return (
     <Draggable draggableId={`widget-${index}`} isDragDisabled={dragDisabled} index={index}>
       {(provided) => (
-        <div className="widget-wrapper shadow-sm" ref={provided.innerRef} {...provided.draggableProps}>
-          <div className={`widget-drag-handle ${dragDisabled ? "disabled" : ""}`} {...provided.dragHandleProps}>
+        <div className="widget-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
+          <div className="widget-drag-handle" {...provided.dragHandleProps}>
             <i className="bi-grip-horizontal" />
             {widgetName[widget.type]}
           </div>
+          <button className="btn btn-link widget-delete-button" disabled={delDisabled}>
+            <i className="bi-x" />
+          </button>
           {children}
         </div>
       )}
@@ -78,6 +81,7 @@ const PageEditor = ({ website }) => {
   const [addStatus, setAddStatus] = useState("initial");
   const [reorderStatus, setReorderStatus] = useState("initial");
   const addDisabled = addStatus === "loading" || reorderStatus === "loading";
+  const delDisabled = addDisabled;
   const dragDisabled = addDisabled || (page && page.content.length < 2);
 
   const addWidget = (type) => () => {
@@ -109,7 +113,6 @@ const PageEditor = ({ website }) => {
 
   const reorderWidgets = (page) => {
     setReorderStatus("loading");
-
     apiService
       .request("update_page", {
         args: { page_id: pageId },
@@ -163,7 +166,7 @@ const PageEditor = ({ website }) => {
             {(provided) => (
               <div className="widgets" {...provided.droppableProps} ref={provided.innerRef}>
                 {page.content.map((widget, index) => (
-                  <WidgetWrapper widget={widget} dragDisabled={dragDisabled} key={index} index={index}>
+                  <WidgetWrapper {...{ widget, delDisabled, dragDisabled, index }} key={index}>
                     {widgetComponent(widget, index)}
                   </WidgetWrapper>
                 ))}
