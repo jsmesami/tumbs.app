@@ -14,7 +14,7 @@ class Page(OrderedModel):
     )
     title = models.CharField(_("name"), max_length=255)
     description = models.TextField(_("description"), blank=True)
-    content = models.JSONField(_("content"), null=True, blank=True)
+    content = models.JSONField(_("content"), default=list, blank=True)
     deleted = models.BooleanField(_("deleted"), default=False, db_index=True)
 
     order_with_respect_to = "website"

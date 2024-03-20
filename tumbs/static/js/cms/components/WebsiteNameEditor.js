@@ -23,8 +23,8 @@ const WebsiteNameEditor = ({ website }) => {
 
     apiService
       .request("update_website", {
-        payload: { ...website, ...{ name: value } },
         args: { website_id: website.id },
+        payload: { ...website, ...{ name: value } },
       })
       .then((data) => {
         setStatus("success");

@@ -138,22 +138,20 @@ const SelectPage = ({ website }) => {
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
             <Nav variant="tabs" activeKey={pageId} onSelect={setCurrent}>
-              <>
-                {website.pages.map((pg, index) => (
-                  <PageTab page={pg} active={pg.id === pageId} dragDisabled={dragDisabled} key={pg.id} index={index} />
-                ))}
-                <Button
-                  variant="link"
-                  className="ms-auto"
-                  title={_("Add page")}
-                  onClick={createPage}
-                  disabled={addDisabled}
-                >
-                  <i className="bi-plus-circle text-success" />
-                </Button>
-              </>
+              {website.pages.map((pg, index) => (
+                <PageTab page={pg} active={pg.id === pageId} dragDisabled={dragDisabled} key={pg.id} index={index} />
+              ))}
+              {provided.placeholder}
+              <Button
+                variant="link"
+                className="ms-auto"
+                title={_("Add page")}
+                onClick={createPage}
+                disabled={addDisabled}
+              >
+                <i className="bi-plus-circle text-success" />
+              </Button>
             </Nav>
-            {provided.placeholder}
           </div>
         )}
       </Droppable>

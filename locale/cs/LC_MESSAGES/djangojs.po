@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 14:03+0000\n"
+"POT-Creation-Date: 2024-03-19 21:38+0000\n"
 "PO-Revision-Date: 2024-03-13 10:43+0000\n"
 "Last-Translator: Ondřej Nejedlý <jsmesami@gmail.com>\n"
 "Language-Team: CZ <jsmesami@gmail.com>\n"
@@ -81,6 +81,18 @@ msgstr "Ukládání"
 
 msgid "Save changes"
 msgstr "Uložit změny"
+
+msgid "Gallery"
+msgstr "Galerie"
+
+msgid "Rich text"
+msgstr "Formátovaný text"
+
+msgid "Profile"
+msgstr "Medailon"
+
+msgid "Could not add content: \"{err}\""
+msgstr "Nelze přidat obsah: \"{err}\""
 
 msgid "Edit page details"
 msgstr "Upravit detaily stránky"

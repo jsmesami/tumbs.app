@@ -32,7 +32,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
         "title": "Little Page of Horrors",
         "description": "Delves into how individual lives and decisions contribute to the pattern of human existence.",
         "order": 0,
-        "content": {"A": ["B", "C"]},
+        "content": [{"A": ["B", "C"]}],
     }
     page_id = 1
     provided = {"website_id": website.pk} | fields
@@ -59,7 +59,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     fields = {
         "title": "Pages of Possibility",
         "description": "Motivational or inspirational read, encouraging readers to turn the pages of their own lives.",
-        "content": {"X": ["Y", "Z"]},
+        "content": [{"X": ["Y", "Z"]}],
     }
     provided |= fields
     expected |= fields

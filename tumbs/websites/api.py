@@ -18,7 +18,7 @@ class PageSchema(Schema):
     title: str
     description: str
     order: int
-    content: Optional[dict] = None
+    content: list
 
 
 class PageCreateSchema(Schema):
@@ -26,14 +26,14 @@ class PageCreateSchema(Schema):
     title: str = ""
     description: str = ""
     order: Optional[int] = None
-    content: Optional[dict] = None
+    content: list = []
 
 
 class PageUpdateSchema(Schema):
     title: str = ""
     description: str = ""
     order: Optional[int] = None
-    content: Optional[dict] = None
+    content: list = []
 
 
 class ImageSchema(Schema):
@@ -105,7 +105,7 @@ def create_website(request, payload: WebsiteCreateUpdateSchema):
         if value is not None:
             setattr(ws, attr, value)
     ws.save()
-    logger.info(f"User {request.session['customer']['id']} CREATED website {repr(ws)}")
+    logger.info("User %s CREATED website %s", request.session["customer"]["id"], repr(ws))
     return 201, ws
 
 
@@ -131,7 +131,7 @@ def delete_website(request, website_id: int):
     ws.save()
     Page.objects.filter(website_id=website_id).update(deleted=True)
     Image.objects.filter(website_id=website_id).update(deleted=True)
-    logger.info(f"User {request.session['customer']['id']} DELETED website {repr(ws)}")
+    logger.info("User %s DELETED website %s", request.session["customer"]["id"], repr(ws))
     return {"success": True}
 
 
@@ -142,7 +142,7 @@ def delete_website(request, website_id: int):
 def create_page(request, payload: PageCreateSchema):
     ensure_website_owner(request, payload.website_id)
     page = Page.objects.create(**payload.dict())
-    logger.info(f"User {request.session['customer']['id']} CREATED page {repr(page)}")
+    logger.info("User %s CREATED page %s", request.session["customer"]["id"], repr(page))
     return 201, page
 
 
@@ -165,7 +165,7 @@ def delete_page(request, page_id: int):
     page = get_object_or_404(Page.objects.valid(), website__customer_id=ensure_customer_id(request), id=page_id)
     page.deleted = True
     page.save()
-    logger.info(f"User {request.session['customer']['id']} DELETED page {repr(page)}")
+    logger.info("User %s DELETED page %s", request.session["customer"]["id"], repr(page))
     return {"success": True}
 
 

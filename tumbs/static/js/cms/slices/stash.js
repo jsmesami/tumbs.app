@@ -42,6 +42,13 @@ const slice = createSlice({
         ws.pages = ws.pages.filter((i) => i.id !== pageId);
       }
     },
+    addWidget: (state, { payload: { websiteId, pageId, widget } }) => {
+      const ws = state.websites.find((i) => i.id === websiteId);
+      const pg = ws && ws.pages.find((i) => i.id === pageId);
+      if (pg) {
+        pg.content.unshift(widget);
+      }
+    },
   },
   selectors: {
     selectCurrentWebsite: (state) => {
