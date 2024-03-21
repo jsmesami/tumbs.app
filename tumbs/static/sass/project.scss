@@ -89,17 +89,19 @@
 
   .widget-drag-handle {
     position: absolute;
+    display: flex;
+    align-items: center;
     left: -1px;
     top: -.7rem;
-    line-height: .8rem;
-    padding: .2rem .5rem;
+    height: 1.4rem;
+    padding: 0 .5rem;
     border: 1px solid $gray-300;
     background: $body-bg;
     color: $text-muted;
-    font-size: 80%;
+    font-size: 70%;
 
     i {
-      font-size: 120%;
+      font-size: 140%;
       margin-right: .5rem;
     }
   }
@@ -108,9 +110,10 @@
     position: absolute;
     right: -1px;
     top: -.7rem;
-    line-height: .8rem;
+    height: 1.4rem;
+    line-height: 0;
     font-size: 115%;
-    padding: .1rem;
+    padding: 0;
     border: 1px solid $gray-300;
     border-radius: 0;
     background: $body-bg;
