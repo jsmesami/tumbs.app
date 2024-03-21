@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { _ } from "../i18n";
+import { maxPages } from "../config";
 import { apiService } from "../network";
 import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
@@ -40,8 +41,9 @@ const SelectPage = ({ website }) => {
   const page = website.pages.find((p) => p.id === pageId);
   const [creationStatus, setCreationStatus] = useState("initial");
   const [reorderStatus, setReorderStatus] = useState("initial");
-  const addDisabled = creationStatus === "loading" || reorderStatus === "loading";
-  const dragDisabled = addDisabled || website.pages.length < 2;
+  const isBusy = creationStatus === "loading" || reorderStatus === "loading";
+  const addDisabled = isBusy || website.pages.length >= maxPages;
+  const dragDisabled = isBusy || website.pages.length < 2;
 
   const setCurrent = (id) => dispatch(pagesActions.setCurrentId(parseInt(id)));
 
@@ -77,7 +79,7 @@ const SelectPage = ({ website }) => {
       });
   }, [website]);
 
-  const reorderPages = (reordered) => {
+  const reorderPages = (reordered, oldOrder) => {
     setReorderStatus("loading");
     Promise.all(
       reordered.map((pg, index) =>
@@ -96,6 +98,12 @@ const SelectPage = ({ website }) => {
       .catch((err) => {
         setReorderStatus("error");
         dispatch(
+          stashActions.updateWebsite({
+            ...website,
+            pages: oldOrder,
+          }),
+        );
+        dispatch(
           alertsActions.addAlert({
             content: _('Could not update pages order: "{err}"').supplant({ err: String(err) }),
             severity: "danger",
@@ -109,16 +117,17 @@ const SelectPage = ({ website }) => {
     ({ source, destination }) => {
       if (!destination || destination.index === source.index) return;
 
-      const reordered = [...website.pages];
-      const [removed] = reordered.splice(source.index, 1);
-      reordered.splice(destination.index, 0, removed);
+      const oldOrder = [...website.pages];
+      const newOrder = [...website.pages];
+      const [removed] = newOrder.splice(source.index, 1);
+      newOrder.splice(destination.index, 0, removed);
 
-      reorderPages(reordered);
+      reorderPages(newOrder, oldOrder);
 
       dispatch(
         stashActions.updateWebsite({
           ...website,
-          pages: reordered,
+          pages: newOrder,
         }),
       );
     },

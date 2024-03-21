@@ -111,12 +111,12 @@ const PageEditor = ({ website }) => {
       });
   };
 
-  const reorderWidgets = (page) => {
+  const reorderWidgets = (newPage, oldPage) => {
     setReorderStatus("loading");
     apiService
       .request("update_page", {
-        args: { page_id: pageId },
-        payload: page,
+        args: { page_id: newPage.id },
+        payload: newPage,
       })
       .then(() => {
         setReorderStatus("success");
@@ -129,6 +129,12 @@ const PageEditor = ({ website }) => {
             severity: "danger",
           }),
         );
+        dispatch(
+          stashActions.updatePage({
+            websiteId: website.id,
+            page: oldPage,
+          }),
+        );
         // TODO: notify Sentry
       });
   };
@@ -138,15 +144,15 @@ const PageEditor = ({ website }) => {
     ({ source, destination }) => {
       if (!destination || destination.index === source.index) return;
 
-      const reordered = [...page.content];
-      const [removed] = reordered.splice(source.index, 1);
-      reordered.splice(destination.index, 0, removed);
+      const newOrder = [...page.content];
+      const [removed] = newOrder.splice(source.index, 1);
+      newOrder.splice(destination.index, 0, removed);
 
       const newPage = {
         ...page,
-        content: reordered,
+        content: newOrder,
       };
-      reorderWidgets(newPage);
+      reorderWidgets(newPage, page);
 
       dispatch(
         stashActions.updatePage({
