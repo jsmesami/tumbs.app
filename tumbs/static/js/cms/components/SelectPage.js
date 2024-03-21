@@ -77,24 +77,19 @@ const SelectPage = ({ website }) => {
       });
   }, [website]);
 
-  const swapPages = (p1, p2) => {
+  const reorderPages = (reordered) => {
     setReorderStatus("loading");
-    Promise.all([
-      apiService.request("update_page", {
-        args: { page_id: p1.id },
-        payload: {
-          ...p1,
-          order: p2.order,
-        },
-      }),
-      apiService.request("update_page", {
-        args: { page_id: p2.id },
-        payload: {
-          ...p2,
-          order: p1.order,
-        },
-      }),
-    ])
+    Promise.all(
+      reordered.map((pg, index) =>
+        apiService.request("update_page", {
+          args: { page_id: pg.id },
+          payload: {
+            ...pg,
+            order: index,
+          },
+        }),
+      ),
+    )
       .then(() => {
         setReorderStatus("success");
       })
@@ -118,9 +113,7 @@ const SelectPage = ({ website }) => {
       const [removed] = reordered.splice(source.index, 1);
       reordered.splice(destination.index, 0, removed);
 
-      const [p1] = website.pages.toSpliced(source.index, 1);
-      const [p2] = website.pages.toSpliced(destination.index, 1);
-      swapPages(p1, p2);
+      reorderPages(reordered);
 
       dispatch(
         stashActions.updateWebsite({
