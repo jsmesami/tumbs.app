@@ -71,7 +71,7 @@ const SelectPage = ({ website }) => {
         setCreationStatus("error");
         dispatch(
           alertsActions.addAlert({
-            content: _('Could not create page: "{err}"').supplant({ err: String(err) }),
+            content: _('Could not create page: "{err}"').supplant({ err: err }),
             severity: "danger",
           }),
         );
@@ -105,7 +105,7 @@ const SelectPage = ({ website }) => {
         );
         dispatch(
           alertsActions.addAlert({
-            content: _('Could not update pages order: "{err}"').supplant({ err: String(err) }),
+            content: _('Could not update pages order: "{err}"').supplant({ err: extractMessage(err) }),
             severity: "danger",
           }),
         );

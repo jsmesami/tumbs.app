@@ -255,3 +255,4 @@ WEBPACK_LOADER = {
 # ------------------------------------------------------------------------------
 CMS_IMAGE_ALLOWED_MAX_SIZE = 20 * 1024 * 1024
 CMS_IMAGE_ALLOWED_CONTENT_TYPES = ["image/jpeg"]
+CMS_PAGES_MAX_PER_WEBSITE = 8

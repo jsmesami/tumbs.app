@@ -103,7 +103,7 @@ const PageEditor = ({ website }) => {
         setAddStatus("error");
         dispatch(
           alertsActions.addAlert({
-            content: _('Could not add content: "{err}"').supplant({ err: String(err) }),
+            content: _('Could not add content: "{err}"').supplant({ err: err }),
             severity: "danger",
           }),
         );
@@ -125,7 +125,7 @@ const PageEditor = ({ website }) => {
         setReorderStatus("error");
         dispatch(
           alertsActions.addAlert({
-            content: _('Could not update widgets order: "{err}"').supplant({ err: String(err) }),
+            content: _('Could not update widgets order: "{err}"').supplant({ err: extractMessage(err) }),
             severity: "danger",
           }),
         );

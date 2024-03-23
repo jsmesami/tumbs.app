@@ -108,3 +108,29 @@ def test_delete_list(authorized_client, new_website, new_page):
     )
     assert response.status_code == 200
     assert response.json() == expected
+
+
+@pytest.mark.django_db
+def test_max_pages(settings, authorized_client, truncate_table, new_website, new_page):
+    max_pages = 1
+    settings.CMS_PAGES_MAX_PER_WEBSITE = max_pages
+    truncate_table(Website)
+
+    website = new_website()
+    new_page(website)
+
+    provided = {
+        "website_id": website.pk,
+        "title": "",
+        "description": "",
+        "content": [],
+    }
+    expected = {"detail": [{"msg": f"Maximum pages per website is {max_pages}."}]}
+
+    response = authorized_client.post(
+        reverse("api-1.0.0:create_page"),
+        provided,
+        content_type="application/json",
+    )
+    assert response.status_code == 422
+    assert response.json() == expected

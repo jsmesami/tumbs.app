@@ -35,7 +35,10 @@ const DeleteWebsite = ({ website, disabled, onSubmit, onSuccess, onError }) => {
         .catch((err) => {
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not delete site "{name}": "{err}"').supplant({ name: website.name, err: String(err) }),
+              content: _('Could not delete site "{name}": "{err}"').supplant({
+                name: website.name,
+                err: err,
+              }),
               severity: "danger",
             }),
           );
@@ -134,7 +137,7 @@ const WebsiteDetailsDialog = ({ website }) => {
           setStatus("error");
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not update site: "{err}"').supplant({ err: String(err) }),
+              content: _('Could not update site: "{err}"').supplant({ err: extractMessage(err) }),
               severity: "danger",
             }),
           );

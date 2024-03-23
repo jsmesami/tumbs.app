@@ -1,8 +1,11 @@
 import logging
 from typing import List, Optional
 
+from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
+from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 from ipware import get_client_ip
 from ninja import File, Router, Schema, UploadedFile
 from ninja.errors import AuthenticationError, ValidationError
@@ -78,6 +81,7 @@ def ensure_customer_id(request):
     try:
         return request.session["customer"]["id"]
     except KeyError as err:
+        logger.warning("Unauthenticated user tried to access CMS API")
         raise AuthenticationError() from err
 
 
@@ -85,9 +89,15 @@ def ensure_website_owner(request, website_id):
     """
     Check if a website with website_id exists and is owned by current customer. Raise Http404 when not.
     """
-    return get_object_or_404(
-        Website.objects.valid().only("id"), customer_id=ensure_customer_id(request), id=website_id
-    )
+    try:
+        return get_object_or_404(
+            Website.objects.valid().only("id"), customer_id=ensure_customer_id(request), id=website_id
+        )
+    except Http404 as e:
+        logger.warning(
+            "User %s failed to access website <websites.Website %s>", request.session["customer"]["id"], website_id
+        )
+        raise e
 
 
 # ---------------- Websites
@@ -140,7 +150,18 @@ def delete_website(request, website_id: int):
 
 @router.post("/pages", response={201: PageSchema})
 def create_page(request, payload: PageCreateSchema):
-    ensure_website_owner(request, payload.website_id)
+    ws = ensure_website_owner(request, payload.website_id)
+    max_pages = settings.CMS_PAGES_MAX_PER_WEBSITE
+
+    if ws.pages.count() >= max_pages:
+        logger.warning(
+            "User %s tried to exceed max pages (%s) per website %s",
+            request.session["customer"]["id"],
+            max_pages,
+            repr(ws),
+        )
+        raise ValidationError(errors=[{"msg": _("Maximum pages per website is {max}.").format(max=max_pages)}])
+
     page = Page.objects.create(**payload.dict())
     logger.info("User %s CREATED page %s", request.session["customer"]["id"], repr(page))
     return 201, page
