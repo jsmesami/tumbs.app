@@ -56,7 +56,7 @@ const WidgetsMenu = ({ onClick, addDisabled }) => {
   );
 };
 
-const WidgetWrapper = ({ widget, dragDisabled, delDisabled, isSaving, index, children }) => {
+const WidgetWrapper = ({ widget, dragDisabled, delDisabled, savingStatus, index, children }) => {
   return (
     <Draggable draggableId={`widget-${index}`} isDragDisabled={dragDisabled} index={index}>
       {(provided) => (
@@ -64,7 +64,7 @@ const WidgetWrapper = ({ widget, dragDisabled, delDisabled, isSaving, index, chi
           <div className="widget-drag-handle" {...provided.dragHandleProps}>
             <i className="bi-grip-horizontal" />
             {widgetName[widget.type]}
-            {isSaving ? <Spinner animation="grow" size="sm" /> : null}
+            {savingStatus === "loading" ? <Spinner animation="grow" size="sm" /> : null}
           </div>
           <button className="btn btn-link widget-delete-button" disabled={delDisabled}>
             <i className="bi-x" />
@@ -82,10 +82,10 @@ const PageEditor = ({ website }) => {
   const page = website.pages.find((p) => p.id === pageId);
   const [addStatus, setAddStatus] = useState("initial");
   const [reorderStatus, setReorderStatus] = useState("initial");
-  const [saveStatus, setSaveStatus] = useState("initial");
+  const [savingStatus, setSavingStatus] = useState({});
   const addDisabled = addStatus === "loading" || reorderStatus === "loading";
   const delDisabled = addDisabled;
-  const isSaving = saveStatus === "loading";
+  const isSaving = Object.values(savingStatus).some((v) => v === "loading");
   const dragDisabled = addDisabled || isSaving || (page && page.content.length < 2);
 
   const addWidget = (type) => () => {
@@ -170,7 +170,7 @@ const PageEditor = ({ website }) => {
     const newContent = [...page.content];
     newContent[index] = widget;
 
-    setSaveStatus("loading");
+    setSavingStatus({ ...savingStatus, ...{ [index]: "loading" } });
     apiService
       .request("update_page", {
         args: { page_id: page.id },
@@ -180,7 +180,7 @@ const PageEditor = ({ website }) => {
         },
       })
       .then((page) => {
-        setSaveStatus("success");
+        setSavingStatus({ ...savingStatus, ...{ [index]: "success" } });
         dispatch(
           stashActions.updateWidget({
             websiteId: website.id,
@@ -191,7 +191,7 @@ const PageEditor = ({ website }) => {
         );
       })
       .catch((err) => {
-        setSaveStatus("error");
+        setSavingStatus({ ...savingStatus, ...{ [index]: "error" } });
         dispatch(
           alertsActions.addAlert({
             content: _('Could not save content: "{err}"').supplant({ err: err }),
@@ -201,7 +201,7 @@ const PageEditor = ({ website }) => {
         // TODO: notify Sentry
       });
   };
-  console.log(page?.content);
+
   return (
     page && (
       <>
@@ -212,7 +212,11 @@ const PageEditor = ({ website }) => {
             {(provided) => (
               <div className="widgets" {...provided.droppableProps} ref={provided.innerRef}>
                 {page.content.map((widget, index) => (
-                  <WidgetWrapper {...{ widget, delDisabled, dragDisabled, isSaving, index }} key={index}>
+                  <WidgetWrapper
+                    {...{ widget, delDisabled, dragDisabled, index }}
+                    savingStatus={savingStatus[index]}
+                    key={index}
+                  >
                     {widgetComponent(page, widget, index, onChange)}
                   </WidgetWrapper>
                 ))}

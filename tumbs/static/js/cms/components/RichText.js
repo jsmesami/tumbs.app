@@ -17,7 +17,7 @@ const RichText = ({ value, onChange }) => (
             <BoldItalicUnderlineToggles />
             <BlockTypeSelect />
             <CreateLink />
-            <ListsToggle />
+            <ListsToggle options={["bullet", "number"]} />
           </>
         ),
       }),
