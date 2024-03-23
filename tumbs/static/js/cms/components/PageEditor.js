@@ -8,16 +8,17 @@ import Textual from "./widgets/Textual";
 import Gallery from "./widgets/Gallery";
 import Profile from "./widgets/Profile";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 
-const widgetComponent = ({ type, ...props }, index) => {
-  switch (type) {
+const widgetComponent = (page, widget, index, onChange) => {
+  const props = { key: index, widget: widget, onChange: onChange(page, index) };
+  switch (widget.type) {
     case "textual":
-      return <Textual key={index} {...props} />;
+      return <Textual {...props} />;
     case "gallery":
-      return <Gallery key={index} {...props} />;
+      return <Gallery {...props} />;
     case "profile":
-      return <Profile key={index} {...props} />;
+      return <Profile {...props} />;
   }
 };
 
@@ -55,7 +56,7 @@ const WidgetsMenu = ({ onClick, addDisabled }) => {
   );
 };
 
-const WidgetWrapper = ({ widget, dragDisabled, delDisabled, index, children }) => {
+const WidgetWrapper = ({ widget, dragDisabled, delDisabled, isSaving, index, children }) => {
   return (
     <Draggable draggableId={`widget-${index}`} isDragDisabled={dragDisabled} index={index}>
       {(provided) => (
@@ -63,6 +64,7 @@ const WidgetWrapper = ({ widget, dragDisabled, delDisabled, index, children }) =
           <div className="widget-drag-handle" {...provided.dragHandleProps}>
             <i className="bi-grip-horizontal" />
             {widgetName[widget.type]}
+            {isSaving ? <Spinner animation="grow" size="sm" /> : null}
           </div>
           <button className="btn btn-link widget-delete-button" disabled={delDisabled}>
             <i className="bi-x" />
@@ -80,9 +82,11 @@ const PageEditor = ({ website }) => {
   const page = website.pages.find((p) => p.id === pageId);
   const [addStatus, setAddStatus] = useState("initial");
   const [reorderStatus, setReorderStatus] = useState("initial");
+  const [saveStatus, setSaveStatus] = useState("initial");
   const addDisabled = addStatus === "loading" || reorderStatus === "loading";
   const delDisabled = addDisabled;
-  const dragDisabled = addDisabled || (page && page.content.length < 2);
+  const isSaving = saveStatus === "loading";
+  const dragDisabled = addDisabled || isSaving || (page && page.content.length < 2);
 
   const addWidget = (type) => () => {
     const newWidget = widgetDefault[type];
@@ -162,6 +166,42 @@ const PageEditor = ({ website }) => {
       );
     };
 
+  const onChange = (page, index) => (widget) => {
+    const newContent = [...page.content];
+    newContent[index] = widget;
+
+    setSaveStatus("loading");
+    apiService
+      .request("update_page", {
+        args: { page_id: page.id },
+        payload: {
+          ...page,
+          content: newContent,
+        },
+      })
+      .then((page) => {
+        setSaveStatus("success");
+        dispatch(
+          stashActions.updateWidget({
+            websiteId: website.id,
+            pageId: page.id,
+            index: index,
+            widget: widget,
+          }),
+        );
+      })
+      .catch((err) => {
+        setSaveStatus("error");
+        dispatch(
+          alertsActions.addAlert({
+            content: _('Could not save content: "{err}"').supplant({ err: err }),
+            severity: "danger",
+          }),
+        );
+        // TODO: notify Sentry
+      });
+  };
+  console.log(page?.content);
   return (
     page && (
       <>
@@ -172,8 +212,8 @@ const PageEditor = ({ website }) => {
             {(provided) => (
               <div className="widgets" {...provided.droppableProps} ref={provided.innerRef}>
                 {page.content.map((widget, index) => (
-                  <WidgetWrapper {...{ widget, delDisabled, dragDisabled, index }} key={index}>
-                    {widgetComponent(widget, index)}
+                  <WidgetWrapper {...{ widget, delDisabled, dragDisabled, isSaving, index }} key={index}>
+                    {widgetComponent(page, widget, index, onChange)}
                   </WidgetWrapper>
                 ))}
                 {provided.placeholder}

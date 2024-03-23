@@ -1,3 +1,4 @@
+import "@mdxeditor/editor/style.css";
 import "../sass/project.scss";
 
 String.prototype.supplant = function (o) {

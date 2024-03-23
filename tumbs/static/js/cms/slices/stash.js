@@ -49,6 +49,13 @@ const slice = createSlice({
         pg.content.unshift(widget);
       }
     },
+    updateWidget: (state, { payload: { websiteId, pageId, index, widget } }) => {
+      const ws = state.websites.find((i) => i.id === websiteId);
+      const pg = ws && ws.pages.find((i) => i.id === pageId);
+      if (pg) {
+        pg.content[index] = widget;
+      }
+    },
   },
   selectors: {
     selectCurrentWebsite: (state) => {
