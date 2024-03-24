@@ -132,8 +132,15 @@
   border-radius: $border-radius $border-radius 0 0;
   background: $body-bg;
   border-bottom: 1px solid $gray-200;
+  button[type="button"][role="combobox"] {
+    width: 6rem;
+  }
 }
 
 .mdxeditor-root-contenteditable {
   background: $body-bg;
+}
+
+.mdxeditor-select-content {
+  width: 6rem;
 }

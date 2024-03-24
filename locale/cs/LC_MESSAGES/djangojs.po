@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-23 09:39+0000\n"
+"POT-Creation-Date: 2024-03-24 09:57+0000\n"
 "PO-Revision-Date: 2024-03-13 10:43+0000\n"
 "Last-Translator: Ondřej Nejedlý <jsmesami@gmail.com>\n"
 "Language-Team: CZ <jsmesami@gmail.com>\n"
@@ -90,6 +90,78 @@ msgstr "Galerie"
 
 msgid "Profile"
 msgstr "Medailon"
+
+msgid "Bold"
+msgstr "Tučné"
+
+msgid "Remove bold"
+msgstr "Odstranit tučné"
+
+msgid "Italic"
+msgstr "Kurzíva"
+
+msgid "Remove italic"
+msgstr "Odstranit kurzívu"
+
+msgid "Underline"
+msgstr "Podtržení"
+
+msgid "Remove underline"
+msgstr "Odstranit podtržení"
+
+msgid "Create link"
+msgstr "Vytvořit odkaz"
+
+msgid "Bulleted list"
+msgstr "Odrážkový seznam"
+
+msgid "Numbered list"
+msgstr "Číslovaný seznam"
+
+msgid "Paragraph"
+msgstr "Odstavec"
+
+msgid "Heading {level}"
+msgstr "Nadpis {level}"
+
+msgid "Select block type"
+msgstr "Vyberte typ bloku"
+
+msgid "Block type"
+msgstr "Typ bloku"
+
+msgid "Open {url} in new window"
+msgstr "Otevřít {url} v novém okně"
+
+msgid "Edit link URL"
+msgstr "Upravit adresu URL odkazu"
+
+msgid "Copy to clipboard"
+msgstr "Zkopírovat do schránky"
+
+msgid "Copied!"
+msgstr "Zkopírováno!"
+
+msgid "Remove link"
+msgstr "Odebrat odkaz"
+
+msgid "URL"
+msgstr "Adresa URL"
+
+msgid "Select or paste an URL"
+msgstr "Vyberte nebo vložte adresu URL"
+
+msgid "Set URL"
+msgstr "Nastavit adresu URL"
+
+msgid "Cancel change"
+msgstr "Zrušit změny"
+
+msgid "Save"
+msgstr "Uložit"
+
+msgid "Cancel"
+msgstr "Zrušit"
 
 msgid "Edit page details"
 msgstr "Upravit detaily stránky"
