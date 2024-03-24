@@ -7,8 +7,9 @@ import { actions as stashActions } from "../slices/stash";
 import { apiService } from "../network";
 import { autoDismissMs } from "../config";
 import CollapseArea from "./CollapseArea";
+import DeleteDialog from "./DeleteDialog";
 import SeoBadge from "./SeoBadge";
-import { Button, Form, Offcanvas, OverlayTrigger, Popover } from "react-bootstrap";
+import { Button, Form, Offcanvas } from "react-bootstrap";
 
 const DeletePage = ({ website, page, disabled, onSubmit, onSuccess, onError }) => {
   const dispatch = useDispatch();
@@ -50,32 +51,17 @@ const DeletePage = ({ website, page, disabled, onSubmit, onSuccess, onError }) =
   );
 
   return (
-    <OverlayTrigger
-      trigger="click"
+    <DeleteDialog
+      body={_("Deleting a page is irreversible and removes all of its content.")}
       placement="top"
-      overlay={
-        <Popover>
-          <Popover.Header as="h3">
-            <i className="bi-exclamation-triangle-fill text-danger" />
-            &ensp;
-            {_("Destructive action")}
-          </Popover.Header>
-          <Popover.Body>
-            <p>{_("Deleting a page is irreversible and removes all of its content.")}</p>
-            <div className="d-flex">
-              <Button variant="primary" size="sm" onClick={handleDelete(page)} className="mx-auto" disabled={disabled}>
-                {_("Proceed")}
-              </Button>
-            </div>
-          </Popover.Body>
-        </Popover>
-      }
+      disabled={disabled}
+      handleDelete={handleDelete(website)}
     >
       <Button variant="outline-warning" disabled={disabled}>
         <i className="bi-trash" />
         &ensp;{_("Delete page")}
       </Button>
-    </OverlayTrigger>
+    </DeleteDialog>
   );
 };
 
