@@ -117,7 +117,7 @@ const WebsiteDetailsDialog = ({ website }) => {
           setStatus("error");
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not update site: "{err}"').supplant({ err: extractMessage(err) }),
+              content: _('Could not update site: "{err}"').supplant({ err: err }),
               severity: "danger",
             }),
           );
@@ -191,7 +191,7 @@ const WebsiteDetailsDialog = ({ website }) => {
                   name="domain"
                   defaultValue={website.domain}
                   disabled={isLoading}
-                  placeholder={_("eg. www.joesportfolio.org")}
+                  placeholder={_("eg. www.janesportfolio.org")}
                   autoFocus
                   maxLength="255"
                 />

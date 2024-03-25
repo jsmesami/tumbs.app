@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
@@ -16,31 +16,34 @@ const WebsiteNameEditor = ({ website }) => {
   const startEditing = () => setEditor("editing");
   const stopEditing = () => setEditor("initial");
 
-  const handleSubmit = ({ value, previousValue }) => {
-    if (value === previousValue) return;
+  const handleSubmit = useCallback(
+    ({ value, previousValue }) => {
+      if (value === previousValue) return;
 
-    setStatus("loading");
+      setStatus("loading");
 
-    apiService
-      .request("update_website", {
-        args: { website_id: website.id },
-        payload: { ...website, ...{ name: value } },
-      })
-      .then((data) => {
-        setStatus("success");
-        dispatch(stashActions.updateWebsite(data));
-      })
-      .catch((err) => {
-        setStatus("error");
-        dispatch(
-          alertsActions.addAlert({
-            content: _('Could not update site: "{err}"').supplant({ err: err }),
-            severity: "danger",
-          }),
-        );
-        // TODO: notify Sentry
-      });
-  };
+      apiService
+        .request("update_website", {
+          args: { website_id: website.id },
+          payload: { ...website, ...{ name: value } },
+        })
+        .then((data) => {
+          setStatus("success");
+          dispatch(stashActions.updateWebsite(data));
+        })
+        .catch((err) => {
+          setStatus("error");
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Could not update site name: "{err}"').supplant({ err: err }),
+              severity: "danger",
+            }),
+          );
+          // TODO: notify Sentry
+        });
+    },
+    [website],
+  );
 
   return (
     <div className="inline-editable">

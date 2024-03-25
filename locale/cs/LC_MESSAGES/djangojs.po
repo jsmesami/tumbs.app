@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-24 09:57+0000\n"
+"POT-Creation-Date: 2024-03-25 19:39+0000\n"
 "PO-Revision-Date: 2024-03-13 10:43+0000\n"
 "Last-Translator: Ondřej Nejedlý <jsmesami@gmail.com>\n"
 "Language-Team: CZ <jsmesami@gmail.com>\n"
@@ -37,26 +37,29 @@ msgstr "Vytváření"
 msgid "Create Site"
 msgstr "Vytvořit web"
 
+msgid "Destructive action"
+msgstr "Destruktivní krok"
+
+msgid "Close"
+msgstr "Zavřít"
+
+msgid "Proceed"
+msgstr "Pokračovat"
+
 msgid "Page \"{title}\" has been successfully deleted."
 msgstr "Stránka \"{title}\" byla úspěšně smazána."
 
 msgid "Could not delete page \"{title}\": \"{err}\""
 msgstr "Nelze smazat stránku \"{title}\": \"{err}\""
 
-msgid "Destructive action"
-msgstr "Destruktivní krok"
-
 msgid "Deleting a page is irreversible and removes all of its content."
 msgstr "Smazání stránky je nevratný krok, který odstraní veškerý její obsah."
-
-msgid "Proceed"
-msgstr "Pokračovat"
 
 msgid "Delete page"
 msgstr "Smazat stránku"
 
-msgid "Could not update page: \"{err}\""
-msgstr "Nelze upravit stránku: \"{err}\""
+msgid "Could not update page details: \"{err}\""
+msgstr "Nelze upravit podrobnosti webu: \"{err}\""
 
 msgid "Page Details"
 msgstr "Detaily stránky"
@@ -73,9 +76,6 @@ msgstr "Jaký je účel stránky? Co je jejím obsahem?"
 msgid "Advanced"
 msgstr "Pokročilé"
 
-msgid "Close"
-msgstr "Zavřít"
-
 msgid "Saving"
 msgstr "Ukládání"
 
@@ -90,6 +90,9 @@ msgstr "Galerie"
 
 msgid "Profile"
 msgstr "Medailon"
+
+msgid "Deleting a block is irreversible and removes all of its content."
+msgstr "Smazání bloku je nevratný krok, který odstraní veškerý jeho obsah."
 
 msgid "Bold"
 msgstr "Tučné"
@@ -223,8 +226,11 @@ msgstr "Dostupné regiony"
 msgid "Your own domain"
 msgstr "Vaše vlastní doména"
 
-msgid "eg. www.joesportfolio.org"
-msgstr "např. www.honzovoportfolio.cz"
+msgid "eg. www.janesportfolio.org"
+msgstr "např. www.janyportfolio.cz"
+
+msgid "Could not update site name: \"{err}\""
+msgstr "Nelze upravit jméno webu: \"{err}\""
 
 msgid "Edit site details"
 msgstr "Upravit detaily webu"

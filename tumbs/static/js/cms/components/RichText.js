@@ -60,7 +60,7 @@ const translate = (dict, path, fallback, params) => {
 
 const RichText = ({ value, onChange }) => (
   <MDXEditor
-    markdown={value}
+    markdown={value || ""}
     onChange={onChange}
     translation={(path, fallback, params) => translate(translations, path.split("."), fallback, params)}
     plugins={[

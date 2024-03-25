@@ -105,7 +105,7 @@ const SelectPage = ({ website }) => {
         );
         dispatch(
           alertsActions.addAlert({
-            content: _('Could not update pages order: "{err}"').supplant({ err: extractMessage(err) }),
+            content: _('Could not update pages order: "{err}"').supplant({ err: err }),
             severity: "danger",
           }),
         );

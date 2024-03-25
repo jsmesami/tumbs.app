@@ -116,7 +116,7 @@ const PageDetailsDialog = ({ website }) => {
         .catch((err) => {
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not update page: "{err}"').supplant({ err: extractMessage(err) }),
+              content: _('Could not update page details: "{err}"').supplant({ err: err }),
               severity: "danger",
             }),
           );
