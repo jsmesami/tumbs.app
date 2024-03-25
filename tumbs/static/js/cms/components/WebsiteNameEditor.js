@@ -35,7 +35,8 @@ const WebsiteNameEditor = ({ website }) => {
           setStatus("error");
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not update site name: "{err}"').supplant({ err: err }),
+              content: _("Could not update site name"),
+              subContent: err,
               severity: "danger",
             }),
           );

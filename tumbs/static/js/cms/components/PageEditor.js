@@ -38,17 +38,17 @@ const widgetName = {
 const WidgetsMenu = ({ onClick, addingDisabled }) => {
   return (
     <div className="mt-4 mb-4 d-flex justify-content-center gap-3">
-      <OverlayTrigger overlay={<Tooltip>{widgetName.gallery}</Tooltip>}>
+      <OverlayTrigger overlay={<Tooltip>{_("Add Gallery Block")}</Tooltip>}>
         <Button variant="outline-secondary" size="sm" onClick={onClick("gallery")} disabled={addingDisabled}>
           <i className="bi-images" />
         </Button>
       </OverlayTrigger>
-      <OverlayTrigger overlay={<Tooltip>{widgetName.textual}</Tooltip>}>
+      <OverlayTrigger overlay={<Tooltip>{_("Add Rich Text Block")}</Tooltip>}>
         <Button variant="outline-secondary" size="sm" onClick={onClick("textual")} disabled={addingDisabled}>
           <i className="bi-body-text" />
         </Button>
       </OverlayTrigger>
-      <OverlayTrigger overlay={<Tooltip>{widgetName.profile}</Tooltip>}>
+      <OverlayTrigger overlay={<Tooltip>{_("Add Profile Block")}</Tooltip>}>
         <Button variant="outline-secondary" size="sm" onClick={onClick("profile")} disabled={addingDisabled}>
           <i className="bi-person-lines-fill" />
         </Button>
@@ -122,7 +122,8 @@ const PageEditor = ({ website }) => {
           setAddingStatus("error");
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not add content: "{err}"').supplant({ err: err }),
+              content: _("Could not add content"),
+              subContent: err,
               severity: "danger",
             }),
           );
@@ -147,7 +148,8 @@ const PageEditor = ({ website }) => {
           setReorderingStatus("error");
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not update widgets order: "{err}"').supplant({ err: err }),
+              content: _("Could not update widgets order"),
+              subContent: err,
               severity: "danger",
             }),
           );
@@ -217,7 +219,8 @@ const PageEditor = ({ website }) => {
           setSavingStatus({ ...savingStatus, ...{ [index]: "error" } });
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not save content: "{err}"').supplant({ err: err }),
+              content: _("Could not save content"),
+              subContent: err,
               severity: "danger",
             }),
           );
@@ -247,10 +250,8 @@ const PageEditor = ({ website }) => {
           dispatch(stashActions.updatePage({ websiteId: website.id, page: oldPage }));
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not delete widget: "{err}"').supplant({
-                title: page.title,
-                err: err,
-              }),
+              content: _("Could not delete widget"),
+              subContent: err,
               severity: "danger",
             }),
           );

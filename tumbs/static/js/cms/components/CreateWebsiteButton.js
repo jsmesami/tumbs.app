@@ -40,7 +40,8 @@ const CreateWebsiteButton = () => {
         setStatus("error");
         dispatch(
           alertsActions.addAlert({
-            content: _('Could not create site: "{err}"').supplant({ err: err }),
+            content: _("Could not create site"),
+            subContent: err,
             severity: "danger",
           }),
         );

@@ -36,10 +36,8 @@ const DeletePage = ({ website, page, disabled, onSubmit, onSuccess, onError }) =
         .catch((err) => {
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not delete page "{title}": "{err}"').supplant({
-                title: page.title,
-                err: err,
-              }),
+              content: _('Could not delete page "{title}"').supplant({ title: page.title }),
+              subContent: err,
               severity: "danger",
             }),
           );
@@ -116,7 +114,8 @@ const PageDetailsDialog = ({ website }) => {
         .catch((err) => {
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not update page details: "{err}"').supplant({ err: err }),
+              content: _("Could not update page details"),
+              subContent: err,
               severity: "danger",
             }),
           );

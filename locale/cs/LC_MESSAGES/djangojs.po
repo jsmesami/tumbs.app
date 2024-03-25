@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-25 19:39+0000\n"
+"POT-Creation-Date: 2024-03-25 20:22+0000\n"
 "PO-Revision-Date: 2024-03-13 10:43+0000\n"
 "Last-Translator: Ondřej Nejedlý <jsmesami@gmail.com>\n"
 "Language-Team: CZ <jsmesami@gmail.com>\n"
@@ -22,14 +22,20 @@ msgstr ""
 msgid "No site yet"
 msgstr "Zatím žádný web"
 
+msgid "Success"
+msgstr "Úspěch"
+
+msgid "Error"
+msgstr "Chyba"
+
 msgid "My New Site"
 msgstr "Můj nový web"
 
 msgid "Homepage"
 msgstr "Domů"
 
-msgid "Could not create site: \"{err}\""
-msgstr "Nelze vytvořit web: \"{err}\""
+msgid "Could not create site"
+msgstr "Nelze vytvořit web"
 
 msgid "Creating"
 msgstr "Vytváření"
@@ -49,8 +55,8 @@ msgstr "Pokračovat"
 msgid "Page \"{title}\" has been successfully deleted."
 msgstr "Stránka \"{title}\" byla úspěšně smazána."
 
-msgid "Could not delete page \"{title}\": \"{err}\""
-msgstr "Nelze smazat stránku \"{title}\": \"{err}\""
+msgid "Could not delete page \"{title}\""
+msgstr "Nelze smazat stránku \"{title}\""
 
 msgid "Deleting a page is irreversible and removes all of its content."
 msgstr "Smazání stránky je nevratný krok, který odstraní veškerý její obsah."
@@ -58,8 +64,8 @@ msgstr "Smazání stránky je nevratný krok, který odstraní veškerý její o
 msgid "Delete page"
 msgstr "Smazat stránku"
 
-msgid "Could not update page details: \"{err}\""
-msgstr "Nelze upravit podrobnosti webu: \"{err}\""
+msgid "Could not update page details"
+msgstr "Nelze upravit podrobnosti webu"
 
 msgid "Page Details"
 msgstr "Detaily stránky"
@@ -90,6 +96,15 @@ msgstr "Galerie"
 
 msgid "Profile"
 msgstr "Medailon"
+
+msgid "Add Gallery Block"
+msgstr "Přidat blok galerie"
+
+msgid "Add Rich Text Block"
+msgstr "Přidat blok textu"
+
+msgid "Add Profile Block"
+msgstr "Přidat blok medailonu"
 
 msgid "Deleting a block is irreversible and removes all of its content."
 msgstr "Smazání bloku je nevratný krok, který odstraní veškerý jeho obsah."
@@ -172,11 +187,11 @@ msgstr "Upravit detaily stránky"
 msgid "Page {pageN}"
 msgstr "Stránka {pageN}"
 
-msgid "Could not create page: \"{err}\""
-msgstr "Nelze vytvořit stránku: \"{err}\""
+msgid "Could not create page"
+msgstr "Nelze vytvořit stránku"
 
-msgid "Could not update pages order: \"{err}\""
-msgstr "Nelze upravit pořadí stránek: \"{err}\""
+msgid "Could not update pages order"
+msgstr "Nelze upravit pořadí stránek"
 
 msgid "Add page"
 msgstr "Přidat stránku"
@@ -193,8 +208,8 @@ msgstr "Důležité k optimalizaci pro vyhledávače"
 msgid "Site \"{title}\" has been successfully deleted."
 msgstr "Web \"{title}\" byl úspěšně smazán."
 
-msgid "Could not delete site \"{name}\": \"{err}\""
-msgstr "Nelze smazat web \"{name}\": \"{err}\""
+msgid "Could not delete site \"{name}\""
+msgstr "Nelze smazat web \"{name}\""
 
 msgid "Deleting a site is irreversible and removes all of its content."
 msgstr "Smazání webu je nevratný krok, který odstraní veškerý jeho obsah."
@@ -229,8 +244,8 @@ msgstr "Vaše vlastní doména"
 msgid "eg. www.janesportfolio.org"
 msgstr "např. www.janyportfolio.cz"
 
-msgid "Could not update site name: \"{err}\""
-msgstr "Nelze upravit jméno webu: \"{err}\""
+msgid "Could not update site name"
+msgstr "Nelze upravit jméno webu"
 
 msgid "Edit site details"
 msgstr "Upravit detaily webu"
