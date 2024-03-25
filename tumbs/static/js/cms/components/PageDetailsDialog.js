@@ -11,49 +11,13 @@ import DeleteDialog from "./DeleteDialog";
 import SeoBadge from "./SeoBadge";
 import { Button, Form, Offcanvas } from "react-bootstrap";
 
-const DeletePage = ({ website, page, disabled, onSubmit, onSuccess, onError }) => {
-  const dispatch = useDispatch();
-
-  const handleDelete = useCallback(
-    (page) => (e) => {
-      e.stopPropagation();
-      onSubmit();
-      apiService
-        .request("delete_page", {
-          args: { page_id: page.id },
-        })
-        .then(() => {
-          dispatch(
-            alertsActions.addAlert({
-              content: _('Page "{title}" has been successfully deleted.').supplant({ title: page.title }),
-              severity: "success",
-              autoDismissMs: autoDismissMs,
-            }),
-          );
-          dispatch(stashActions.deletePage({ websiteId: website.id, pageId: page.id }));
-          onSuccess();
-        })
-        .catch((err) => {
-          dispatch(
-            alertsActions.addAlert({
-              content: _('Could not delete page "{title}"').supplant({ title: page.title }),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          // TODO: notify Sentry
-          onError();
-        });
-    },
-    [website, page],
-  );
-
+const DeletePage = ({ disabled, handleDelete }) => {
   return (
     <DeleteDialog
       body={_("Deleting a page is irreversible and removes all of its content.")}
       placement="top"
       disabled={disabled}
-      handleDelete={handleDelete(website)}
+      handleDelete={handleDelete}
     >
       <Button variant="outline-warning" disabled={disabled}>
         <i className="bi-trash" />
@@ -73,15 +37,6 @@ const PageDetailsDialog = ({ website }) => {
   const isLoading = status === "loading";
 
   const hide = () => dispatch(dialogsActions.hideDialogs());
-  const onSubmit = () => setStatus("loading");
-  const onSuccess = () => {
-    setStatus("success");
-    hide();
-  };
-  const onError = () => {
-    setStatus("error");
-    hide();
-  };
 
   const haveValuesChanged = (form, page) => {
     return ["title", "description"].some((field) => form[field].value !== page[field]);
@@ -94,8 +49,7 @@ const PageDetailsDialog = ({ website }) => {
         hide();
         return;
       }
-
-      onSubmit();
+      setStatus("loading");
       apiService
         .request("update_page", {
           args: { page_id: page.id },
@@ -108,10 +62,12 @@ const PageDetailsDialog = ({ website }) => {
           },
         })
         .then((data) => {
+          setStatus("success");
           dispatch(stashActions.updatePage({ websiteId: website.id, page: data }));
-          onSuccess();
+          hide();
         })
         .catch((err) => {
+          setStatus("error");
           dispatch(
             alertsActions.addAlert({
               content: _("Could not update page details"),
@@ -119,8 +75,44 @@ const PageDetailsDialog = ({ website }) => {
               severity: "danger",
             }),
           );
+          hide();
           // TODO: notify Sentry
-          onError();
+        });
+    },
+    [website, page],
+  );
+
+  const handleDelete = useCallback(
+    (page) => (e) => {
+      e.stopPropagation();
+      setStatus("loading");
+      apiService
+        .request("delete_page", {
+          args: { page_id: page.id },
+        })
+        .then(() => {
+          setStatus("success");
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Page "{title}" has been successfully deleted.').supplant({ title: page.title }),
+              severity: "success",
+              autoDismissMs: autoDismissMs,
+            }),
+          );
+          dispatch(stashActions.deletePage({ websiteId: website.id, pageId: page.id }));
+          hide();
+        })
+        .catch((err) => {
+          setStatus("error");
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Could not delete page "{title}"').supplant({ title: page.title }),
+              subContent: err,
+              severity: "danger",
+            }),
+          );
+          hide();
+          // TODO: notify Sentry
         });
     },
     [website, page],
@@ -165,7 +157,7 @@ const PageDetailsDialog = ({ website }) => {
             </Form.Group>
 
             <CollapseArea className="mt-3" title={_("Advanced")}>
-              <DeletePage {...{ website, page, disabled: isLoading, onSubmit, onSuccess, onError }} />
+              <DeletePage disabled={isLoading} handleDelete={handleDelete(page)} />
             </CollapseArea>
 
             <div className="d-flex justify-content-between mt-5">

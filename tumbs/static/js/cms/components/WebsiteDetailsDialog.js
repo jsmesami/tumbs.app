@@ -11,49 +11,13 @@ import DeleteDialog from "./DeleteDialog";
 import SeoBadge from "./SeoBadge";
 import { Button, Form, Offcanvas } from "react-bootstrap";
 
-const DeleteWebsite = ({ website, disabled, onSubmit, onSuccess, onError }) => {
-  const dispatch = useDispatch();
-
-  const handleDelete = useCallback(
-    (website) => (e) => {
-      e.stopPropagation();
-      onSubmit();
-      apiService
-        .request("delete_website", {
-          args: { website_id: website.id },
-        })
-        .then(() => {
-          dispatch(
-            alertsActions.addAlert({
-              content: _('Site "{title}" has been successfully deleted.').supplant({ title: website.name }),
-              severity: "success",
-              autoDismissMs: autoDismissMs,
-            }),
-          );
-          dispatch(stashActions.deleteWebsite({ websiteId: website.id }));
-          onSuccess();
-        })
-        .catch((err) => {
-          dispatch(
-            alertsActions.addAlert({
-              content: _('Could not delete site "{name}"').supplant({ name: website.name }),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          // TODO: notify Sentry
-          onError();
-        });
-    },
-    [website],
-  );
-
+const DeleteWebsite = ({ disabled, handleDelete }) => {
   return (
     <DeleteDialog
       body={_("Deleting a site is irreversible and removes all of its content.")}
       placement="top"
       disabled={disabled}
-      handleDelete={handleDelete(website)}
+      handleDelete={handleDelete}
     >
       <Button variant="outline-warning" disabled={disabled}>
         <i className="bi-trash" />
@@ -71,15 +35,6 @@ const WebsiteDetailsDialog = ({ website }) => {
   const isLoading = status === "loading";
 
   const hide = () => dispatch(dialogsActions.hideDialogs());
-  const onSubmit = () => setStatus("loading");
-  const onSuccess = () => {
-    setStatus("success");
-    hide();
-  };
-  const onError = () => {
-    setStatus("error");
-    hide();
-  };
 
   const haveValuesChanged = (form, website) => {
     return ["name", "language", "region", "domain"].some((field) => form[field].value !== website[field]);
@@ -92,8 +47,7 @@ const WebsiteDetailsDialog = ({ website }) => {
         hide();
         return;
       }
-
-      onSubmit();
+      setStatus("loading");
       apiService
         .request("update_website", {
           args: { website_id: website.id },
@@ -108,19 +62,57 @@ const WebsiteDetailsDialog = ({ website }) => {
           },
         })
         .then((data) => {
+          setStatus("success");
           dispatch(stashActions.updateWebsite(data));
-          onSuccess();
+          hide();
         })
         .catch((err) => {
           setStatus("error");
           dispatch(
             alertsActions.addAlert({
-              content: _('Could not update site: "{err}"').supplant({ err: err }),
+              content: _("Could not update site"),
+              subContent: err,
               severity: "danger",
             }),
           );
+          hide();
           // TODO: notify Sentry
-          onError();
+        });
+    },
+    [website],
+  );
+
+  const handleDelete = useCallback(
+    (website) => (e) => {
+      e.stopPropagation();
+      setStatus("loading");
+      apiService
+        .request("delete_website", {
+          args: { website_id: website.id },
+        })
+        .then(() => {
+          setStatus("success");
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Site "{name}" has been successfully deleted.').supplant({ name: website.name }),
+              severity: "success",
+              autoDismissMs: autoDismissMs,
+            }),
+          );
+          dispatch(stashActions.deleteWebsite({ websiteId: website.id }));
+          hide();
+        })
+        .catch((err) => {
+          setStatus("error");
+          dispatch(
+            alertsActions.addAlert({
+              content: _('Could not delete site "{name}"').supplant({ name: website.name }),
+              subContent: err,
+              severity: "danger",
+            }),
+          );
+          hide();
+          // TODO: notify Sentry
         });
     },
     [website],
@@ -194,7 +186,7 @@ const WebsiteDetailsDialog = ({ website }) => {
                   maxLength="255"
                 />
               </Form.Group>
-              <DeleteWebsite {...{ website, disabled: isLoading, onSubmit, onSuccess, onError }}></DeleteWebsite>
+              <DeleteWebsite disabled={isLoading} handleDelete={handleDelete(website)} />
             </CollapseArea>
 
             <div className="d-flex justify-content-between mt-5">

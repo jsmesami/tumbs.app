@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-25 20:22+0000\n"
+"POT-Creation-Date: 2024-03-25 23:10+0000\n"
 "PO-Revision-Date: 2024-03-13 10:43+0000\n"
 "Last-Translator: Ondřej Nejedlý <jsmesami@gmail.com>\n"
 "Language-Team: CZ <jsmesami@gmail.com>\n"
@@ -52,12 +52,6 @@ msgstr "Zavřít"
 msgid "Proceed"
 msgstr "Pokračovat"
 
-msgid "Page \"{title}\" has been successfully deleted."
-msgstr "Stránka \"{title}\" byla úspěšně smazána."
-
-msgid "Could not delete page \"{title}\""
-msgstr "Nelze smazat stránku \"{title}\""
-
 msgid "Deleting a page is irreversible and removes all of its content."
 msgstr "Smazání stránky je nevratný krok, který odstraní veškerý její obsah."
 
@@ -66,6 +60,12 @@ msgstr "Smazat stránku"
 
 msgid "Could not update page details"
 msgstr "Nelze upravit podrobnosti webu"
+
+msgid "Page \"{title}\" has been successfully deleted."
+msgstr "Stránka \"{title}\" byla úspěšně smazána."
+
+msgid "Could not delete page \"{title}\""
+msgstr "Nelze smazat stránku \"{title}\""
 
 msgid "Page Details"
 msgstr "Detaily stránky"
@@ -205,20 +205,20 @@ msgstr "Zatím žádné weby"
 msgid "Important for search engines optimization"
 msgstr "Důležité k optimalizaci pro vyhledávače"
 
-msgid "Site \"{title}\" has been successfully deleted."
-msgstr "Web \"{title}\" byl úspěšně smazán."
-
-msgid "Could not delete site \"{name}\""
-msgstr "Nelze smazat web \"{name}\""
-
 msgid "Deleting a site is irreversible and removes all of its content."
 msgstr "Smazání webu je nevratný krok, který odstraní veškerý jeho obsah."
 
 msgid "Delete site"
 msgstr "Smazat web"
 
-msgid "Could not update site: \"{err}\""
-msgstr "Nelze upravit web: \"{err}\""
+msgid "Could not update site"
+msgstr "Nelze upravit web"
+
+msgid "Site \"{name}\" has been successfully deleted."
+msgstr "Web \"{name}\" byl úspěšně smazán."
+
+msgid "Could not delete site \"{name}\""
+msgstr "Nelze smazat web \"{name}\""
 
 msgid "Site Details"
 msgstr "Detaily webu"

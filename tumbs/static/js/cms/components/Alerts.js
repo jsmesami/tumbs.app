@@ -21,7 +21,7 @@ const Alerts = () => {
       {[...alerts].reverse().map(({ id, content, subContent, severity, autoDismissMs }) => (
         <Toast bg={severity} key={id} onClose={handleClose(id)} delay={autoDismissMs} autohide={autoDismissMs}>
           <Toast.Header>
-            <strong>{severityToHeader[severity]}</strong>
+            <strong className="me-auto">{severityToHeader[severity]}</strong>
           </Toast.Header>
           <Toast.Body>
             <div className="text-white">{content}</div>
