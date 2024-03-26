@@ -4,8 +4,14 @@ import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 
 const DeleteDialog = ({ body, placement, disabled, handleDelete, children }) => {
   const [show, setShow] = useState(false);
+
   const handleHide = (e) => {
     e.preventDefault();
+    setShow(false);
+  };
+
+  const doDelete = () => {
+    handleDelete();
     setShow(false);
   };
 
@@ -26,7 +32,7 @@ const DeleteDialog = ({ body, placement, disabled, handleDelete, children }) => 
           <Popover.Body>
             <p>{body}</p>
             <div className="d-flex">
-              <Button variant="primary" size="sm" onClick={handleDelete} className="mx-auto" disabled={disabled}>
+              <Button variant="primary" size="sm" onClick={doDelete} className="mx-auto" disabled={disabled}>
                 {_("Proceed")}
               </Button>
             </div>
