@@ -14,11 +14,11 @@ asgiref==3.8.1
     # via django
 authlib==1.2.1
     # via kinde-python-sdk
-boto3==1.34.69
+boto3==1.34.71
     # via
     #   django-anymail
     #   django-storages
-botocore==1.34.69
+botocore==1.34.71
     # via
     #   boto3
     #   s3transfer

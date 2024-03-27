@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _ } from "../i18n";
+import { PageContext } from "./CurrentPageProvider";
 import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as stashActions } from "../slices/stash";
@@ -28,9 +29,8 @@ const DeletePage = ({ disabled, handleDelete }) => {
 };
 
 const PageDetailsDialog = ({ website }) => {
-  const pageId = useSelector((state) => state.pages.currentId);
-  const page = website.pages.find((p) => p.id === pageId);
   const dispatch = useDispatch();
+  const { currentPage } = useContext(PageContext);
   const dialogId = useSelector((state) => state.dialogs.visibleDialogId);
   const visible = dialogId === "pageDetails";
   const [status, setStatus] = useState("initial");
@@ -79,12 +79,11 @@ const PageDetailsDialog = ({ website }) => {
           // TODO: notify Sentry
         });
     },
-    [website, page],
+    [website],
   );
 
   const handleDelete = useCallback(
-    (page) => (e) => {
-      e.stopPropagation();
+    (page) => () => {
       setStatus("loading");
       apiService
         .request("delete_page", {
@@ -115,13 +114,13 @@ const PageDetailsDialog = ({ website }) => {
           // TODO: notify Sentry
         });
     },
-    [website, page],
+    [website],
   );
 
   return (
-    page && (
+    currentPage && (
       <Offcanvas show={visible} onHide={hide} placement="end" aria-labelledby="pageDetailsLabel">
-        <Form onSubmit={handleSubmit(page)}>
+        <Form onSubmit={handleSubmit(currentPage)}>
           <Offcanvas.Header closeButton>
             <Offcanvas.Title id="pageDetailsLabel">{_("Page Details")}</Offcanvas.Title>
           </Offcanvas.Header>
@@ -132,7 +131,7 @@ const PageDetailsDialog = ({ website }) => {
               <Form.Control
                 type="text"
                 name="title"
-                defaultValue={page.title}
+                defaultValue={currentPage.title}
                 required
                 disabled={isLoading}
                 placeholder={_("Title")}
@@ -149,7 +148,7 @@ const PageDetailsDialog = ({ website }) => {
                 as="textarea"
                 rows={4}
                 name="description"
-                defaultValue={page.description}
+                defaultValue={currentPage.description}
                 disabled={isLoading}
                 placeholder={_("What is the page for? What's in it? ")}
                 maxLength="255"
@@ -157,7 +156,7 @@ const PageDetailsDialog = ({ website }) => {
             </Form.Group>
 
             <CollapseArea className="mt-3" title={_("Advanced")}>
-              <DeletePage disabled={isLoading} handleDelete={handleDelete(page)} />
+              <DeletePage disabled={isLoading} handleDelete={handleDelete(currentPage)} />
             </CollapseArea>
 
             <div className="d-flex justify-content-between mt-5">

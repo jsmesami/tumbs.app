@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useContext, useState } from "react";
+import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { maxPages } from "../config";
 import { apiService } from "../network";
+import { PageContext } from "./CurrentPageProvider";
 import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
-import { actions as pagesActions } from "../slices/pages";
 import { actions as stashActions } from "../slices/stash";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Button, Nav } from "react-bootstrap";
@@ -37,21 +37,12 @@ const PageTab = ({ page: { id, title }, active, dragDisabled, index }) => {
 
 const SelectPage = ({ website }) => {
   const dispatch = useDispatch();
-  const pageId = useSelector((state) => state.pages.currentId);
-  const page = website.pages.find((p) => p.id === pageId);
+  const { currentPage, setCurrentPage } = useContext(PageContext);
   const [creationStatus, setCreationStatus] = useState("initial");
   const [reorderStatus, setReorderStatus] = useState("initial");
   const isBusy = creationStatus === "loading" || reorderStatus === "loading";
   const addDisabled = isBusy || website.pages.length >= maxPages;
   const dragDisabled = isBusy || website.pages.length < 2;
-
-  const setCurrent = (id) => dispatch(pagesActions.setCurrentId(parseInt(id)));
-
-  useEffect(() => {
-    if (!page && website.pages.length) {
-      setCurrent(website.pages[0].id);
-    }
-  }, [website]);
 
   const createPage = useCallback(() => {
     setCreationStatus("loading");
@@ -65,7 +56,7 @@ const SelectPage = ({ website }) => {
       .then((page) => {
         setCreationStatus("success");
         dispatch(stashActions.addPage({ websiteId: website.id, page: page }));
-        setCurrent(page.id);
+        setCurrentPage(page.id);
       })
       .catch((err) => {
         setCreationStatus("error");
@@ -141,9 +132,15 @@ const SelectPage = ({ website }) => {
       <Droppable droppableId="nav-pages" direction="horizontal">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            <Nav variant="tabs" activeKey={pageId} onSelect={setCurrent}>
+            <Nav variant="tabs" activeKey={currentPage?.id} onSelect={setCurrentPage}>
               {website.pages.map((pg, index) => (
-                <PageTab page={pg} active={pg.id === pageId} dragDisabled={dragDisabled} key={pg.id} index={index} />
+                <PageTab
+                  page={pg}
+                  active={pg.id === currentPage?.id}
+                  dragDisabled={dragDisabled}
+                  key={pg.id}
+                  index={index}
+                />
               ))}
               {provided.placeholder}
               <Button variant="link" title={_("Add page")} onClick={createPage} disabled={addDisabled}>

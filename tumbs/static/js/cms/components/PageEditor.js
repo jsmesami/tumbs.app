@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useContext, useState } from "react";
+import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { apiService } from "../network";
+import { PageContext } from "./CurrentPageProvider";
 import { actions as stashActions } from "../slices/stash";
 import { actions as alertsActions } from "../slices/alerts";
 import DeleteDialog from "./DeleteDialog";
@@ -92,15 +93,14 @@ const WidgetWrapper = ({ widget, dragDisabled, isLoading, onDelete, index, child
 
 const PageEditor = ({ website }) => {
   const dispatch = useDispatch();
-  const pageId = useSelector((state) => state.pages.currentId);
-  const page = website.pages.find((p) => p.id === pageId);
+  const { currentPage } = useContext(PageContext);
   const [addingStatus, setAddingStatus] = useState("initial");
   const [reorderingStatus, setReorderingStatus] = useState("initial");
   const [savingStatus, setSavingStatus] = useState({});
   const widgetSaving = (index) => savingStatus[index] === "loading";
   const anyWidgetSaving = Object.values(savingStatus).some((v) => v === "loading");
   const addingDisabled = addingStatus === "loading" || reorderingStatus === "loading";
-  const reorderingDisabled = addingDisabled || anyWidgetSaving || (page && page.content.length < 2);
+  const reorderingDisabled = addingDisabled || anyWidgetSaving || (currentPage && currentPage.content.length < 2);
 
   const addWidget = useCallback(
     (type) => () => {
@@ -108,10 +108,10 @@ const PageEditor = ({ website }) => {
       setAddingStatus("loading");
       apiService
         .request("update_page", {
-          args: { page_id: page.id },
+          args: { page_id: currentPage.id },
           payload: {
-            ...page,
-            content: [newWidget, ...page.content],
+            ...currentPage,
+            content: [newWidget, ...currentPage.content],
           },
         })
         .then((page) => {
@@ -130,7 +130,7 @@ const PageEditor = ({ website }) => {
           // TODO: notify Sentry
         });
     },
-    [website, page],
+    [website, currentPage],
   );
 
   const reorderWidgets = useCallback(
@@ -162,7 +162,7 @@ const PageEditor = ({ website }) => {
           // TODO: notify Sentry
         });
     },
-    [website, page],
+    [website],
   );
 
   const onDragEnd = useCallback(
@@ -187,7 +187,7 @@ const PageEditor = ({ website }) => {
           }),
         );
       },
-    [website, page],
+    [website],
   );
 
   const updateWidget = useCallback(
@@ -227,7 +227,7 @@ const PageEditor = ({ website }) => {
           // TODO: notify Sentry
         });
     },
-    [website, page],
+    [website],
   );
 
   const deleteWidget = useCallback(
@@ -258,28 +258,28 @@ const PageEditor = ({ website }) => {
           // TODO: notify Sentry
         });
     },
-    [website, page],
+    [website],
   );
 
   return (
-    page && (
+    currentPage && (
       <>
         <WidgetsMenu onClick={addWidget} addingDisabled={addingDisabled} />
 
-        <DragDropContext onDragEnd={onDragEnd(page)}>
+        <DragDropContext onDragEnd={onDragEnd(currentPage)}>
           <Droppable droppableId="widgets" direction="vertical">
             {(provided) => (
               <div className="widgets" {...provided.droppableProps} ref={provided.innerRef}>
-                {page.content.map((widget, index) => (
+                {currentPage.content.map((widget, index) => (
                   <WidgetWrapper
                     widget={widget}
                     dragDisabled={reorderingDisabled}
                     isLoading={widgetSaving(index)}
-                    onDelete={deleteWidget(page, index)}
+                    onDelete={deleteWidget(currentPage, index)}
                     index={index}
                     key={index}
                   >
-                    {widgetComponent(page, widget, index, updateWidget)}
+                    {widgetComponent(currentPage, widget, index, updateWidget)}
                   </WidgetWrapper>
                 ))}
                 {provided.placeholder}

@@ -83,8 +83,7 @@ const WebsiteDetailsDialog = ({ website }) => {
   );
 
   const handleDelete = useCallback(
-    (website) => (e) => {
-      e.stopPropagation();
+    (website) => () => {
       setStatus("loading");
       apiService
         .request("delete_website", {
