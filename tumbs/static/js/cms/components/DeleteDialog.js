@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { _ } from "../i18n";
-import { Button, OverlayTrigger, Popover } from "react-bootstrap";
+import { Button, CloseButton, OverlayTrigger, Popover } from "react-bootstrap";
 
 const DeleteDialog = ({ body, placement, disabled, handleDelete, children }) => {
   const [show, setShow] = useState(false);
 
-  const handleHide = (e) => {
-    e.preventDefault();
+  const handleHide = () => {
     setShow(false);
   };
 
@@ -27,7 +26,7 @@ const DeleteDialog = ({ body, placement, disabled, handleDelete, children }) => 
             <i className="bi-exclamation-triangle-fill text-danger" />
             &ensp;
             {_("Destructive action")}
-            <a href="#" className="bi-x-circle ms-auto" title={_("Close")} onClick={handleHide} />
+            <CloseButton className="ms-auto" title={_("Close")} onClick={handleHide} />
           </Popover.Header>
           <Popover.Body>
             <p>{body}</p>
