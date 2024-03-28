@@ -16,6 +16,7 @@
     "bootstrap-icons": "^1.11.3",
     "concurrently": "^8.2.2",
     "css-loader": "^6.10.0",
+    "hashids": "^2.3.0",
     "mini-css-extract-plugin": "^2.8.1",
     "node-sass-tilde-importer": "^1.0.2",
     "object-hash": "^3.0.0",
