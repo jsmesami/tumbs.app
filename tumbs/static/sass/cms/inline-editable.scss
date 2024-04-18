@@ -1,0 +1,24 @@
+@import "~bootstrap/scss/variables";
+
+.inline-editable {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &-input {
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    padding: .2rem;
+    outline: none;
+  }
+
+  .edit-icon {
+    position: absolute;
+    right: -1rem;
+    top: -0.4rem;
+
+    &::before {
+      font-size: .8rem;
+    }
+  }
+}

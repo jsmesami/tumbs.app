@@ -10,11 +10,10 @@ import Textual from "./widgets/Textual";
 import Gallery from "./widgets/Gallery";
 import Profile from "./widgets/Profile";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Button, OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const widgetComponent = (page, widget, index, onChange) => {
-  const props = { key: index, widget: widget, onChange: onChange(page, index) };
-  switch (widget.type) {
+const WidgetComponent = (props) => {
+  switch (props.widget.type) {
     case "textual":
       return <Textual {...props} />;
     case "gallery":
@@ -81,7 +80,7 @@ const WidgetWrapper = ({ widget, dragDisabled, isLoading, onDelete, index, child
           <div className="widget-drag-handle" {...provided.dragHandleProps}>
             <i className="bi-grip-horizontal" />
             {widgetName[widget.type]}
-            {isLoading ? <Spinner animation="grow" size="sm" /> : null}
+            {isLoading ? <i className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" /> : null}
           </div>
           <DeleteWidget index={index} disabled={isLoading} onDelete={onDelete} />
           {children}
@@ -279,7 +278,13 @@ const PageEditor = ({ website }) => {
                     index={index}
                     key={index}
                   >
-                    {widgetComponent(currentPage, widget, index, updateWidget)}
+                    <WidgetComponent
+                      website={website}
+                      page={currentPage}
+                      widget={widget}
+                      updateWidget={updateWidget(currentPage, index)}
+                      index={index}
+                    />
                   </WidgetWrapper>
                 ))}
                 {provided.placeholder}

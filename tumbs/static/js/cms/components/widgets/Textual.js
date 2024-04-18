@@ -3,17 +3,12 @@ import { useDebouncedCallback } from "use-debounce";
 import { defaultDebounceMs } from "../../config";
 import RichText from "../RichText";
 
-const Textual = ({ widget, onChange }) => {
-  const updateWidget = useDebouncedCallback(
-    // function
-    (markdown) => {
-      onChange({ ...widget, text: markdown });
-    },
-    // delay in ms
-    defaultDebounceMs,
-  );
+const Textual = ({ widget, updateWidget }) => {
+  const updateText = useDebouncedCallback((markdown) => {
+    updateWidget({ ...widget, text: markdown });
+  }, defaultDebounceMs);
 
-  return <RichText value={widget.text} onChange={updateWidget} />;
+  return <RichText value={widget.text} onChange={updateText} />;
 };
 
 export default Textual;

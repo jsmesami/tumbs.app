@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/variables";
+
+.website-top-bar {
+  padding: 1rem;
+  margin: 0 -1rem 1.5rem -1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: $gray-100;
+  border-bottom: 1px solid $gray-200;
+
+  .h3 {
+    margin: 0;
+  }
+}

@@ -26,7 +26,7 @@ charset-normalizer==3.3.2
     # via requests
 cryptography==42.0.5
     # via authlib
-django==5.0.3
+django==5.0.4
     # via
     #   django-extensions
     #   django-ninja
@@ -36,7 +36,7 @@ django-environ==0.11.2
     # via tumbs.app (pyproject.toml)
 django-extensions==3.2.3
     # via tumbs.app (pyproject.toml)
-django-ipware==6.0.4
+django-ipware==6.0.5
     # via tumbs.app (pyproject.toml)
 django-ninja==1.1.0
     # via tumbs.app (pyproject.toml)
@@ -44,29 +44,29 @@ django-ordered-model==3.7.4
     # via tumbs.app (pyproject.toml)
 django-redis==5.4.0
     # via tumbs.app (pyproject.toml)
-django-webpack-loader==3.0.1
+django-webpack-loader==3.1.0
     # via tumbs.app (pyproject.toml)
 frozendict==2.3.10
     # via kinde-python-sdk
 hiredis==2.3.2
     # via tumbs.app (pyproject.toml)
-idna==3.6
+idna==3.7
     # via requests
 kinde-python-sdk==1.2.3
     # via tumbs.app (pyproject.toml)
-pillow==10.2.0
+pillow==10.3.0
     # via tumbs.app (pyproject.toml)
-pycparser==2.21
+pycparser==2.22
     # via cffi
-pydantic==2.6.4
+pydantic==2.7.0
     # via django-ninja
-pydantic-core==2.16.3
+pydantic-core==2.18.1
     # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk
 python-dateutil==2.8.2
     # via kinde-python-sdk
-python-ipware==2.0.2
+python-ipware==2.0.3
     # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
@@ -78,7 +78,7 @@ requests==2.31.0
     # via kinde-python-sdk
 six==1.16.0
     # via python-dateutil
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via django
 typing-extensions==4.8.0
     # via

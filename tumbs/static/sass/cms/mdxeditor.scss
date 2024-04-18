@@ -1,0 +1,31 @@
+@import "~bootstrap/scss/variables";
+
+.mdxeditor-toolbar {
+  border-radius: $border-radius $border-radius 0 0;
+  background: $body-bg;
+  border-bottom: 1px solid $gray-200;
+
+  button[type="button"][role="combobox"] {
+    width: 6rem;
+  }
+}
+
+.mdxeditor-root-contenteditable {
+  background: $body-bg;
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+}
+
+.mdxeditor-select-content {
+  width: 6rem;
+}

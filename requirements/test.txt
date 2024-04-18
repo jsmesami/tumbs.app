@@ -16,7 +16,7 @@ astroid==3.1.0
     # via pylint
 authlib==1.2.1
     # via kinde-python-sdk
-black==24.3.0
+black==24.4.0
     # via tumbs.app (pyproject.toml)
 certifi==2022.12.7
     # via
@@ -44,7 +44,7 @@ cssbeautifier==1.15.1
     # via djlint
 dill==0.3.8
     # via pylint
-django==5.0.3
+django==5.0.4
     # via
     #   django-extensions
     #   django-ninja
@@ -56,7 +56,7 @@ django-environ==0.11.2
     # via tumbs.app (pyproject.toml)
 django-extensions==3.2.3
     # via tumbs.app (pyproject.toml)
-django-ipware==6.0.4
+django-ipware==6.0.5
     # via tumbs.app (pyproject.toml)
 django-ninja==1.1.0
     # via tumbs.app (pyproject.toml)
@@ -64,7 +64,7 @@ django-ordered-model==3.7.4
     # via tumbs.app (pyproject.toml)
 django-redis==5.4.0
     # via tumbs.app (pyproject.toml)
-django-webpack-loader==3.0.1
+django-webpack-loader==3.1.0
     # via tumbs.app (pyproject.toml)
 djlint==1.34.1
     # via tumbs.app (pyproject.toml)
@@ -80,7 +80,7 @@ html-tag-names==0.1.2
     # via djlint
 html-void-elements==0.1.0
     # via djlint
-idna==3.6
+idna==3.7
     # via requests
 iniconfig==2.0.0
     # via pytest
@@ -92,7 +92,7 @@ jsbeautifier==1.15.1
     # via
     #   cssbeautifier
     #   djlint
-json5==0.9.24
+json5==0.9.25
     # via djlint
 kinde-python-sdk==1.2.3
     # via tumbs.app (pyproject.toml)
@@ -109,7 +109,7 @@ pathspec==0.12.1
     # via
     #   black
     #   djlint
-pillow==10.2.0
+pillow==10.3.0
     # via tumbs.app (pyproject.toml)
 platformdirs==4.2.0
     # via
@@ -121,11 +121,11 @@ psycopg==3.1.18
     # via tumbs.app (pyproject.toml)
 psycopg-binary==3.1.18
     # via psycopg
-pycparser==2.21
+pycparser==2.22
     # via cffi
-pydantic==2.6.4
+pydantic==2.7.0
     # via django-ninja
-pydantic-core==2.16.3
+pydantic-core==2.18.1
     # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk
@@ -148,7 +148,7 @@ pytest-sugar==1.0.0
     # via tumbs.app (pyproject.toml)
 python-dateutil==2.8.2
     # via kinde-python-sdk
-python-ipware==2.0.2
+python-ipware==2.0.3
     # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
@@ -167,7 +167,7 @@ six==1.16.0
     #   cssbeautifier
     #   jsbeautifier
     #   python-dateutil
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via django
 termcolor==2.4.0
     # via pytest-sugar

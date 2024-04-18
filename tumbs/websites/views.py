@@ -19,7 +19,10 @@ def _prepare_website(website):
             model_to_dict(page, fields=["id", "title", "description", "content"]) | {"order": page.order}
             for page in website.pages.all()
         ],
-        "images": [model_to_dict(image, fields=["id", "url", "alt", "caption"]) for image in website.images.all()],
+        "images": [
+            model_to_dict(image, fields=["id", "alt", "caption"]) | {"file": image.file.url}
+            for image in website.images.all()
+        ],
     }
 
 

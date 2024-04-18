@@ -53,7 +53,7 @@ const CreateWebsiteButton = () => {
     <Button variant="outline-primary" disabled={isLoading} onClick={createWebsite}>
       {isLoading ? (
         <>
-          <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
+          <i className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
           &ensp;
           <span>{_("Creating")}</span>
         </>

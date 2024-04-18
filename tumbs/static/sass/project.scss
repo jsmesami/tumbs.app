@@ -1,157 +1,22 @@
 @import 'bs';
-
-.form-control::placeholder {
-  color: $gray-500;
-}
+@import "cms/collapse-control";
+@import "cms/image-box";
+@import "cms/inline-editable";
+@import "cms/mdxeditor";
+@import "cms/website-top-bar";
+@import "cms/widgets";
 
 .fancy-gradient {
   background: $primary;
   background: linear-gradient(157deg, rgba(34, 19, 61, 1) 0%, rgba(32, 40, 96, 1) 35%, rgba(29, 66, 119, 1) 100%);
 }
 
-.website-top-bar {
-  padding: 1rem;
-  margin: 0 -1rem 1.5rem -1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  background: $gray-100;
-  border-bottom: 1px solid $gray-200;
-
-  .h3 {
-    margin: 0;
-  }
-}
-
-.inline-editable {
-  display: flex;
-  align-items: center;
-  position: relative;
-
-  &-input {
-    border: 1px solid $border-color;
-    border-radius: $border-radius;
-    padding: .2rem;
-    outline: none;
-  }
-
-  .edit-icon {
-    position: absolute;
-    right: -1rem;
-    top: -0.4rem;
-
-    &::before {
-      font-size: .8rem;
-    }
-  }
-}
-
 .popover-header {
   padding: .5rem .5rem .5rem 1rem;
-}
-
-.collapse-control {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  width: 100%;
-  margin-bottom: 1rem;
-  color: $gray-600;
-  white-space: nowrap;
-  text-decoration: none;
-
-  hr {
-    width: 100%;
-  }
 }
 
 .badge-seo {
   background: $body-bg;
   border: 1px solid $text-muted;
   color: $text-muted;
-}
-
-.widgets {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.widget-wrapper {
-  width: 100%;
-  position: relative;
-  padding: 1.5rem 1rem 1rem 1rem;
-  border: 1px solid $gray-200;
-  border-radius: $border-radius;
-  background: $gray-100;
-
-  .widget-drag-handle {
-    position: absolute;
-    display: flex;
-    gap: .5rem;
-    align-items: center;
-    left: -1px;
-    top: -.7rem;
-    height: 1.4rem;
-    padding: 0 .5rem;
-    border: 1px solid $gray-300;
-    background: $body-bg;
-    color: $text-muted;
-    font-size: 70%;
-
-    i {
-      font-size: 140%;
-    }
-  }
-
-  .widget-delete-button {
-    position: absolute;
-    right: -1px;
-    top: -.7rem;
-    height: 1.4rem;
-    line-height: 0;
-    font-size: 115%;
-    padding: 0;
-    border: 1px solid $gray-300;
-    border-radius: 0;
-    background: $body-bg;
-    color: $text-muted;
-
-    &.btn:active {
-      border: 1px solid $gray-300;
-      border-radius: 0;
-      background: $body-bg;
-      color: $danger;
-    }
-  }
-}
-
-.mdxeditor-toolbar {
-  border-radius: $border-radius $border-radius 0 0;
-  background: $body-bg;
-  border-bottom: 1px solid $gray-200;
-
-  button[type="button"][role="combobox"] {
-    width: 6rem;
-  }
-}
-
-.mdxeditor-root-contenteditable {
-  background: $body-bg;
-
-  h1 {
-    font-size: 1.6rem;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-  }
-
-  h3 {
-    font-size: 1.2rem;
-  }
-}
-
-.mdxeditor-select-content {
-  width: 6rem;
 }
