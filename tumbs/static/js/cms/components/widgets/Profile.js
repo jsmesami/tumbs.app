@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useDebouncedCallback } from "use-debounce";
-import { defaultDebounceMs } from "../../config";
 import { _ } from "../../i18n";
 import { actions as stashActions } from "../../slices/stash";
+import { defaultDebounceMs } from "../../config";
 import ImageUploader from "../ImageUploader";
 import ImageEditor from "../ImageEditor";
 import RichText from "../RichText";
@@ -18,9 +18,9 @@ const Profile = ({ website, widget, updateWidget }) => {
 
   const assignImage = (image) => {
     dispatch(
-      stashActions.updateWebsite({
-        ...website,
-        images: [...website.images, image],
+      stashActions.addImage({
+        websiteId: website.id,
+        image: image,
       }),
     );
     updateWidget({ ...widget, imageId: image.id });
@@ -32,7 +32,7 @@ const Profile = ({ website, widget, updateWidget }) => {
         {profileImage ? (
           <ImageEditor image={profileImage} />
         ) : (
-          <ImageUploader websiteId={website.id} onUpload={assignImage} title={_("New Photo")} />
+          <ImageUploader websiteId={website.id} onUpload={(images) => assignImage(images[0])} title={_("New Photo")} />
         )}
       </div>
       <div className="col">

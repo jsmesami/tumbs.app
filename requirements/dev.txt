@@ -87,7 +87,7 @@ pyproject-hooks==1.0.0
     #   pip-tools
 python-dateutil==2.8.2
     # via kinde-python-sdk
-python-ipware==2.0.3
+python-ipware==2.0.4
     # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)

@@ -7,3 +7,5 @@ export const maxPages = 8;
 export const autoDismissMs = 3000;
 
 export const defaultDebounceMs = 3000;
+
+export const imagesUploadChunkSize = 5; // How many images can be uploaded in parallel

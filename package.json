@@ -7,7 +7,7 @@
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
     "@babel/preset-react": "^7.24.1",
-    "@mdxeditor/editor": "^2.20.4",
+    "@mdxeditor/editor": "^2.20.6",
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.2.3",
     "autoprefixer": "^10.4.19",

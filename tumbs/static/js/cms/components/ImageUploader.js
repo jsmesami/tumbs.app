@@ -1,23 +1,33 @@
 import React, { useRef, useState } from "react";
 import { apiService } from "../network";
+import { imagesUploadChunkSize } from "../config";
 
-const ImageUploader = ({ websiteId, onUpload, title }) => {
+const ImageUploader = ({ websiteId, onUpload, title, multi = false, accept = ".jpg" }) => {
   const imgPlaceholderRef = useRef(null);
   const [status, setStatus] = useState("initial");
   const isLoading = status === "loading";
+  let uploadResults = [];
 
-  const uploadImage = (formData) => {
+  const uploadChunked = ([formSet, ...remaining]) => {
     setStatus("loading");
-    apiService
-      .request("create_image", {
-        additionalParams: {
-          headers: undefined,
-          body: formData,
-        },
-      })
-      .then((image) => {
-        setStatus("success");
-        onUpload(image);
+    Promise.all(
+      formSet.map((form) =>
+        apiService.request("create_image", {
+          additionalParams: {
+            headers: undefined,
+            body: form,
+          },
+        }),
+      ),
+    )
+      .then((results) => {
+        uploadResults = [...uploadResults, ...results];
+        if (remaining.length) {
+          uploadChunked(remaining);
+        } else {
+          setStatus("success");
+          onUpload(uploadResults);
+        }
       })
       .catch((err) => {
         setStatus("error");
@@ -25,28 +35,34 @@ const ImageUploader = ({ websiteId, onUpload, title }) => {
       });
   };
 
-  const onImgSelect = (e) => {
-    const data = e.target.files[0];
-    const reader = new FileReader();
+  const onSelectImages = (e) => {
+    const files = Array.from(e.target.files);
+    const forms = files.map((file) => {
+      if (!multi) {
+        const reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          const el = imgPlaceholderRef.current;
+          if (el) el.style.backgroundImage = `url(${readerEvent.target.result})`;
+        };
+        reader.readAsDataURL(file);
+      }
+      const formData = new FormData();
+      formData.append("image_file", file);
+      formData.append("payload", JSON.stringify({ website_id: websiteId }));
+      return formData;
+    });
 
-    reader.onload = (readerEvent) => {
-      const el = imgPlaceholderRef.current;
-      if (el) el.style.backgroundImage = `url(${readerEvent.target.result})`;
-    };
+    const formSets = [];
+    for (let i = 0; i < forms.length; i += imagesUploadChunkSize) {
+      formSets.push(forms.slice(i, i + imagesUploadChunkSize));
+    }
 
-    reader.readAsDataURL(data);
-
-    const formData = new FormData();
-
-    formData.append("image_file", data);
-    formData.append("payload", JSON.stringify({ website_id: websiteId }));
-
-    uploadImage(formData);
+    uploadChunked(formSets);
   };
 
   return (
     <label className="image-box image-uploader">
-      <input type="file" accept=".jpg" className="visually-hidden" onChange={onImgSelect} />
+      <input type="file" accept={accept} className="visually-hidden" multiple={multi} onChange={onSelectImages} />
       <div className="image-box-canvas" ref={imgPlaceholderRef} />
       {isLoading ? (
         <span className="image-uploader-icon">
