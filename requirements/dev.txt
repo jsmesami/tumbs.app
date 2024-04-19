@@ -43,7 +43,7 @@ django-environ==0.11.2
     # via tumbs.app (pyproject.toml)
 django-extensions==3.2.3
     # via tumbs.app (pyproject.toml)
-django-ipware==6.0.5
+django-ipware==7.0.1
     # via tumbs.app (pyproject.toml)
 django-ninja==1.1.0
     # via tumbs.app (pyproject.toml)
@@ -87,7 +87,7 @@ pyproject-hooks==1.0.0
     #   pip-tools
 python-dateutil==2.8.2
     # via kinde-python-sdk
-python-ipware==2.0.4
+python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)

@@ -8,7 +8,11 @@ const Textual = ({ widget, updateWidget }) => {
     updateWidget({ ...widget, text: markdown });
   }, defaultDebounceMs);
 
-  return <RichText value={widget.text} onChange={updateText} />;
+  return (
+    <div className="mb-4">
+      <RichText value={widget.text} onChange={updateText} />
+    </div>
+  );
 };
 
 export default Textual;

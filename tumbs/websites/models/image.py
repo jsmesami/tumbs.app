@@ -5,7 +5,6 @@ import magic
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from PIL import Image as RawImage
@@ -15,9 +14,7 @@ from tumbs.websites.utils import exif
 
 def image_upload_path(instance, filename):
     _, ext = os.path.splitext(filename)
-    new_name = slugify(instance.alt) if instance.alt else uuid.uuid4().hex
-
-    return f"website/{instance.website_id}/{new_name}{ext}"
+    return f"ws-{instance.website_id:04d}/{uuid.uuid4().hex}{ext}"
 
 
 def file_size_validator(value):

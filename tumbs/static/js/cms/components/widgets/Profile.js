@@ -11,6 +11,7 @@ import RichText from "../RichText";
 const Profile = ({ website, widget, updateWidget }) => {
   const dispatch = useDispatch();
   const profileImage = website.images.find((i) => i.id === widget.imageId);
+  const colSpacing = "col-6 col-sm-4 col-md-3 col-lg-2 col-xxl-1 mb-4";
 
   const updateText = useDebouncedCallback((markdown) => {
     updateWidget({ ...widget, text: markdown });
@@ -28,14 +29,18 @@ const Profile = ({ website, widget, updateWidget }) => {
 
   return (
     <div className="row">
-      <div className="col-2">
+      <div className={colSpacing}>
         {profileImage ? (
           <ImageEditor image={profileImage} />
         ) : (
-          <ImageUploader websiteId={website.id} onUpload={(images) => assignImage(images[0])} title={_("New Photo")} />
+          <ImageUploader
+            websiteId={website.id}
+            onUpload={(images) => assignImage(images[0])}
+            title={_("Upload Photo")}
+          />
         )}
       </div>
-      <div className="col">
+      <div className="col mb-4">
         <RichText value={widget.text} onChange={updateText} />
       </div>
     </div>

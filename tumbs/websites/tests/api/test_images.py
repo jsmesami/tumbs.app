@@ -50,7 +50,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
 
     assert response.status_code == 201
     response = response.json()
-    assert response.pop("file").startswith(f"http://media.testserver/website/{website.pk}/")
+    assert response.pop("file").startswith(f"http://media.testserver/ws-{website.pk:04d}/")
     assert response == expected
 
     # ---------------- Read
@@ -61,7 +61,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     )
     assert response.status_code == 200
     response = response.json()
-    assert response.pop("file").startswith(f"http://media.testserver/website/{website.pk}/")
+    assert response.pop("file").startswith(f"http://media.testserver/ws-{website.pk:04d}/")
     assert response == expected
 
     # ---------------- Update
@@ -79,7 +79,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     )
     assert response.status_code == 200
     response = response.json()
-    assert response.pop("file").startswith(f"http://media.testserver/website/{website.pk}/")
+    assert response.pop("file").startswith(f"http://media.testserver/ws-{website.pk:04d}/")
     assert response == expected
 
     # ---------------- Delete

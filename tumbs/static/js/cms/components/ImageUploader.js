@@ -1,8 +1,12 @@
 import React, { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { _ } from "../i18n";
 import { apiService } from "../network";
 import { imagesUploadChunkSize } from "../config";
+import { actions as alertsActions } from "../slices/alerts";
 
 const ImageUploader = ({ websiteId, onUpload, title, multi = false, accept = ".jpg" }) => {
+  const dispatch = useDispatch();
   const imgPlaceholderRef = useRef(null);
   const [status, setStatus] = useState("initial");
   const isLoading = status === "loading";
@@ -31,12 +35,21 @@ const ImageUploader = ({ websiteId, onUpload, title, multi = false, accept = ".j
       })
       .catch((err) => {
         setStatus("error");
+        dispatch(
+          alertsActions.addAlert({
+            content: _("Could upload images"),
+            subContent: err,
+            severity: "danger",
+          }),
+        );
         // TODO: notify Sentry
       });
   };
 
   const onSelectImages = (e) => {
     const files = Array.from(e.target.files);
+    if (!files?.length) return;
+
     const forms = files.map((file) => {
       if (!multi) {
         const reader = new FileReader();
