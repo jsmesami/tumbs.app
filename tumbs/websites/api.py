@@ -100,6 +100,23 @@ def ensure_website_owner(request, website_id):
         raise e
 
 
+def delete_orphaned_images(website):
+    """
+    Scan for images referenced by all widgets on all pages and mark the rest of them as deleted.
+    """
+
+    def gather_referenced_image_ids():
+        for page in website.pages.valid():
+            for widget in page.content:
+                if iid := widget.get("imageId"):
+                    yield iid
+                if iids := widget.get("imageIds"):
+                    yield from iids
+
+    iids = gather_referenced_image_ids()
+    website.images.exclude(id__in=iids).update(deleted=True)
+
+
 # ---------------- Websites
 
 
@@ -139,8 +156,8 @@ def delete_website(request, website_id: int):
     ws = get_object_or_404(Website.objects.valid(), customer_id=ensure_customer_id(request), id=website_id)
     ws.deleted = True
     ws.save()
-    Page.objects.filter(website_id=website_id).update(deleted=True)
-    Image.objects.filter(website_id=website_id).update(deleted=True)
+    ws.pages.update(deleted=True)
+    ws.images.update(deleted=True)
     logger.info("User %s DELETED website %s", request.session["customer"]["id"], repr(ws))
     return {"success": True}
 
@@ -178,6 +195,7 @@ def update_page(request, page_id: int, payload: PageUpdateSchema):
     for attr, value in payload.dict().items():
         setattr(page, attr, value)
     page.save()
+    delete_orphaned_images(page.website)
     return page
 
 
@@ -186,6 +204,7 @@ def delete_page(request, page_id: int):
     page = get_object_or_404(Page.objects.valid(), website__customer_id=ensure_customer_id(request), id=page_id)
     page.deleted = True
     page.save()
+    delete_orphaned_images(page.website)
     logger.info("User %s DELETED page %s", request.session["customer"]["id"], repr(page))
     return {"success": True}
 
