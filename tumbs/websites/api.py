@@ -102,7 +102,7 @@ def ensure_website_owner(request, website_id):
 
 def delete_orphaned_images(website):
     """
-    Scan for images referenced by all widgets on all pages and mark the rest of them as deleted.
+    Take website's images and delete ones that are not referenced by any widget of any page.
     """
 
     def gather_referenced_image_ids():

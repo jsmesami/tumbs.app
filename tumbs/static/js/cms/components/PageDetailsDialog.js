@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { PageContext } from "./CurrentPageProvider";
@@ -42,80 +42,74 @@ const PageDetailsDialog = ({ website }) => {
     return ["title", "description"].some((field) => form[field].value !== page[field]);
   };
 
-  const handleSubmit = useCallback(
-    (page) => (e) => {
-      e.preventDefault();
-      if (!haveValuesChanged(e.target, page)) {
-        hide();
-        return;
-      }
-      setStatus("loading");
-      apiService
-        .request("update_page", {
-          args: { page_id: page.id },
-          payload: {
-            ...page,
-            ...{
-              title: e.target.title.value,
-              description: e.target.description.value,
-            },
+  const handleSubmit = (page) => (e) => {
+    e.preventDefault();
+    if (!haveValuesChanged(e.target, page)) {
+      hide();
+      return;
+    }
+    setStatus("loading");
+    apiService
+      .request("update_page", {
+        args: { page_id: page.id },
+        payload: {
+          ...page,
+          ...{
+            title: e.target.title.value,
+            description: e.target.description.value,
           },
-        })
-        .then((data) => {
-          setStatus("success");
-          dispatch(stashActions.updatePage({ websiteId: website.id, page: data }));
-          hide();
-        })
-        .catch((err) => {
-          setStatus("error");
-          dispatch(
-            alertsActions.addAlert({
-              content: _("Could not update page details"),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          hide();
-          // TODO: notify Sentry
-        });
-    },
-    [website],
-  );
+        },
+      })
+      .then((data) => {
+        setStatus("success");
+        dispatch(stashActions.updatePage({ websiteId: website.id, page: data }));
+        hide();
+      })
+      .catch((err) => {
+        setStatus("error");
+        dispatch(
+          alertsActions.addAlert({
+            content: _("Could not update page details"),
+            subContent: err,
+            severity: "danger",
+          }),
+        );
+        hide();
+        // TODO: notify Sentry
+      });
+  };
 
-  const handleDelete = useCallback(
-    (page) => () => {
-      setStatus("loading");
-      apiService
-        .request("delete_page", {
-          args: { page_id: page.id },
-        })
-        .then(() => {
-          setStatus("success");
-          dispatch(
-            alertsActions.addAlert({
-              content: _('Page "{title}" has been successfully deleted.').supplant({ title: page.title }),
-              severity: "success",
-              autoDismissMs: autoDismissMs,
-            }),
-          );
-          dispatch(stashActions.deletePage({ websiteId: website.id, pageId: page.id }));
-          hide();
-        })
-        .catch((err) => {
-          setStatus("error");
-          dispatch(
-            alertsActions.addAlert({
-              content: _('Could not delete page "{title}"').supplant({ title: page.title }),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          hide();
-          // TODO: notify Sentry
-        });
-    },
-    [website],
-  );
+  const handleDelete = (page) => () => {
+    setStatus("loading");
+    apiService
+      .request("delete_page", {
+        args: { page_id: page.id },
+      })
+      .then(() => {
+        setStatus("success");
+        dispatch(
+          alertsActions.addAlert({
+            content: _('Page "{title}" has been successfully deleted.').supplant({ title: page.title }),
+            severity: "success",
+            autoDismissMs: autoDismissMs,
+          }),
+        );
+        dispatch(stashActions.deletePage({ websiteId: website.id, pageId: page.id }));
+        hide();
+      })
+      .catch((err) => {
+        setStatus("error");
+        dispatch(
+          alertsActions.addAlert({
+            content: _('Could not delete page "{title}"').supplant({ title: page.title }),
+            subContent: err,
+            severity: "danger",
+          }),
+        );
+        hide();
+        // TODO: notify Sentry
+      });
+  };
 
   return (
     currentPage && (

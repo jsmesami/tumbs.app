@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { apiService } from "../network";
@@ -101,164 +101,150 @@ const PageEditor = ({ website }) => {
   const addingDisabled = addingStatus === "loading" || reorderingStatus === "loading";
   const reorderingDisabled = addingDisabled || anyWidgetSaving || (currentPage && currentPage.content.length < 2);
 
-  const addWidget = useCallback(
-    (type) => () => {
-      const newWidget = widgetDefault[type];
-      setAddingStatus("loading");
-      apiService
-        .request("update_page", {
-          args: { page_id: currentPage.id },
-          payload: {
-            ...currentPage,
-            content: [newWidget, ...currentPage.content],
-          },
-        })
-        .then((page) => {
-          setAddingStatus("success");
-          dispatch(stashActions.addWidget({ websiteId: website.id, pageId: page.id, widget: newWidget }));
-        })
-        .catch((err) => {
-          setAddingStatus("error");
-          dispatch(
-            alertsActions.addAlert({
-              content: _("Could not add content"),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          // TODO: notify Sentry
-        });
-    },
-    [website, currentPage],
-  );
+  const addWidget = (type) => () => {
+    const newWidget = widgetDefault[type];
+    setAddingStatus("loading");
+    apiService
+      .request("update_page", {
+        args: { page_id: currentPage.id },
+        payload: {
+          ...currentPage,
+          content: [newWidget, ...currentPage.content],
+        },
+      })
+      .then((page) => {
+        setAddingStatus("success");
+        dispatch(stashActions.addWidget({ websiteId: website.id, pageId: page.id, widget: newWidget }));
+      })
+      .catch((err) => {
+        setAddingStatus("error");
+        dispatch(
+          alertsActions.addAlert({
+            content: _("Could not add content"),
+            subContent: err,
+            severity: "danger",
+          }),
+        );
+        // TODO: notify Sentry
+      });
+  };
 
-  const reorderWidgets = useCallback(
-    (newPage, oldPage) => {
-      setReorderingStatus("loading");
-      apiService
-        .request("update_page", {
-          args: { page_id: newPage.id },
-          payload: newPage,
-        })
-        .then(() => {
-          setReorderingStatus("success");
-        })
-        .catch((err) => {
-          setReorderingStatus("error");
-          dispatch(
-            alertsActions.addAlert({
-              content: _("Could not update widgets order"),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          dispatch(
-            stashActions.updatePage({
-              websiteId: website.id,
-              page: oldPage,
-            }),
-          );
-          // TODO: notify Sentry
-        });
-    },
-    [website],
-  );
-
-  const onDragEnd = useCallback(
-    (page) =>
-      ({ source, destination }) => {
-        if (!destination || destination.index === source.index) return;
-
-        const newOrder = [...page.content];
-        const [removed] = newOrder.splice(source.index, 1);
-        newOrder.splice(destination.index, 0, removed);
-
-        const newPage = {
-          ...page,
-          content: newOrder,
-        };
-        reorderWidgets(newPage, page);
-
+  const reorderWidgets = (newPage, oldPage) => {
+    setReorderingStatus("loading");
+    apiService
+      .request("update_page", {
+        args: { page_id: newPage.id },
+        payload: newPage,
+      })
+      .then(() => {
+        setReorderingStatus("success");
+      })
+      .catch((err) => {
+        setReorderingStatus("error");
+        dispatch(
+          alertsActions.addAlert({
+            content: _("Could not update widgets order"),
+            subContent: err,
+            severity: "danger",
+          }),
+        );
         dispatch(
           stashActions.updatePage({
             websiteId: website.id,
-            page: newPage,
+            page: oldPage,
           }),
         );
-      },
-    [website],
-  );
+        // TODO: notify Sentry
+      });
+  };
 
-  const updateWidget = useCallback(
-    (page, index) => (widget) => {
-      const newContent = [...page.content];
-      newContent[index] = widget;
+  const onDragEnd =
+    (page) =>
+    ({ source, destination }) => {
+      if (!destination || destination.index === source.index) return;
 
-      setSavingStatus({ ...savingStatus, ...{ [index]: "loading" } });
-      apiService
-        .request("update_page", {
-          args: { page_id: page.id },
-          payload: {
-            ...page,
-            content: newContent,
-          },
-        })
-        .then((page) => {
-          setSavingStatus({ ...savingStatus, ...{ [index]: "success" } });
-          dispatch(
-            stashActions.updateWidget({
-              websiteId: website.id,
-              pageId: page.id,
-              index: index,
-              widget: widget,
-            }),
-          );
-        })
-        .catch((err) => {
-          setSavingStatus({ ...savingStatus, ...{ [index]: "error" } });
-          dispatch(
-            alertsActions.addAlert({
-              content: _("Could not save content"),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          // TODO: notify Sentry
-        });
-    },
-    [website],
-  );
+      const newOrder = [...page.content];
+      const [removed] = newOrder.splice(source.index, 1);
+      newOrder.splice(destination.index, 0, removed);
 
-  const deleteWidget = useCallback(
-    (page, index) => () => {
-      const newContent = [...page.content];
-      newContent.splice(index, 1);
-      const oldPage = { ...page };
-      const newPage = { ...page, ...{ content: newContent } };
+      const newPage = {
+        ...page,
+        content: newOrder,
+      };
+      reorderWidgets(newPage, page);
 
-      dispatch(stashActions.updatePage({ websiteId: website.id, page: newPage }));
-      apiService
-        .request("update_page", {
-          args: { page_id: page.id },
-          payload: {
-            ...page,
-            content: newContent,
-          },
-        })
-        .catch((err) => {
-          dispatch(stashActions.updatePage({ websiteId: website.id, page: oldPage }));
-          dispatch(
-            alertsActions.addAlert({
-              content: _("Could not delete widget"),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          // TODO: notify Sentry
-        });
-    },
-    [website],
-  );
+      dispatch(
+        stashActions.updatePage({
+          websiteId: website.id,
+          page: newPage,
+        }),
+      );
+    };
+
+  const updateWidget = (page, index) => (widget) => {
+    const newContent = [...page.content];
+    newContent[index] = widget;
+
+    setSavingStatus({ ...savingStatus, ...{ [index]: "loading" } });
+    apiService
+      .request("update_page", {
+        args: { page_id: page.id },
+        payload: {
+          ...page,
+          content: newContent,
+        },
+      })
+      .then((page) => {
+        setSavingStatus({ ...savingStatus, ...{ [index]: "success" } });
+        dispatch(
+          stashActions.updateWidget({
+            websiteId: website.id,
+            pageId: page.id,
+            index: index,
+            widget: widget,
+          }),
+        );
+      })
+      .catch((err) => {
+        setSavingStatus({ ...savingStatus, ...{ [index]: "error" } });
+        dispatch(
+          alertsActions.addAlert({
+            content: _("Could not save content"),
+            subContent: err,
+            severity: "danger",
+          }),
+        );
+        // TODO: notify Sentry
+      });
+  };
+
+  const deleteWidget = (page, index) => () => {
+    const newContent = [...page.content];
+    newContent.splice(index, 1);
+    const oldPage = { ...page };
+    const newPage = { ...page, ...{ content: newContent } };
+
+    dispatch(stashActions.updatePage({ websiteId: website.id, page: newPage }));
+    apiService
+      .request("update_page", {
+        args: { page_id: page.id },
+        payload: {
+          ...page,
+          content: newContent,
+        },
+      })
+      .catch((err) => {
+        dispatch(stashActions.updatePage({ websiteId: website.id, page: oldPage }));
+        dispatch(
+          alertsActions.addAlert({
+            content: _("Could not delete widget"),
+            subContent: err,
+            severity: "danger",
+          }),
+        );
+        // TODO: notify Sentry
+      });
+  };
 
   return (
     currentPage && (

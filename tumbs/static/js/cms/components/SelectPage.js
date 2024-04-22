@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { maxPages } from "../config";
@@ -44,7 +44,7 @@ const SelectPage = ({ website }) => {
   const addDisabled = isBusy || website.pages.length >= maxPages;
   const dragDisabled = isBusy || website.pages.length < 2;
 
-  const createPage = useCallback(() => {
+  const createPage = () => {
     setCreationStatus("loading");
     apiService
       .request("create_page", {
@@ -69,7 +69,7 @@ const SelectPage = ({ website }) => {
         );
         // TODO: notify Sentry
       });
-  }, [website]);
+  };
 
   const reorderPages = (reordered, oldOrder) => {
     setReorderStatus("loading");
@@ -106,26 +106,23 @@ const SelectPage = ({ website }) => {
       });
   };
 
-  const onDragEnd = useCallback(
-    ({ source, destination }) => {
-      if (!destination || destination.index === source.index) return;
+  const onDragEnd = ({ source, destination }) => {
+    if (!destination || destination.index === source.index) return;
 
-      const oldOrder = [...website.pages];
-      const newOrder = [...website.pages];
-      const [removed] = newOrder.splice(source.index, 1);
-      newOrder.splice(destination.index, 0, removed);
+    const oldOrder = [...website.pages];
+    const newOrder = [...website.pages];
+    const [removed] = newOrder.splice(source.index, 1);
+    newOrder.splice(destination.index, 0, removed);
 
-      reorderPages(newOrder, oldOrder);
+    reorderPages(newOrder, oldOrder);
 
-      dispatch(
-        stashActions.updateWebsite({
-          ...website,
-          pages: newOrder,
-        }),
-      );
-    },
-    [website],
-  );
+    dispatch(
+      stashActions.updateWebsite({
+        ...website,
+        pages: newOrder,
+      }),
+    );
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _ } from "../i18n";
 import { actions as alertsActions } from "../slices/alerts";
@@ -40,82 +40,76 @@ const WebsiteDetailsDialog = ({ website }) => {
     return ["name", "language", "region", "domain"].some((field) => form[field].value !== website[field]);
   };
 
-  const handleSubmit = useCallback(
-    (website) => (e) => {
-      e.preventDefault();
-      if (!haveValuesChanged(e.target, website)) {
-        hide();
-        return;
-      }
-      setStatus("loading");
-      apiService
-        .request("update_website", {
-          args: { website_id: website.id },
-          payload: {
-            ...website,
-            ...{
-              name: e.target.name.value,
-              language: e.target.language.value,
-              region: e.target.region.value,
-              domain: e.target.domain.value,
-            },
+  const handleSubmit = (website) => (e) => {
+    e.preventDefault();
+    if (!haveValuesChanged(e.target, website)) {
+      hide();
+      return;
+    }
+    setStatus("loading");
+    apiService
+      .request("update_website", {
+        args: { website_id: website.id },
+        payload: {
+          ...website,
+          ...{
+            name: e.target.name.value,
+            language: e.target.language.value,
+            region: e.target.region.value,
+            domain: e.target.domain.value,
           },
-        })
-        .then((data) => {
-          setStatus("success");
-          dispatch(stashActions.updateWebsite(data));
-          hide();
-        })
-        .catch((err) => {
-          setStatus("error");
-          dispatch(
-            alertsActions.addAlert({
-              content: _("Could not update site"),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          hide();
-          // TODO: notify Sentry
-        });
-    },
-    [website],
-  );
+        },
+      })
+      .then((data) => {
+        setStatus("success");
+        dispatch(stashActions.updateWebsite(data));
+        hide();
+      })
+      .catch((err) => {
+        setStatus("error");
+        dispatch(
+          alertsActions.addAlert({
+            content: _("Could not update site"),
+            subContent: err,
+            severity: "danger",
+          }),
+        );
+        hide();
+        // TODO: notify Sentry
+      });
+  };
 
-  const handleDelete = useCallback(
-    (website) => () => {
-      setStatus("loading");
-      apiService
-        .request("delete_website", {
-          args: { website_id: website.id },
-        })
-        .then(() => {
-          setStatus("success");
-          dispatch(
-            alertsActions.addAlert({
-              content: _('Site "{name}" has been successfully deleted.').supplant({ name: website.name }),
-              severity: "success",
-              autoDismissMs: autoDismissMs,
-            }),
-          );
-          dispatch(stashActions.deleteWebsite({ websiteId: website.id }));
-          hide();
-        })
-        .catch((err) => {
-          setStatus("error");
-          dispatch(
-            alertsActions.addAlert({
-              content: _('Could not delete site "{name}"').supplant({ name: website.name }),
-              subContent: err,
-              severity: "danger",
-            }),
-          );
-          hide();
-          // TODO: notify Sentry
-        });
-    },
-    [website],
-  );
+  const handleDelete = (website) => () => {
+    setStatus("loading");
+    apiService
+      .request("delete_website", {
+        args: { website_id: website.id },
+      })
+      .then(() => {
+        setStatus("success");
+        dispatch(
+          alertsActions.addAlert({
+            content: _('Site "{name}" has been successfully deleted.').supplant({ name: website.name }),
+            severity: "success",
+            autoDismissMs: autoDismissMs,
+          }),
+        );
+        dispatch(stashActions.deleteWebsite({ websiteId: website.id }));
+        hide();
+      })
+      .catch((err) => {
+        setStatus("error");
+        dispatch(
+          alertsActions.addAlert({
+            content: _('Could not delete site "{name}"').supplant({ name: website.name }),
+            subContent: err,
+            severity: "danger",
+          }),
+        );
+        hide();
+        // TODO: notify Sentry
+      });
+  };
 
   return (
     website && (
