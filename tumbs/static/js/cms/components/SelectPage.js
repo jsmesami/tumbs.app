@@ -7,7 +7,7 @@ import { PageContext } from "./CurrentPageProvider";
 import { actions as alertsActions } from "../slices/alerts";
 import { actions as dialogsActions } from "../slices/dialogs";
 import { actions as stashActions } from "../slices/stash";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Button, Nav } from "react-bootstrap";
 
 const PageTab = ({ page: { id, title }, active, dragDisabled, index }) => {

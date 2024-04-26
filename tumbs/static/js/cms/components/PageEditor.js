@@ -9,7 +9,7 @@ import DeleteDialog from "./DeleteDialog";
 import Textual from "./widgets/Textual";
 import Gallery from "./widgets/Gallery";
 import Profile from "./widgets/Profile";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const WidgetComponent = (props) => {
