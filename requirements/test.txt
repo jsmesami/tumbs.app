@@ -16,7 +16,7 @@ astroid==3.1.0
     # via pylint
 authlib==1.2.1
     # via kinde-python-sdk
-black==24.4.0
+black==24.4.2
     # via tumbs.app (pyproject.toml)
 certifi==2022.12.7
     # via
@@ -34,7 +34,7 @@ click==8.1.7
     #   djlint
 colorama==0.4.6
     # via djlint
-coverage==7.4.4
+coverage==7.5.0
     # via
     #   django-coverage-plugin
     #   tumbs.app (pyproject.toml)
@@ -111,7 +111,7 @@ pathspec==0.12.1
     #   djlint
 pillow==10.3.0
     # via tumbs.app (pyproject.toml)
-platformdirs==4.2.0
+platformdirs==4.2.1
     # via
     #   black
     #   pylint
@@ -123,9 +123,9 @@ psycopg-binary==3.1.18
     # via psycopg
 pycparser==2.22
     # via cffi
-pydantic==2.7.0
+pydantic==2.7.1
     # via django-ninja
-pydantic-core==2.18.1
+pydantic-core==2.18.2
     # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk
@@ -137,7 +137,7 @@ pylint-django==2.5.5
     # via tumbs.app (pyproject.toml)
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pytest==8.1.1
+pytest==8.1.2
     # via
     #   pytest-django
     #   pytest-sugar
@@ -154,7 +154,7 @@ python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
 pyyaml==6.0.1
     # via djlint
-redis==5.0.3
+redis==5.0.4
     # via
     #   django-redis
     #   tumbs.app (pyproject.toml)
