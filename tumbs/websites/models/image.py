@@ -53,15 +53,14 @@ class Image(TimeStampedModel):
 
     objects = models.Manager.from_queryset(ValidImageQuerySet)()
 
-    def clean(self):
+    def save(self, **kwargs):
         with RawImage.open(self.file.file) as image:  # <- InMemoryUploadedFile
             exif_data = image.getexif()
             self.meta = (self.meta or {}) | {
                 "gps": exif.get_location(exif_data),
                 "created": exif.get_creation_time(exif_data),
             }
-
-        super().clean()
+        super().save(**kwargs)
 
     def __str__(self):
         return self.file.name

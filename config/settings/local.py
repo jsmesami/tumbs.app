@@ -64,6 +64,19 @@ INSTALLED_APPS += ["django_extensions"]  # noqa: F405
 # ------------------------------------------------------------------------------
 WEBPACK_LOADER["DEFAULT"]["CACHE"] = not DEBUG  # noqa: F405
 
+# DRF configuration
+# ------------------------------------------------------------------------------
+REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = (
+    "rest_framework.renderers.JSONRenderer",
+    "rest_framework.renderers.BrowsableAPIRenderer",
+)
+REST_FRAMEWORK["DEFAULT_PARSER_CLASSES"] = (
+    "rest_framework.parsers.JSONParser",
+    "rest_framework.parsers.FormParser",
+    "rest_framework.parsers.MultiPartParser",
+)
+
+
 # Kinde configuration
 # ------------------------------------------------------------------------------
 KINDE_ISSUER_URL = env("KINDE_ISSUER_URL")

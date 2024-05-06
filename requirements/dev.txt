@@ -4,8 +4,6 @@
 #
 #    pip-compile --extra=dev --output-file=requirements/dev.txt --strip-extras pyproject.toml
 #
-annotated-types==0.6.0
-    # via pydantic
 argon2-cffi==23.1.0
     # via tumbs.app (pyproject.toml)
 argon2-cffi-bindings==21.2.0
@@ -28,14 +26,15 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via pip-tools
-cryptography==42.0.5
+cryptography==42.0.6
     # via authlib
 django==5.0.4
     # via
     #   django-debug-toolbar
     #   django-extensions
-    #   django-ninja
     #   django-redis
+    #   djangorestframework
+    #   drf-standardized-errors
     #   tumbs.app (pyproject.toml)
 django-debug-toolbar==4.3.0
     # via tumbs.app (pyproject.toml)
@@ -45,13 +44,17 @@ django-extensions==3.2.3
     # via tumbs.app (pyproject.toml)
 django-ipware==7.0.1
     # via tumbs.app (pyproject.toml)
-django-ninja==1.1.0
-    # via tumbs.app (pyproject.toml)
 django-ordered-model==3.7.4
     # via tumbs.app (pyproject.toml)
 django-redis==5.4.0
     # via tumbs.app (pyproject.toml)
 django-webpack-loader==3.1.0
+    # via tumbs.app (pyproject.toml)
+djangorestframework==3.15.1
+    # via
+    #   drf-standardized-errors
+    #   tumbs.app (pyproject.toml)
+drf-standardized-errors==0.13.0
     # via tumbs.app (pyproject.toml)
 frozendict==2.3.10
     # via kinde-python-sdk
@@ -75,13 +78,9 @@ psycopg-binary==3.1.18
     # via psycopg
 pycparser==2.22
     # via cffi
-pydantic==2.7.1
-    # via django-ninja
-pydantic-core==2.18.2
-    # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk
-pyproject-hooks==1.0.0
+pyproject-hooks==1.1.0
     # via
     #   build
     #   pip-tools
@@ -107,15 +106,13 @@ typing-extensions==4.8.0
     # via
     #   kinde-python-sdk
     #   psycopg
-    #   pydantic
-    #   pydantic-core
 urllib3==2.0.7
     # via
     #   kinde-python-sdk
     #   requests
 watchdog==4.0.0
     # via werkzeug
-werkzeug==3.0.2
+werkzeug==3.0.3
     # via tumbs.app (pyproject.toml)
 wheel==0.43.0
     # via pip-tools

@@ -2,6 +2,7 @@
 import pytest
 from django.forms import model_to_dict
 from django.urls import reverse
+from rest_framework import status
 
 from tumbs.websites.models import Website
 
@@ -10,16 +11,27 @@ from tumbs.websites.models import Website
 @pytest.mark.parametrize(
     "method, url",
     (
-        ("post", reverse("api-1.0.0:create_page")),
-        ("get", reverse("api-1.0.0:read_page", args=[1])),
-        ("put", reverse("api-1.0.0:update_page", args=[1])),
-        ("delete", reverse("api-1.0.0:delete_page", args=[1])),
+        ("get", reverse("api:page-list")),
+        ("post", reverse("api:page-list")),
+        ("get", reverse("api:page-detail", args=[1])),
+        ("put", reverse("api:page-detail", args=[1])),
+        ("patch", reverse("api:page-detail", args=[1])),
+        ("delete", reverse("api:page-detail", args=[1])),
     ),
 )
 def test_unauthorized(client, method, url):
     response = getattr(client, method)(url, content_type="application/json")
-    assert response.status_code == 401
-    assert response.json() == {"detail": "Unauthorized"}
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.json() == {
+        "type": "client_error",
+        "errors": [
+            {
+                "code": "not_authenticated",
+                "detail": "Authentication credentials were not provided.",
+                "attr": None,
+            }
+        ],
+    }
 
 
 @pytest.mark.django_db
@@ -33,26 +45,27 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
         "description": "Delves into how individual lives and decisions contribute to the pattern of human existence.",
         "order": 0,
         "content": [{"A": ["B", "C"]}],
+        "website_id": website.pk,
     }
     page_id = 1
-    provided = {"website_id": website.pk} | fields
+    provided = fields
     expected = {"id": page_id} | fields
 
     response = authorized_client.post(
-        reverse("api-1.0.0:create_page"),
+        reverse("api:page-list"),
         provided,
         content_type="application/json",
     )
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     assert response.json() == expected
 
     # ---------------- Read
     response = authorized_client.get(
-        reverse("api-1.0.0:read_page", args=[page_id]),
+        reverse("api:page-detail", args=[page_id]),
         provided,
         content_type="application/json",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected
 
     # ---------------- Update
@@ -64,21 +77,20 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     provided |= fields
     expected |= fields
 
-    response = authorized_client.put(
-        reverse("api-1.0.0:update_page", args=[page_id]),
+    response = authorized_client.patch(
+        reverse("api:page-detail", args=[page_id]),
         provided,
         content_type="application/json",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected
 
     # ---------------- Delete
     response = authorized_client.delete(
-        reverse("api-1.0.0:delete_page", args=[page_id]),
+        reverse("api:page-detail", args=[page_id]),
         content_type="application/json",
     )
-    assert response.status_code == 200
-    assert response.json() == {"success": True}
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
 @pytest.mark.django_db
@@ -88,25 +100,23 @@ def test_delete_list(authorized_client, new_website, new_page):
     page2 = new_page(website)
 
     response = authorized_client.delete(
-        reverse("api-1.0.0:delete_page", args=[page2.pk]),
+        reverse("api:page-detail", args=[page2.pk]),
         content_type="application/json",
     )
-    assert response.status_code == 200
-    assert response.json() == {"success": True}
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
     website_dict = model_to_dict(website, fields=["id", "name", "language", "region", "domain"])
     page1_dict = model_to_dict(page1, fields=["id", "title", "description", "content"]) | {
+        "website_id": website.pk,
         "order": 0,  # <- model_to_dict doesn't return non-editable fields
     }
     expected = website_dict | {"images": [], "pages": [page1_dict]}
 
-    print(page1.__dict__)
-    print(page1_dict)
     response = authorized_client.get(
-        reverse("api-1.0.0:read_website", args=[website.pk]),
+        reverse("api:website-detail", args=[website.pk]),
         content_type="application/json",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected
 
 
@@ -121,16 +131,25 @@ def test_max_pages(settings, authorized_client, truncate_table, new_website, new
 
     provided = {
         "website_id": website.pk,
-        "title": "",
+        "title": "Home",
         "description": "",
         "content": [],
     }
-    expected = {"detail": [{"msg": f"Maximum pages per website is {max_pages}."}]}
+    expected = {
+        "type": "validation_error",
+        "errors": [
+            {
+                "code": "invalid",
+                "detail": f"Maximum pages per website is {max_pages}.",
+                "attr": "non_field_errors",
+            },
+        ],
+    }
 
     response = authorized_client.post(
-        reverse("api-1.0.0:create_page"),
+        reverse("api:page-list"),
         provided,
         content_type="application/json",
     )
-    assert response.status_code == 422
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == expected

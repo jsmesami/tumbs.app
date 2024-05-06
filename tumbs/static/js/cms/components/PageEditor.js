@@ -108,7 +108,6 @@ const PageEditor = ({ website }) => {
       .request("update_page", {
         args: { page_id: currentPage.id },
         payload: {
-          ...currentPage,
           content: [newWidget, ...currentPage.content],
         },
       })
@@ -134,7 +133,7 @@ const PageEditor = ({ website }) => {
     apiService
       .request("update_page", {
         args: { page_id: newPage.id },
-        payload: newPage,
+        payload: { content: newPage.content },
       })
       .then(() => {
         setReorderingStatus("success");
@@ -190,7 +189,6 @@ const PageEditor = ({ website }) => {
       .request("update_page", {
         args: { page_id: page.id },
         payload: {
-          ...page,
           content: newContent,
         },
       })
@@ -229,7 +227,6 @@ const PageEditor = ({ website }) => {
       .request("update_page", {
         args: { page_id: page.id },
         payload: {
-          ...page,
           content: newContent,
         },
       })

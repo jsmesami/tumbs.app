@@ -53,11 +53,8 @@ const PageDetailsDialog = ({ website }) => {
       .request("update_page", {
         args: { page_id: page.id },
         payload: {
-          ...page,
-          ...{
-            title: e.target.title.value,
-            description: e.target.description.value,
-          },
+          title: e.target.title.value,
+          description: e.target.description.value,
         },
       })
       .then((data) => {

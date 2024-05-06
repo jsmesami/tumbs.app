@@ -39,7 +39,3 @@ KINDE_ISSUER_URL = env("KINDE_ISSUER_URL", default="")
 KINDE_CALLBACK_URL = env("KINDE_CALLBACK_URL", default="")
 KINDE_CLIENT_ID = env("KINDE_CLIENT_ID", default="")
 KINDE_CLIENT_SECRET = env("KINDE_CLIENT_SECRET", default="")
-
-# CMS configuration
-# ------------------------------------------------------------------------------
-CMS_IMAGE_ALLOWED_MAX_SIZE = 700

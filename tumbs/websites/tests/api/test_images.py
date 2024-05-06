@@ -1,10 +1,9 @@
 # pylint: disable=R0801
-import json
-
 import pytest
 from django.core.files.base import ContentFile
 from django.forms.models import model_to_dict
 from django.urls import reverse
+from rest_framework import status
 
 from tumbs.websites.models import Website
 from tumbs.websites.tests import conftest
@@ -14,16 +13,27 @@ from tumbs.websites.tests import conftest
 @pytest.mark.parametrize(
     "method, url",
     (
-        ("post", reverse("api-1.0.0:create_image")),
-        ("get", reverse("api-1.0.0:read_image", args=[1])),
-        ("put", reverse("api-1.0.0:update_image", args=[1])),
-        ("delete", reverse("api-1.0.0:delete_image", args=[1])),
+        ("get", reverse("api:image-list")),
+        ("post", reverse("api:image-list")),
+        ("get", reverse("api:image-detail", args=[1])),
+        ("put", reverse("api:image-detail", args=[1])),
+        ("patch", reverse("api:image-detail", args=[1])),
+        ("delete", reverse("api:image-detail", args=[1])),
     ),
 )
 def test_unauthorized(client, method, url):
     response = getattr(client, method)(url, content_type="application/json")
-    assert response.status_code == 401
-    assert response.json() == {"detail": "Unauthorized"}
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.json() == {
+        "type": "client_error",
+        "errors": [
+            {
+                "code": "not_authenticated",
+                "detail": "Authentication credentials were not provided.",
+                "attr": None,
+            }
+        ],
+    }
 
 
 @pytest.mark.django_db
@@ -35,31 +45,29 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     fields = {
         "alt": "A squirrel wearing a tiny astronaut helmet, floating on a cheeseburger through outer space.",
         "caption": "Ludicrous image",
+        "website_id": website.pk,
     }
     image_id = 1
-    provided = {"website_id": website.pk} | fields
+    provided = fields
     expected = {"id": image_id} | fields
 
     response = authorized_client.post(
-        reverse("api-1.0.0:create_image"),
-        data={
-            "payload": json.dumps(provided),
-            "image_file": small_image_jpg("test.jpg"),
-        },
+        reverse("api:image-list"),
+        data=provided | {"file": small_image_jpg("test.jpg")},
     )
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     response = response.json()
     assert response.pop("file").startswith(f"http://media.testserver/ws-{website.pk:04d}/")
     assert response == expected
 
     # ---------------- Read
     response = authorized_client.get(
-        reverse("api-1.0.0:read_image", args=[image_id]),
+        reverse("api:image-detail", args=[image_id]),
         provided,
         content_type="application/json",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     response = response.json()
     assert response.pop("file").startswith(f"http://media.testserver/ws-{website.pk:04d}/")
     assert response == expected
@@ -72,23 +80,22 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     provided |= fields
     expected |= fields
 
-    response = authorized_client.put(
-        reverse("api-1.0.0:update_image", args=[image_id]),
+    response = authorized_client.patch(
+        reverse("api:image-detail", args=[image_id]),
         provided,
         content_type="application/json",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     response = response.json()
     assert response.pop("file").startswith(f"http://media.testserver/ws-{website.pk:04d}/")
     assert response == expected
 
     # ---------------- Delete
     response = authorized_client.delete(
-        reverse("api-1.0.0:delete_image", args=[image_id]),
+        reverse("api:image-detail", args=[image_id]),
         content_type="application/json",
     )
-    assert response.status_code == 200
-    assert response.json() == {"success": True}
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
 @pytest.mark.django_db
@@ -98,37 +105,49 @@ def test_delete_list(authorized_client, new_website, new_image):
     image2 = new_image(website)
 
     response = authorized_client.delete(
-        reverse("api-1.0.0:delete_image", args=[image2.pk]),
+        reverse("api:image-detail", args=[image2.pk]),
         content_type="application/json",
     )
-    assert response.status_code == 200
-    assert response.json() == {"success": True}
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
     website_dict = model_to_dict(website, fields=["id", "name", "language", "region", "domain"])
-    image1_dict = model_to_dict(image1, fields=["id", "alt", "caption"]) | {"file": image1.file.url}
+    image1_dict = model_to_dict(image1, fields=["id", "alt", "caption"]) | {
+        "file": image1.file.url,
+        "website_id": website.pk,
+    }
     expected = website_dict | {"images": [image1_dict], "pages": []}
 
     response = authorized_client.get(
-        reverse("api-1.0.0:read_website", args=[website.pk]),
+        reverse("api:website-detail", args=[website.pk]),
         content_type="application/json",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected
 
 
 @pytest.mark.django_db
-def test_create_too_large(authorized_client, new_website):
+def test_create_too_large(settings, authorized_client, new_website):
+    settings.CMS_IMAGE_ALLOWED_MAX_SIZE = 700
     website = new_website()
 
     response = authorized_client.post(
-        reverse("api-1.0.0:create_image"),
+        reverse("api:image-list"),
         data={
-            "payload": json.dumps({"website_id": website.pk}),
-            "image_file": ContentFile(conftest.LARGER_IMAGE_DATA_JPG, name="test.jpg"),
+            "website_id": website.pk,
+            "file": ContentFile(conftest.LARGER_IMAGE_DATA_JPG, name="test.jpg"),
         },
     )
-    assert response.status_code == 422
-    assert response.json() == {"detail": [{"msg": "File too large. Size should not exceed 0.00 MiB."}]}
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == {
+        "type": "validation_error",
+        "errors": [
+            {
+                "code": "invalid",
+                "detail": "File too large. Size should not exceed 0.00 MiB.",
+                "attr": "file",
+            }
+        ],
+    }
 
 
 @pytest.mark.django_db
@@ -136,11 +155,20 @@ def test_create_unsupported(authorized_client, new_website):
     website = new_website()
 
     response = authorized_client.post(
-        reverse("api-1.0.0:create_image"),
+        reverse("api:image-list"),
         data={
-            "payload": json.dumps({"website_id": website.pk}),
-            "image_file": ContentFile(conftest.SMALL_IMAGE_DATA_PNG, name="test.jpg"),
+            "website_id": website.pk,
+            "file": ContentFile(conftest.SMALL_IMAGE_DATA_PNG, name="test.jpg"),
         },
     )
-    assert response.status_code == 422
-    assert response.json() == {"detail": [{"msg": "File type 'image/png' is not supported."}]}
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == {
+        "type": "validation_error",
+        "errors": [
+            {
+                "code": "invalid",
+                "detail": "File type 'image/png' is not supported.",
+                "attr": "file",
+            }
+        ],
+    }

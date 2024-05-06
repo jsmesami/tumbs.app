@@ -4,8 +4,6 @@
 #
 #    pip-compile --output-file=requirements.txt --strip-extras pyproject.toml
 #
-annotated-types==0.6.0
-    # via pydantic
 argon2-cffi==23.1.0
     # via tumbs.app (pyproject.toml)
 argon2-cffi-bindings==21.2.0
@@ -24,13 +22,14 @@ cffi==1.16.0
     #   cryptography
 charset-normalizer==3.3.2
     # via requests
-cryptography==42.0.5
+cryptography==42.0.6
     # via authlib
 django==5.0.4
     # via
     #   django-extensions
-    #   django-ninja
     #   django-redis
+    #   djangorestframework
+    #   drf-standardized-errors
     #   tumbs.app (pyproject.toml)
 django-environ==0.11.2
     # via tumbs.app (pyproject.toml)
@@ -38,13 +37,17 @@ django-extensions==3.2.3
     # via tumbs.app (pyproject.toml)
 django-ipware==7.0.1
     # via tumbs.app (pyproject.toml)
-django-ninja==1.1.0
-    # via tumbs.app (pyproject.toml)
 django-ordered-model==3.7.4
     # via tumbs.app (pyproject.toml)
 django-redis==5.4.0
     # via tumbs.app (pyproject.toml)
 django-webpack-loader==3.1.0
+    # via tumbs.app (pyproject.toml)
+djangorestframework==3.15.1
+    # via
+    #   drf-standardized-errors
+    #   tumbs.app (pyproject.toml)
+drf-standardized-errors==0.13.0
     # via tumbs.app (pyproject.toml)
 frozendict==2.3.10
     # via kinde-python-sdk
@@ -58,10 +61,6 @@ pillow==10.3.0
     # via tumbs.app (pyproject.toml)
 pycparser==2.22
     # via cffi
-pydantic==2.7.1
-    # via django-ninja
-pydantic-core==2.18.2
-    # via pydantic
 pyjwt==2.8.0
     # via kinde-python-sdk
 python-dateutil==2.8.2
@@ -81,10 +80,7 @@ six==1.16.0
 sqlparse==0.5.0
     # via django
 typing-extensions==4.8.0
-    # via
-    #   kinde-python-sdk
-    #   pydantic
-    #   pydantic-core
+    # via kinde-python-sdk
 urllib3==2.0.7
     # via
     #   kinde-python-sdk

@@ -51,13 +51,10 @@ const WebsiteDetailsDialog = ({ website }) => {
       .request("update_website", {
         args: { website_id: website.id },
         payload: {
-          ...website,
-          ...{
-            name: e.target.name.value,
-            language: e.target.language.value,
-            region: e.target.region.value,
-            domain: e.target.domain.value,
-          },
+          name: e.target.name.value,
+          language: e.target.language.value,
+          region: e.target.region.value,
+          domain: e.target.domain.value,
         },
       })
       .then((data) => {

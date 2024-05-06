@@ -78,7 +78,6 @@ const SelectPage = ({ website }) => {
         apiService.request("update_page", {
           args: { page_id: pg.id },
           payload: {
-            ...pg,
             order: index,
           },
         }),

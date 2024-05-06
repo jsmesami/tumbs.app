@@ -3,6 +3,7 @@ from operator import itemgetter
 
 import pytest
 from django.urls import reverse
+from rest_framework import status
 
 from tumbs.websites.models import Website
 
@@ -11,22 +12,32 @@ from tumbs.websites.models import Website
 @pytest.mark.parametrize(
     "method, url",
     (
-        ("get", reverse("api-1.0.0:list_websites")),
-        ("post", reverse("api-1.0.0:create_website")),
-        ("get", reverse("api-1.0.0:read_website", args=[1])),
-        ("put", reverse("api-1.0.0:update_website", args=[1])),
-        ("delete", reverse("api-1.0.0:delete_website", args=[1])),
+        ("get", reverse("api:website-list")),
+        ("post", reverse("api:website-list")),
+        ("get", reverse("api:website-detail", args=[1])),
+        ("put", reverse("api:website-detail", args=[1])),
+        ("patch", reverse("api:website-detail", args=[1])),
+        ("delete", reverse("api:website-detail", args=[1])),
     ),
 )
 def test_unauthorized(client, method, url):
     response = getattr(client, method)(url, content_type="application/json")
-    assert response.status_code == 401
-    assert response.json() == {"detail": "Unauthorized"}
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.json() == {
+        "type": "client_error",
+        "errors": [
+            {
+                "code": "not_authenticated",
+                "detail": "Authentication credentials were not provided.",
+                "attr": None,
+            }
+        ],
+    }
 
 
 @pytest.mark.django_db
 def test_create_read_list(authorized_client, truncate_table):
-    names = ("", "Eenie", "Meenie", "Miney", "Moe", "🫣🤫🤔")
+    names = ("Eenie", "Meenie", "Miney", "Moe", "🫣🤫🤔")
     src = [{"name": n} for n in names]
     dst = [
         {"id": i, "name": n, "language": "en", "region": "eu", "domain": "", "pages": [], "images": []}
@@ -37,25 +48,25 @@ def test_create_read_list(authorized_client, truncate_table):
 
     for provided, expected in zip(src, dst):
         response = authorized_client.post(
-            reverse("api-1.0.0:create_website"),
+            reverse("api:website-list"),
             provided,
             content_type="application/json",
         )
-        assert response.status_code == 201
+        assert response.status_code == status.HTTP_201_CREATED
         assert response.json() == expected
 
         response = authorized_client.get(
-            reverse("api-1.0.0:read_website", args=[expected["id"]]),
+            reverse("api:website-detail", args=[expected["id"]]),
             content_type="application/json",
         )
-        assert response.status_code == 200
+        assert response.status_code == status.HTTP_200_OK
         assert response.json() == expected
 
     response = authorized_client.get(
-        reverse("api-1.0.0:list_websites"),
+        reverse("api:website-list"),
         content_type="application/json",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert sorted(response.json(), key=itemgetter("id")) == dst
 
 
@@ -64,12 +75,12 @@ def test_update_delete(authorized_client, truncate_table, new_website):
     truncate_table(Website)
     website = new_website()
 
-    response = authorized_client.put(
-        reverse("api-1.0.0:update_website", args=[website.pk]),
+    response = authorized_client.patch(
+        reverse("api:website-detail", args=[website.pk]),
         {"name": "x.com"},
         content_type="application/json",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
         "name": "x.com",
         "id": website.pk,
@@ -81,8 +92,7 @@ def test_update_delete(authorized_client, truncate_table, new_website):
     }
 
     response = authorized_client.delete(
-        reverse("api-1.0.0:delete_website", args=[website.pk]),
+        reverse("api:website-detail", args=[website.pk]),
         content_type="application/json",
     )
-    assert response.status_code == 200
-    assert response.json() == {"success": True}
+    assert response.status_code == status.HTTP_204_NO_CONTENT

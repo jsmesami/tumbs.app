@@ -2,9 +2,9 @@ import { INIT } from "./config";
 
 const extractMessage = async (err) => {
   switch (err.status) {
-    case 422: {
+    case 400: {
       const body = await err.json();
-      return body.detail.map((d) => d.msg).join(", ");
+      return body.errors.map((e) => e.detail).join(", ");
     }
     default:
       return err.statusText;
@@ -24,7 +24,13 @@ export const apiService = {
       ...additionalParams,
     };
     return fetch(uri.supplant(args), params)
-      .then((resp) => (resp.ok ? resp.json() : extractMessage(resp).then((err) => Promise.reject(err))))
+      .then((resp) => {
+        if (resp.ok) {
+          // Http 204 "No Content" (ie. deletion) has no content:
+          return resp.status === 204 ? null : resp.json();
+        }
+        return extractMessage(resp).then((err) => Promise.reject(err));
+      })
       .catch((err) => Promise.reject(String(err)));
   },
 };

@@ -6,10 +6,6 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog, set_language
-from ninja import NinjaAPI
-
-api = NinjaAPI(version="1.0.0")
-api.add_router("cms", "tumbs.websites.api.router")
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -20,7 +16,7 @@ urlpatterns = [
     # App stuff
     path("accounts/", include("tumbs.accounts.urls", namespace="accounts")),
     path("websites/", include("tumbs.websites.urls", namespace="websites")),
-    path("api/", api.urls),
+    path("api/cms/", include("tumbs.websites.api.urls", namespace="api")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
@@ -28,9 +24,8 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
 
 if settings.DEBUG:
-    # This allows the error pages to be debugged during development, just visit
-    # these url in browser to see how these error pages look like.
     urlpatterns += [
+        path(r"api-auth/", include("rest_framework.urls", namespace="rest_framework")),
         path(
             "400/",
             default_views.bad_request,

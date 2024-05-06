@@ -60,8 +60,8 @@ const ImageUploader = ({ websiteId, onUpload, title, multi = false, accept = ".j
         reader.readAsDataURL(file);
       }
       const formData = new FormData();
-      formData.append("image_file", file);
-      formData.append("payload", JSON.stringify({ website_id: websiteId }));
+      formData.append("file", file);
+      formData.append("website_id", websiteId);
       return formData;
     });
 
