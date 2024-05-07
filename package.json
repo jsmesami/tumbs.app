@@ -55,18 +55,6 @@
   },
   "scripts": {
     "build": "webpack --config webpack/prod.config.js",
-    "dev": "concurrently npm:dev:*",
-    "dev:webpack": "webpack serve --config webpack/dev.config.js",
-    "dev:django": "python manage.py runserver_plus",
-    "msg:make": "concurrently npm:msg:make:*",
-    "msg:make:py": "python manage.py makemessages -l cs --no-location -i=venv ",
-    "msg:make:js": "python manage.py makemessages -l cs --no-location -i=venv -i=node_modules -d djangojs",
-    "msg:compile": "python manage.py compilemessages -i=venv",
-    "reqs": "concurrently npm:reqs:*",
-    "reqs:base": "pip-compile --resolver=backtracking --strip-extras --upgrade -o requirements.txt pyproject.toml",
-    "reqs:dev": "pip-compile --resolver=backtracking --strip-extras --upgrade --extra dev -o requirements/dev.txt pyproject.toml",
-    "reqs:test": "pip-compile --resolver=backtracking --strip-extras --upgrade --extra test -o requirements/test.txt pyproject.toml",
-    "reqs:prod": "pip-compile --resolver=backtracking --strip-extras --upgrade --extra prod -o requirements/prod.txt pyproject.toml",
-    "test": "DJANGO_SETTINGS_MODULE=config.settings.test coverage run -m pytest && coverage report"
+    "dev": "webpack serve --config webpack/dev.config.js"
   }
 }

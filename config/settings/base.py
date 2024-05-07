@@ -75,7 +75,6 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
-    "django.forms",
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
@@ -182,9 +181,6 @@ TEMPLATES = [
         },
     }
 ]
-
-# https://docs.djangoproject.com/en/dev/ref/settings/#form-renderer
-FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 
 # FIXTURES
 # ------------------------------------------------------------------------------

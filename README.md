@@ -10,7 +10,7 @@ Create your artistic portfolio in minutes
 
 * Python 3.12
 * Postgres
-* Nodejs
+* Nodejs 20
 
 ### Setup
 
@@ -38,19 +38,17 @@ Create your artistic portfolio in minutes
     npm install
 
     # run development servers
-    npm run dev
+    make dev
 
 ### Run tests with coverage
 
-To run the tests, check your test coverage, and generate an HTML coverage report:
-
     pip install -r requirements/test.txt
-    npm run test
+    make test
 
 ### Prepare locale messages
 
-    npm run msg:make     # Collect strings for translation
-    npm run msg:compile  # Compile translation catalogues
+    make msg-make     # Collect strings for translation
+    make msg-compile  # Compile translation catalogues
 
 ### Email Server
 

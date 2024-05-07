@@ -13,4 +13,4 @@ class IsAuthenticated(permissions.BasePermission):
         except KeyError:
             ip, _trusted_route = get_client_ip(request)
             logger.warning("Attempt to unauthorized access to %s [IP: %s]", request.path, ip)
-            return False
+            return None
