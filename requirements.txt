@@ -10,9 +10,9 @@ argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 asgiref==3.8.1
     # via django
-authlib==1.2.1
+authlib==1.3.0
     # via kinde-python-sdk
-certifi==2022.12.7
+certifi==2024.2.2
     # via
     #   kinde-python-sdk
     #   requests
@@ -24,7 +24,7 @@ charset-normalizer==3.3.2
     # via requests
 cryptography==42.0.7
     # via authlib
-django==5.0.4
+django==5.0.6
     # via
     #   django-extensions
     #   django-redis
@@ -49,13 +49,13 @@ djangorestframework==3.15.1
     #   tumbs.app (pyproject.toml)
 drf-standardized-errors==0.13.0
     # via tumbs.app (pyproject.toml)
-frozendict==2.3.10
+frozendict==2.4.4
     # via kinde-python-sdk
 hiredis==2.3.2
     # via tumbs.app (pyproject.toml)
 idna==3.7
     # via requests
-kinde-python-sdk==1.2.3
+kinde-python-sdk==1.2.4
     # via tumbs.app (pyproject.toml)
 pillow==10.3.0
     # via tumbs.app (pyproject.toml)
@@ -63,7 +63,7 @@ pycparser==2.22
     # via cffi
 pyjwt==2.8.0
     # via kinde-python-sdk
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via kinde-python-sdk
 python-ipware==3.0.0
     # via django-ipware
@@ -79,9 +79,9 @@ six==1.16.0
     # via python-dateutil
 sqlparse==0.5.0
     # via django
-typing-extensions==4.8.0
+typing-extensions==4.11.0
     # via kinde-python-sdk
-urllib3==2.0.7
+urllib3==2.2.1
     # via
     #   kinde-python-sdk
     #   requests
