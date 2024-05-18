@@ -4,5 +4,5 @@ from .views import ImageDetail, ImageList
 
 urlpatterns = [
     path("", ImageList.as_view(), name="image-list"),
-    path("<int:pk>/", ImageDetail.as_view(), name="image-detail"),
+    path("<uuid:pk>/", ImageDetail.as_view(), name="image-detail"),
 ]

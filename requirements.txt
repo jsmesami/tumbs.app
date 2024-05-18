@@ -57,6 +57,8 @@ idna==3.7
     # via requests
 kinde-python-sdk==1.2.4
     # via tumbs.app (pyproject.toml)
+orjson==3.10.3
+    # via tumbs.app (pyproject.toml)
 pillow==10.3.0
     # via tumbs.app (pyproject.toml)
 pycparser==2.22

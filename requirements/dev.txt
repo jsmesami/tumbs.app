@@ -66,6 +66,8 @@ kinde-python-sdk==1.2.4
     # via tumbs.app (pyproject.toml)
 markupsafe==2.1.5
     # via werkzeug
+orjson==3.10.3
+    # via tumbs.app (pyproject.toml)
 packaging==24.0
     # via build
 pillow==10.3.0

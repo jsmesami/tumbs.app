@@ -82,6 +82,8 @@ jmespath==1.0.1
     #   botocore
 kinde-python-sdk==1.2.4
     # via tumbs.app (pyproject.toml)
+orjson==3.10.3
+    # via tumbs.app (pyproject.toml)
 packaging==24.0
     # via gunicorn
 pillow==10.3.0

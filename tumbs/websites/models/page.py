@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from ordered_model.models import OrderedModel, OrderedModelManager, OrderedModelQuerySet
@@ -9,6 +11,7 @@ class ValidPageQuerySet(OrderedModelQuerySet):
 
 
 class Page(OrderedModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     website = models.ForeignKey(
         "websites.Website", verbose_name=_("website"), related_name="pages", on_delete=models.CASCADE
     )
@@ -24,7 +27,7 @@ class Page(OrderedModel):
         return self.title
 
     def __repr__(self):
-        return f"<websites.Page {self.id}>"
+        return f"<websites.Page {self.pk}>"
 
     class Meta(OrderedModel.Meta):
         verbose_name = _("page")

@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.db.models import Prefetch
 from django.utils.translation import gettext_lazy as _
@@ -26,6 +28,7 @@ class Website(TimeStampedModel):
         OCEANIA = "oc", _("Oceania")
         AFRICA = "af", _("Africa")
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     customer_id = models.CharField(_("customer ID"), max_length=255, db_index=True)
     name = models.CharField(_("name"), max_length=255)
     language = models.CharField(_("region"), max_length=2, choices=LANGUAGES, default="en")
@@ -39,7 +42,7 @@ class Website(TimeStampedModel):
         return self.name
 
     def __repr__(self):
-        return f"<websites.Website {self.id}>"
+        return f"<websites.Website {self.pk}>"
 
     class Meta:
         verbose_name = _("website")

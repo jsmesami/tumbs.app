@@ -17,7 +17,6 @@
     "bootstrap-icons": "^1.11.3",
     "concurrently": "^8.2.2",
     "css-loader": "^7.1.1",
-    "hashids": "^2.3.0",
     "mini-css-extract-plugin": "^2.9.0",
     "node-sass-tilde-importer": "^1.0.2",
     "object-hash": "^3.0.0",
@@ -56,5 +55,8 @@
   "scripts": {
     "build": "webpack --config webpack/prod.config.js",
     "dev": "webpack serve --config webpack/dev.config.js"
+  },
+  "dependencies": {
+    "shorten-uuid": "^1.0.2"
   }
 }

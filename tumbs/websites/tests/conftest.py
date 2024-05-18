@@ -5,11 +5,6 @@ from io import BytesIO
 
 import pytest
 from django.conf import settings
-from django.core.files.base import ContentFile
-from django.db import connection
-from psycopg.sql import SQL, Identifier
-
-from tumbs.websites.models import Image, Page, Website
 
 TESTS_DIR = "tumbs/websites/tests"
 
@@ -43,16 +38,6 @@ def set_media_root(settings):
 
 
 @pytest.fixture
-def truncate_table():
-    def closure(model):
-        table_name = Identifier(model._meta.db_table)
-        with connection.cursor() as cursor:
-            cursor.execute(SQL("TRUNCATE TABLE {} RESTART IDENTITY CASCADE").format(table_name))
-
-    return closure
-
-
-@pytest.fixture
 def small_image_jpg():
     def closure(name):
         image_bytes = BytesIO(SMALL_IMAGE_DATA_JPG)
@@ -70,23 +55,3 @@ def larger_image_jpg():
         return image_bytes
 
     return closure
-
-
-@pytest.fixture
-def new_website(authorized_client, random_string):
-    return lambda: Website.objects.create(
-        customer_id=authorized_client.session["customer"]["id"], name=random_string(8)
-    )
-
-
-@pytest.fixture
-def new_image():
-    return lambda website: Image.objects.create(
-        website=website,
-        file=ContentFile(SMALL_IMAGE_DATA_JPG, name="test.jpg"),
-    )
-
-
-@pytest.fixture
-def new_page():
-    return lambda website: Page.objects.create(website=website)

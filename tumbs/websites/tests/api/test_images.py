@@ -1,11 +1,11 @@
 # pylint: disable=R0801
+import uuid
+
 import pytest
 from django.core.files.base import ContentFile
-from django.forms.models import model_to_dict
 from django.urls import reverse
 from rest_framework import status
 
-from tumbs.websites.models import Website
 from tumbs.websites.tests import conftest
 
 
@@ -15,10 +15,10 @@ from tumbs.websites.tests import conftest
     (
         ("get", reverse("api:image-list")),
         ("post", reverse("api:image-list")),
-        ("get", reverse("api:image-detail", args=[1])),
-        ("put", reverse("api:image-detail", args=[1])),
-        ("patch", reverse("api:image-detail", args=[1])),
-        ("delete", reverse("api:image-detail", args=[1])),
+        ("get", reverse("api:image-detail", args=[uuid.uuid4()])),
+        ("put", reverse("api:image-detail", args=[uuid.uuid4()])),
+        ("patch", reverse("api:image-detail", args=[uuid.uuid4()])),
+        ("delete", reverse("api:image-detail", args=[uuid.uuid4()])),
     ),
 )
 def test_unauthorized(client, method, url):
@@ -37,19 +37,18 @@ def test_unauthorized(client, method, url):
 
 
 @pytest.mark.django_db
-def test_create_read_update_delete(authorized_client, truncate_table, new_website, small_image_jpg):
-    truncate_table(Website)
+def test_create_read_update_delete(authorized_client, new_website, small_image_jpg):
     website = new_website()
 
     # ---------------- Create
     fields = {
-        "alt": "A squirrel wearing a tiny astronaut helmet, floating on a cheeseburger through outer space.",
+        "alt": "A squirrel wearing a tiny asonaut helmet, floating on a cheeseburger through outer space.",
         "caption": "Ludicrous image",
-        "website_id": website.pk,
+        "website_id": website["id"],
     }
-    image_id = 1
+
     provided = fields
-    expected = {"id": image_id} | fields
+    expected = fields
 
     response = authorized_client.post(
         reverse("api:image-list"),
@@ -58,7 +57,10 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
 
     assert response.status_code == status.HTTP_201_CREATED
     response = response.json()
-    assert response.pop("file").startswith(f"http://media.testserver/ws-{website.pk:04d}/")
+    image_id = response["id"]
+    website_id_hex = uuid.UUID(website["id"]).hex
+    expected |= {"id": image_id}
+    assert response.pop("file").startswith(f"http://media.testserver/ws-{website_id_hex}/")
     assert response == expected
 
     # ---------------- Read
@@ -69,7 +71,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     )
     assert response.status_code == status.HTTP_200_OK
     response = response.json()
-    assert response.pop("file").startswith(f"http://media.testserver/ws-{website.pk:04d}/")
+    assert response.pop("file").startswith(f"http://media.testserver/ws-{website_id_hex}/")
     assert response == expected
 
     # ---------------- Update
@@ -87,7 +89,7 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
     )
     assert response.status_code == status.HTTP_200_OK
     response = response.json()
-    assert response.pop("file").startswith(f"http://media.testserver/ws-{website.pk:04d}/")
+    assert response.pop("file").startswith(f"http://media.testserver/ws-{website_id_hex}/")
     assert response == expected
 
     # ---------------- Delete
@@ -105,20 +107,22 @@ def test_delete_list(authorized_client, new_website, new_image):
     image2 = new_image(website)
 
     response = authorized_client.delete(
-        reverse("api:image-detail", args=[image2.pk]),
+        reverse("api:image-detail", args=[image2["id"]]),
         content_type="application/json",
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
-    website_dict = model_to_dict(website, fields=["id", "name", "language", "region", "domain"])
-    image1_dict = model_to_dict(image1, fields=["id", "alt", "caption"]) | {
-        "file": image1.file.url,
-        "website_id": website.pk,
-    }
-    expected = website_dict | {"images": [image1_dict], "pages": []}
+    response = authorized_client.get(
+        reverse("api:image-list"),
+        content_type="application/json",
+    )
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == [image1]
+
+    expected = website | {"images": [image1], "pages": []}
 
     response = authorized_client.get(
-        reverse("api:website-detail", args=[website.pk]),
+        reverse("api:website-detail", args=[website["id"]]),
         content_type="application/json",
     )
     assert response.status_code == status.HTTP_200_OK
@@ -133,7 +137,7 @@ def test_create_too_large(settings, authorized_client, new_website):
     response = authorized_client.post(
         reverse("api:image-list"),
         data={
-            "website_id": website.pk,
+            "website_id": website["id"],
             "file": ContentFile(conftest.LARGER_IMAGE_DATA_JPG, name="test.jpg"),
         },
     )
@@ -157,7 +161,7 @@ def test_create_unsupported(authorized_client, new_website):
     response = authorized_client.post(
         reverse("api:image-list"),
         data={
-            "website_id": website.pk,
+            "website_id": website["id"],
             "file": ContentFile(conftest.SMALL_IMAGE_DATA_PNG, name="test.jpg"),
         },
     )

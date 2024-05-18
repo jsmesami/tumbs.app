@@ -1,20 +1,22 @@
 import React, { createContext } from "react";
 import { useSearchParams } from "react-router-dom";
-import Hashids from "hashids";
+import shortenUuid from "shorten-uuid";
 
-const hashids = new Hashids("CurrentPage", 5);
+const { encode, decode } = shortenUuid();
+
 export const PageContext = createContext(null);
 
 const CurrentPageProvider = ({ website, children }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const findPage = (id) => website.pages.find((pg) => pg.id === id);
-  const pageId = hashids.decode(searchParams.get("page"));
-  const currentPage = findPage(parseInt(pageId)) || website?.pages[0];
+  const pageQS = searchParams.get("page");
+  const pageId = pageQS ? decode(pageQS) : undefined;
+  const currentPage = findPage(pageId) || website?.pages[0];
 
   const setCurrentPage = (id) => {
-    const pg = findPage(parseInt(id));
+    const pg = findPage(id);
     if (pg) {
-      setSearchParams({ ...searchParams, ...{ page: hashids.encode(pg.id) } });
+      setSearchParams({ ...searchParams, ...{ page: encode(pg.id) } });
     }
   };
 

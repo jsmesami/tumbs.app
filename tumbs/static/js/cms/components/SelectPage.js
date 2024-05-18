@@ -15,7 +15,7 @@ const PageTab = ({ page: { id, title }, active, dragDisabled, index }) => {
   const showPageDetailsDialog = () => dispatch(dialogsActions.showDialog("pageDetails"));
 
   return (
-    <Draggable draggableId={id.toString()} isDragDisabled={dragDisabled} index={index}>
+    <Draggable draggableId={id} isDragDisabled={dragDisabled} index={index}>
       {(provided) => (
         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
           <Nav.Item>

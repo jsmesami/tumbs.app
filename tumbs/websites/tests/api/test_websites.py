@@ -1,11 +1,9 @@
 # pylint: disable=R0801
-from operator import itemgetter
+import uuid
 
 import pytest
 from django.urls import reverse
 from rest_framework import status
-
-from tumbs.websites.models import Website
 
 
 @pytest.mark.django_db
@@ -14,10 +12,10 @@ from tumbs.websites.models import Website
     (
         ("get", reverse("api:website-list")),
         ("post", reverse("api:website-list")),
-        ("get", reverse("api:website-detail", args=[1])),
-        ("put", reverse("api:website-detail", args=[1])),
-        ("patch", reverse("api:website-detail", args=[1])),
-        ("delete", reverse("api:website-detail", args=[1])),
+        ("get", reverse("api:website-detail", args=[uuid.uuid4()])),
+        ("put", reverse("api:website-detail", args=[uuid.uuid4()])),
+        ("patch", reverse("api:website-detail", args=[uuid.uuid4()])),
+        ("delete", reverse("api:website-detail", args=[uuid.uuid4()])),
     ),
 )
 def test_unauthorized(client, method, url):
@@ -36,24 +34,29 @@ def test_unauthorized(client, method, url):
 
 
 @pytest.mark.django_db
-def test_create_read_list(authorized_client, truncate_table):
+def test_create_read_list(authorized_client):
     names = ("Eenie", "Meenie", "Miney", "Moe", "🫣🤫🤔")
-    src = [{"name": n} for n in names]
-    dst = [
-        {"id": i, "name": n, "language": "en", "region": "eu", "domain": "", "pages": [], "images": []}
-        for i, n in enumerate(names, start=1)
-    ]
+    fields = {
+        "language": "en",
+        "region": "eu",
+        "domain": "",
+        "pages": [],
+        "images": [],
+    }
 
-    truncate_table(Website)
+    for n in names:
+        provided = {"name": n}
+        expected = fields | {"name": n}
 
-    for provided, expected in zip(src, dst):
         response = authorized_client.post(
             reverse("api:website-list"),
             provided,
             content_type="application/json",
         )
         assert response.status_code == status.HTTP_201_CREATED
-        assert response.json() == expected
+        response = response.json()
+        expected |= {"id": response["id"]}
+        assert response == expected
 
         response = authorized_client.get(
             reverse("api:website-detail", args=[expected["id"]]),
@@ -67,23 +70,24 @@ def test_create_read_list(authorized_client, truncate_table):
         content_type="application/json",
     )
     assert response.status_code == status.HTTP_200_OK
-    assert sorted(response.json(), key=itemgetter("id")) == dst
+    response = response.json()
+    expected = [fields | {"id": ws["id"], "name": name} for ws, name in zip(response, names)]
+    assert response == expected
 
 
 @pytest.mark.django_db(transaction=False)
-def test_update_delete(authorized_client, truncate_table, new_website):
-    truncate_table(Website)
+def test_update_delete(authorized_client, new_website):
     website = new_website()
 
     response = authorized_client.patch(
-        reverse("api:website-detail", args=[website.pk]),
+        reverse("api:website-detail", args=[website["id"]]),
         {"name": "x.com"},
         content_type="application/json",
     )
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
         "name": "x.com",
-        "id": website.pk,
+        "id": website["id"],
         "language": "en",
         "region": "eu",
         "domain": "",
@@ -92,7 +96,7 @@ def test_update_delete(authorized_client, truncate_table, new_website):
     }
 
     response = authorized_client.delete(
-        reverse("api:website-detail", args=[website.pk]),
+        reverse("api:website-detail", args=[website["id"]]),
         content_type="application/json",
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT

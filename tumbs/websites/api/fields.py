@@ -9,4 +9,4 @@ class WebsiteRelatedField(serializers.PrimaryKeyRelatedField):
         return Website.objects.valid().filter(customer_id=customer_id)
 
     def to_internal_value(self, data):
-        return int(data)
+        return str(data)

@@ -14,7 +14,7 @@ from tumbs.websites.utils import exif
 
 def image_upload_path(instance, filename):
     _, ext = os.path.splitext(filename)
-    return f"ws-{instance.website_id:04d}/{uuid.uuid4().hex}{ext}"
+    return f"ws-{uuid.UUID(instance.website_id).hex}/{uuid.uuid4().hex}{ext}"
 
 
 def file_size_validator(value):
@@ -40,6 +40,7 @@ class ValidImageQuerySet(models.QuerySet):
 
 
 class Image(TimeStampedModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     website = models.ForeignKey(
         "websites.Website", verbose_name=_("website"), related_name="images", on_delete=models.CASCADE
     )
@@ -66,7 +67,7 @@ class Image(TimeStampedModel):
         return self.file.name
 
     def __repr__(self):
-        return f"<websites.Image {self.id}>"
+        return f"<websites.Image {self.pk}>"
 
     class Meta:
         verbose_name = _("image")

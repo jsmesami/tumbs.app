@@ -22,4 +22,4 @@ class User(AbstractUser):
         return self.email
 
     def __repr__(self):
-        return f"<users.User {self.id}>"
+        return f"<users.User {self.pk}>"

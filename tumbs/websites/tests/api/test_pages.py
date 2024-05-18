@@ -1,10 +1,9 @@
 # pylint: disable=R0801
+import uuid
+
 import pytest
-from django.forms import model_to_dict
 from django.urls import reverse
 from rest_framework import status
-
-from tumbs.websites.models import Website
 
 
 @pytest.mark.django_db
@@ -13,10 +12,10 @@ from tumbs.websites.models import Website
     (
         ("get", reverse("api:page-list")),
         ("post", reverse("api:page-list")),
-        ("get", reverse("api:page-detail", args=[1])),
-        ("put", reverse("api:page-detail", args=[1])),
-        ("patch", reverse("api:page-detail", args=[1])),
-        ("delete", reverse("api:page-detail", args=[1])),
+        ("get", reverse("api:page-detail", args=[uuid.uuid4()])),
+        ("put", reverse("api:page-detail", args=[uuid.uuid4()])),
+        ("patch", reverse("api:page-detail", args=[uuid.uuid4()])),
+        ("delete", reverse("api:page-detail", args=[uuid.uuid4()])),
     ),
 )
 def test_unauthorized(client, method, url):
@@ -35,8 +34,7 @@ def test_unauthorized(client, method, url):
 
 
 @pytest.mark.django_db
-def test_create_read_update_delete(authorized_client, truncate_table, new_website):
-    truncate_table(Website)
+def test_create_read_update_delete(authorized_client, new_website):
     website = new_website()
 
     # ---------------- Create
@@ -45,11 +43,11 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
         "description": "Delves into how individual lives and decisions contribute to the pattern of human existence.",
         "order": 0,
         "content": [{"A": ["B", "C"]}],
-        "website_id": website.pk,
+        "website_id": website["id"],
     }
-    page_id = 1
+
     provided = fields
-    expected = {"id": page_id} | fields
+    expected = fields
 
     response = authorized_client.post(
         reverse("api:page-list"),
@@ -57,7 +55,10 @@ def test_create_read_update_delete(authorized_client, truncate_table, new_websit
         content_type="application/json",
     )
     assert response.status_code == status.HTTP_201_CREATED
-    assert response.json() == expected
+    response = response.json()
+    page_id = response["id"]
+    expected |= {"id": page_id}
+    assert response == expected
 
     # ---------------- Read
     response = authorized_client.get(
@@ -100,20 +101,22 @@ def test_delete_list(authorized_client, new_website, new_page):
     page2 = new_page(website)
 
     response = authorized_client.delete(
-        reverse("api:page-detail", args=[page2.pk]),
+        reverse("api:page-detail", args=[page2["id"]]),
         content_type="application/json",
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
-    website_dict = model_to_dict(website, fields=["id", "name", "language", "region", "domain"])
-    page1_dict = model_to_dict(page1, fields=["id", "title", "description", "content"]) | {
-        "website_id": website.pk,
-        "order": 0,  # <- model_to_dict doesn't return non-editable fields
-    }
-    expected = website_dict | {"images": [], "pages": [page1_dict]}
+    response = authorized_client.get(
+        reverse("api:page-list"),
+        content_type="application/json",
+    )
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == [page1]
+
+    expected = website | {"images": [], "pages": [page1]}
 
     response = authorized_client.get(
-        reverse("api:website-detail", args=[website.pk]),
+        reverse("api:website-detail", args=[website["id"]]),
         content_type="application/json",
     )
     assert response.status_code == status.HTTP_200_OK
@@ -121,16 +124,15 @@ def test_delete_list(authorized_client, new_website, new_page):
 
 
 @pytest.mark.django_db
-def test_max_pages(settings, authorized_client, truncate_table, new_website, new_page):
+def test_max_pages(settings, authorized_client, new_website, new_page):
     max_pages = 1
     settings.CMS_PAGES_MAX_PER_WEBSITE = max_pages
-    truncate_table(Website)
 
     website = new_website()
     new_page(website)
 
     provided = {
-        "website_id": website.pk,
+        "website_id": website["id"],
         "title": "Home",
         "description": "",
         "content": [],

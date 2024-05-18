@@ -17,6 +17,7 @@ classifiers = [
 dependencies = [
     "argon2-cffi",                  # https://github.com/hynek/argon2_cffi
     "hiredis",                      # https://github.com/redis/hiredis-py
+    "orjson",                       # https://github.com/ijl/orjson
     "Pillow",                       # https://github.com/python-pillow/Pillow
     "python-magic",                 # https://github.com/ahupp/python-magic
     "redis",                        # https://github.com/redis/redis-py
