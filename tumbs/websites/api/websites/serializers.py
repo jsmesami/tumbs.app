@@ -11,13 +11,11 @@ class WebsiteSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
 
     def get_pages(self, obj):
-        qs = obj.pages.valid()
-        serializer = PageSerializer(qs, many=True)
+        serializer = PageSerializer(obj.pages, many=True)
         return serializer.data
 
     def get_images(self, obj):
-        qs = obj.images.valid()
-        serializer = ImageSerializer(qs, many=True)
+        serializer = ImageSerializer(obj.images, many=True)
         return serializer.data
 
     class Meta:
