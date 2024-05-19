@@ -20,12 +20,10 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
-    # Static files serving for local development
     urlpatterns += staticfiles_urlpatterns()
 
 if settings.DEBUG:
     urlpatterns += [
-        path(r"api-auth/", include("rest_framework.urls", namespace="rest_framework")),
         path(
             "400/",
             default_views.bad_request,
@@ -43,7 +41,8 @@ if settings.DEBUG:
         ),
         path("500/", default_views.server_error),
     ]
-    if "debug_toolbar" in settings.INSTALLED_APPS:
-        import debug_toolbar
 
-        urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
+    import debug_toolbar
+
+    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]

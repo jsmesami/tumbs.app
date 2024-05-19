@@ -33,6 +33,7 @@
     "react-router-dom": "^6.23.1",
     "sass": "^1.77.2",
     "sass-loader": "^14.2.1",
+    "shorten-uuid": "^1.0.2",
     "use-debounce": "^10.0.0",
     "webpack": "^5.91.0",
     "webpack-bundle-tracker": "^3.1.0",
@@ -55,8 +56,5 @@
   "scripts": {
     "build": "webpack --config webpack/prod.config.js",
     "dev": "webpack serve --config webpack/dev.config.js"
-  },
-  "dependencies": {
-    "shorten-uuid": "^1.0.2"
   }
 }
