@@ -4,6 +4,9 @@ import { MDXEditor, BoldItalicUnderlineToggles, BlockTypeSelect, CreateLink, Lis
 import { headingsPlugin, listsPlugin, linkPlugin, linkDialogPlugin, toolbarPlugin } from "@mdxeditor/editor";
 
 const translations = {
+  contentArea: {
+    editableMarkdown: _("Editable markdown"),
+  },
   toolbar: {
     bold: _("Bold"),
     removeBold: _("Remove bold"),
@@ -45,7 +48,7 @@ const translations = {
 
 const translate = (dict, path, fallback, params) => {
   const [first, ...rest] = path;
-  const next = dict[first];
+  const next = first && dict[first];
 
   if (rest.length) {
     return translate(next, rest, fallback, params);

@@ -52,7 +52,9 @@ drf-standardized-errors==0.13.0
 frozendict==2.4.4
     # via kinde-python-sdk
 hiredis==2.3.2
-    # via tumbs.app (pyproject.toml)
+    # via
+    #   redis
+    #   tumbs.app (pyproject.toml)
 idna==3.7
     # via requests
 kinde-python-sdk==1.2.4

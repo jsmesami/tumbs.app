@@ -20,7 +20,7 @@ dependencies = [
     "orjson",                       # https://github.com/ijl/orjson
     "Pillow",                       # https://github.com/python-pillow/Pillow
     "python-magic",                 # https://github.com/ahupp/python-magic
-    "redis",                        # https://github.com/redis/redis-py
+    "redis[hiredis]",               # https://github.com/redis/redis-py
     "whitenoise",                   # https://github.com/evansd/whitenoise
 
     "django",                       # https://www.djangoproject.com/
