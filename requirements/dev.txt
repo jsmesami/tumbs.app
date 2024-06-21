@@ -10,7 +10,7 @@ argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 asgiref==3.8.1
     # via django
-authlib==1.3.0
+authlib==1.3.1
     # via kinde-python-sdk
 build==1.2.1
     # via pip-tools
@@ -26,7 +26,7 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via pip-tools
-cryptography==42.0.7
+cryptography==42.0.8
     # via authlib
 django==5.0.6
     # via
@@ -50,11 +50,11 @@ django-redis==5.4.0
     # via tumbs.app (pyproject.toml)
 django-webpack-loader==3.1.0
     # via tumbs.app (pyproject.toml)
-djangorestframework==3.15.1
+djangorestframework==3.15.2
     # via
     #   drf-standardized-errors
     #   tumbs.app (pyproject.toml)
-drf-standardized-errors==0.13.0
+drf-standardized-errors==0.14.0
     # via tumbs.app (pyproject.toml)
 frozendict==2.4.4
     # via kinde-python-sdk
@@ -68,9 +68,9 @@ kinde-python-sdk==1.2.4
     # via tumbs.app (pyproject.toml)
 markupsafe==2.1.5
     # via werkzeug
-orjson==3.10.3
+orjson==3.10.5
     # via tumbs.app (pyproject.toml)
-packaging==24.0
+packaging==24.1
     # via build
 pillow==10.3.0
     # via tumbs.app (pyproject.toml)
@@ -94,7 +94,7 @@ python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
-redis==5.0.4
+redis==5.0.6
     # via
     #   django-redis
     #   tumbs.app (pyproject.toml)
@@ -110,7 +110,7 @@ typing-extensions==4.11.0
     # via
     #   kinde-python-sdk
     #   psycopg
-urllib3==2.2.1
+urllib3==2.2.2
     # via
     #   kinde-python-sdk
     #   requests
@@ -120,7 +120,7 @@ werkzeug==3.0.3
     # via tumbs.app (pyproject.toml)
 wheel==0.43.0
     # via pip-tools
-whitenoise==6.6.0
+whitenoise==6.7.0
     # via tumbs.app (pyproject.toml)
 
 # The following packages are considered to be unsafe in a requirements file:

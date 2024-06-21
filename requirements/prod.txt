@@ -10,13 +10,13 @@ argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 asgiref==3.8.1
     # via django
-authlib==1.3.0
+authlib==1.3.1
     # via kinde-python-sdk
-boto3==1.34.116
+boto3==1.34.131
     # via
     #   django-anymail
     #   django-storages
-botocore==1.34.116
+botocore==1.34.131
     # via
     #   boto3
     #   s3transfer
@@ -31,7 +31,7 @@ cffi==1.16.0
     #   cryptography
 charset-normalizer==3.3.2
     # via requests
-cryptography==42.0.7
+cryptography==42.0.8
     # via authlib
 django==5.0.6
     # via
@@ -58,11 +58,11 @@ django-storages==1.14.3
     # via tumbs.app (pyproject.toml)
 django-webpack-loader==3.1.0
     # via tumbs.app (pyproject.toml)
-djangorestframework==3.15.1
+djangorestframework==3.15.2
     # via
     #   drf-standardized-errors
     #   tumbs.app (pyproject.toml)
-drf-standardized-errors==0.13.0
+drf-standardized-errors==0.14.0
     # via tumbs.app (pyproject.toml)
 frozendict==2.4.4
     # via kinde-python-sdk
@@ -84,9 +84,9 @@ jmespath==1.0.1
     #   botocore
 kinde-python-sdk==1.2.4
     # via tumbs.app (pyproject.toml)
-orjson==3.10.3
+orjson==3.10.5
     # via tumbs.app (pyproject.toml)
-packaging==24.0
+packaging==24.1
     # via gunicorn
 pillow==10.3.0
     # via tumbs.app (pyproject.toml)
@@ -106,7 +106,7 @@ python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
-redis==5.0.4
+redis==5.0.6
     # via
     #   django-redis
     #   tumbs.app (pyproject.toml)
@@ -116,7 +116,7 @@ requests==2.31.0
     #   kinde-python-sdk
 s3transfer==0.10.1
     # via boto3
-sentry-sdk==2.3.1
+sentry-sdk==2.6.0
     # via tumbs.app (pyproject.toml)
 six==1.16.0
     # via python-dateutil
@@ -126,14 +126,14 @@ typing-extensions==4.11.0
     # via
     #   kinde-python-sdk
     #   psycopg
-urllib3==2.2.1
+urllib3==2.2.2
     # via
     #   botocore
     #   django-anymail
     #   kinde-python-sdk
     #   requests
     #   sentry-sdk
-whitenoise==6.6.0
+whitenoise==6.7.0
     # via tumbs.app (pyproject.toml)
 zope-event==5.0
     # via gevent
