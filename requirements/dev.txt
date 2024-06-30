@@ -94,7 +94,7 @@ python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
-redis==5.0.6
+<<redis==5.0.7
     # via
     #   django-redis
     #   tumbs.app (pyproject.toml)

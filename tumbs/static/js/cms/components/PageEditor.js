@@ -66,7 +66,7 @@ const DeleteWidget = ({ disabled, onDelete }) => {
       handleDelete={onDelete}
     >
       <button className="btn btn-link widget-delete-button" disabled={disabled}>
-        <i className="bi-x" />
+        <i className="bi-trash" />
       </button>
     </DeleteDialog>
   );

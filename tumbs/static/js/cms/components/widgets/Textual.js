@@ -9,7 +9,7 @@ const Textual = ({ widget, updateWidget }) => {
   }, defaultDebounceMs);
 
   return (
-    <div className="mb-4">
+    <div className="widget widget-textual">
       <RichText value={widget.text} onChange={updateText} />
     </div>
   );

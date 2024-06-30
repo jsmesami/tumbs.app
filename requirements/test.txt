@@ -32,7 +32,7 @@ click==8.1.7
     #   djlint
 colorama==0.4.6
     # via djlint
-coverage==7.5.3
+coverage==7.5.4
     # via
     #   django-coverage-plugin
     #   tumbs.app (pyproject.toml)
@@ -132,7 +132,7 @@ pycparser==2.22
     # via cffi
 pyjwt==2.8.0
     # via kinde-python-sdk
-pylint==3.2.3
+pylint==3.2.5
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -157,7 +157,7 @@ python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
 pyyaml==6.0.1
     # via djlint
-redis==5.0.6
+redis==5.0.7
     # via
     #   django-redis
     #   tumbs.app (pyproject.toml)

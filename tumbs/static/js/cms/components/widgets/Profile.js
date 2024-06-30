@@ -4,14 +4,14 @@ import { useDebouncedCallback } from "use-debounce";
 import { _ } from "../../i18n";
 import { actions as stashActions } from "../../slices/stash";
 import { defaultDebounceMs } from "../../config";
+import ImageThumbnail from "../ImageThumbnail";
+import ImageToolbar from "../ImageToolbar";
 import ImageUploader from "../ImageUploader";
-import ImageEditor from "../ImageEditor";
 import RichText from "../RichText";
 
 const Profile = ({ website, widget, updateWidget }) => {
   const dispatch = useDispatch();
   const profileImage = website.images.find((i) => i.id === widget.imageId);
-  const colSpacing = "col-6 col-sm-4 col-md-3 col-lg-2 col-xxl-1 mb-4";
 
   const updateText = useDebouncedCallback((markdown) => {
     updateWidget({ ...widget, text: markdown });
@@ -28,21 +28,20 @@ const Profile = ({ website, widget, updateWidget }) => {
   };
 
   return (
-    <div className="row">
-      <div className={colSpacing}>
-        {profileImage ? (
-          <ImageEditor image={profileImage} />
-        ) : (
-          <ImageUploader
-            websiteId={website.id}
-            onUpload={(images) => assignImage(images[0])}
-            title={_("Upload Photo")}
-          />
-        )}
-      </div>
-      <div className="col mb-4">
-        <RichText value={widget.text} onChange={updateText} />
-      </div>
+    <div className="widget widget-profile">
+      {profileImage ? (
+        <ImageThumbnail image={profileImage}>
+          <ImageToolbar features={["Edit", "Remove"]} />
+        </ImageThumbnail>
+      ) : (
+        <ImageUploader
+          websiteId={website.id}
+          onUpload={(images) => assignImage(images[0])}
+          title={_("Upload Photo")}
+        />
+      )}
+
+      <RichText value={widget.text} onChange={updateText} />
     </div>
   );
 };
