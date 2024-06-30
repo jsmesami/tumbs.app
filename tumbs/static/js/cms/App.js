@@ -8,7 +8,7 @@ import CreateWebsiteButton from "./components/CreateWebsiteButton";
 import CurrentPageProvider from "./components/CurrentPageProvider";
 import PageDetailsDialog from "./components/PageDetailsDialog";
 import PageEditor from "./components/PageEditor";
-import SelectPage from "./components/SelectPage";
+import PageSelect from "./components/PageSelect";
 import WebsiteDetailsDialog from "./components/WebsiteDetailsDialog";
 import WebsiteTopBar from "./components/WebsiteTopBar";
 
@@ -20,7 +20,7 @@ const App = () => {
       {currentWebsite ? (
         <CurrentPageProvider website={currentWebsite}>
           <WebsiteTopBar website={currentWebsite} />
-          <SelectPage website={currentWebsite} />
+          <PageSelect website={currentWebsite} />
           <WebsiteDetailsDialog website={currentWebsite} />
           <PageDetailsDialog website={currentWebsite} />
           <PageEditor website={currentWebsite} />

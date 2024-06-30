@@ -4,7 +4,7 @@ import { actions as stashActions } from "../slices/stash";
 import { _ } from "../i18n";
 import { Form } from "react-bootstrap";
 
-const SelectWebsite = ({ website }) => {
+const WebsiteSelect = ({ website }) => {
   const dispatch = useDispatch();
   const websites = useSelector((state) => state.stash.websites);
 
@@ -35,4 +35,4 @@ const SelectWebsite = ({ website }) => {
   }
 };
 
-export default SelectWebsite;
+export default WebsiteSelect;

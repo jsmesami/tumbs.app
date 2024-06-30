@@ -35,7 +35,7 @@ const PageTab = ({ page: { id, title }, active, dragDisabled, index }) => {
   );
 };
 
-const SelectPage = ({ website }) => {
+const PageSelect = ({ website }) => {
   const dispatch = useDispatch();
   const { currentPage, setCurrentPage } = useContext(PageContext);
   const [creationStatus, setCreationStatus] = useState("initial");
@@ -150,4 +150,4 @@ const SelectPage = ({ website }) => {
   );
 };
 
-export default SelectPage;
+export default PageSelect;
