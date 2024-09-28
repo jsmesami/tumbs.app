@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-31 15:23+0000\n"
+"POT-Creation-Date: 2024-06-30 22:07+0000\n"
 "PO-Revision-Date: 2024-03-13 10:43+0000\n"
 "Last-Translator: Ondřej Nejedlý <jsmesami@gmail.com>\n"
 "Language-Team: CZ <jsmesami@gmail.com>\n"
@@ -51,6 +51,21 @@ msgstr "Zavřít"
 
 msgid "Proceed"
 msgstr "Pokračovat"
+
+msgid "Shift left"
+msgstr "Posun vlevo"
+
+msgid "Shift right"
+msgstr "Posun vpravo"
+
+msgid "Edit"
+msgstr "Editovat"
+
+msgid "Remove"
+msgstr "Odstranit"
+
+msgid "Could not update page content"
+msgstr "Nelze upravit obsah stránky"
 
 msgid "Could upload images"
 msgstr "Nelze nahrát obrázky"
@@ -112,6 +127,24 @@ msgstr "Přidat blok medailonu"
 msgid "Deleting a block is irreversible and removes all of its content."
 msgstr "Smazání bloku je nevratný krok, který odstraní veškerý jeho obsah."
 
+msgid "Edit page details"
+msgstr "Upravit detaily stránky"
+
+msgid "Page {pageN}"
+msgstr "Stránka {pageN}"
+
+msgid "Could not create page"
+msgstr "Nelze vytvořit stránku"
+
+msgid "Could not update pages order"
+msgstr "Nelze upravit pořadí stránek"
+
+msgid "Add page"
+msgstr "Přidat stránku"
+
+msgid "Editable markdown"
+msgstr "Editovatelný markdown"
+
 msgid "Bold"
 msgstr "Tučné"
 
@@ -146,7 +179,7 @@ msgid "Heading {level}"
 msgstr "Nadpis {level}"
 
 msgid "Select block type"
-msgstr "Vyberte typ bloku"
+msgstr "Vybrat typ bloku"
 
 msgid "Block type"
 msgstr "Typ bloku"
@@ -170,7 +203,7 @@ msgid "URL"
 msgstr "Adresa URL"
 
 msgid "Select or paste an URL"
-msgstr "Vyberte nebo vložte adresu URL"
+msgstr "Vybrat nebo vložit adresu URL"
 
 msgid "Set URL"
 msgstr "Nastavit adresu URL"
@@ -183,30 +216,6 @@ msgstr "Uložit"
 
 msgid "Cancel"
 msgstr "Zrušit"
-
-msgid "Editable markdown"
-msgstr "Editovatelný markdown"
-
-msgid "Edit page details"
-msgstr "Upravit detaily stránky"
-
-msgid "Page {pageN}"
-msgstr "Stránka {pageN}"
-
-msgid "Could not create page"
-msgstr "Nelze vytvořit stránku"
-
-msgid "Could not update pages order"
-msgstr "Nelze upravit pořadí stránek"
-
-msgid "Add page"
-msgstr "Přidat stránku"
-
-msgid "Available websites"
-msgstr "Dostupné weby"
-
-msgid "No sites yet"
-msgstr "Zatím žádné weby"
 
 msgid "Important for search engines optimization"
 msgstr "Důležité k optimalizaci pro vyhledávače"
@@ -252,6 +261,12 @@ msgstr "např. www.janyportfolio.cz"
 
 msgid "Could not update site name"
 msgstr "Nelze upravit jméno webu"
+
+msgid "Available websites"
+msgstr "Dostupné weby"
+
+msgid "No sites yet"
+msgstr "Zatím žádné weby"
 
 msgid "Edit site details"
 msgstr "Upravit detaily webu"
