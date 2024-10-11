@@ -20,11 +20,11 @@ cffi==1.17.1
     # via
     #   argon2-cffi-bindings
     #   cryptography
-charset-normalizer==3.3.2
+charset-normalizer==3.4.0
     # via requests
 cryptography==43.0.1
     # via authlib
-django==5.1.1
+django==5.1.2
     # via
     #   django-extensions
     #   django-redis
@@ -49,7 +49,7 @@ djangorestframework==3.15.2
     #   tumbs.app (pyproject.toml)
 drf-standardized-errors==0.14.1
     # via tumbs.app (pyproject.toml)
-frozendict==2.4.4
+frozendict==2.4.5
     # via kinde-python-sdk
 hiredis==3.0.0
     # via
@@ -73,7 +73,7 @@ python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
     # via tumbs.app (pyproject.toml)
-redis==5.1.0
+redis==5.1.1
     # via
     #   django-redis
     #   tumbs.app (pyproject.toml)
